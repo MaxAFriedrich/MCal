@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    /*dark tones*/
+    --nord0: #2E3440;
+    --nord1: #3B4252;
+    --nord2: #434C5E;
+    --nord3: #4C566A;
+    /*light tones*/
+    --nord4: #D8DEE9;
+    --nord5: #E5E9F0;
+    --nord6: #ECEFF4;
+    /*blue tones*/
+    --nord7: #8FBCBB;
+    /*highlight*/
+    --nord8: #88C0D0;
+    /*primary*/
+    --nord9: #81A1C1;
+    /*secondary*/
+    --nord10: #5E81AC;
+    /*tertiary*/
+    /*special tones*/
+    --nord11: #BF616A;
+    /*error*/
+    --nord12: #D08770;
+    /*danger*/
+    --nord13: #EBCB8B;
+    /*warning*/
+    --nord14: #A3BE8C;
+    /*success*/
+    --nord15: #B48EAD;
+    /*uncommon function*/
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--nord3);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--nord10);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--nord9);
+}
+
+
+html {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: var(--nord4);
+    width: 100%;
+    background-color: var(--nord0);
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+
+}
+
+::selection {
+    background: var(--nord2);
+    /* WebKit/Blink Browsers */
+}
+
+::-moz-selection {
+    background: var(--nord2);
+    /* Gecko Browsers */
+}
+
+#day-wrapper {
+    border-right: 2px solid var(--nord1);
+    width: 74%;
+    float: left;
+    overflow: auto;
+    height: 94vh;
+}
+
+.event{
+    margin: 2rem;
+    padding:1rem;
+    background-color: var(--nord1);
+}
+
+#delete{
+    background-color: var(--nord13);
+    border:none;
+    color:var(--nord3);
+    float:right;
+}
+.event span:empty:before {
+    content: attr(placeholder);
+    color: var(--nord3);
+    display: inline-block;
+    min-width:10ch;
+}
+
+.right-wrapper {
+    width: 25%;
+    float: right;
+    height: 96vh;
+}
+
+#select-wrapper {
+    width: 98%;
+    padding: 1%;
+    height: 23vh;
+    overflow: hidden;
+}
+
+/* datepicker */
+.datepicker {
+    background-color: var(--nord1);
+    color: var(--nord4);  
+    border:none;
+    margin: 1rem; 
+}
+
+.datepickerdropdown {
+    position: absolute;
+    text-align: center;
+    background-color: var(--nord1);
+    color: var(--nord4);
+}
+
+.datepickerdropdown table {
+    border-collapse: collapse;
+    margin: auto;
+}
+
+.datepickerdropdown input {
+    border: none;
+    border-radius: 0px;
+    margin: 1px;
+    padding: 2px 5px;
+    text-align: center;
+    background-color: var(--nord1);
+    color: var(--nord4);
+}
+
+.datepickerdropdown table input[type=button] {
+    width: 2em;
+}
+
+.datepickerdropdown input[type=button]:active {
+    padding: 2px 4px 2px 6px;
+}
+
+.datepickerdropdown input[type=text] {
+    background: var(--nord0);
+    color: var(--nord4);
+}
+
+.datepickerdropdown input.today {
+    border: 1px solid var(--nord8);
+}
+
+.datepickerdropdown input.othermonth {
+    color: var(--nord3);
+}
+
+.datepickershow img {
+    border: 0;
+}
+
+.monthDsp {
+    width: 80px;
+    font-size: 9px;
+}
+
+.daysRow {
+    font-size: 11px;
+}
+
+/* datepicker end   */
+
+#notes-wrapper {
+    border-top: 2px solid var(--nord1);
+    width: 90%;
+    padding: 5%;
+    height: 65vh;
+    overflow: auto;
+}
+
+#notes-wrapper:empty:before {
+    content: attr(placeholder);
+    color: var(--nord3);
+}
+
+#menu-wrapper {
+    border-top: 2px solid var(--nord1);
+    position: absolute;
+    bottom: 0px;
+    width: 98%;
+    padding: 1%;
+    height: 2vh;
+}
+
+#err {
+    color: var(--nord12);
+}
