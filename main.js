@@ -6,15 +6,15 @@ function init() {
   document.getElementById("start_dt").value = getDateString(today);
   //document.getElementById("day-wrapper").innerHTML = '<div class=event><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="return this.parentNode.remove();pullDay();">Delete</button></div>';
   getCal();
-  setInterval(function () {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "SERVER.SCRIPT");
-    csv = "";
-    for (var i = 0; i < cal.length; i++) {
-      csv += cal[i][0] + "," + cal[i][1] + ":";
-    }
-    xhr.send(csv);
-  }, 10000);
+  // setInterval(function () {
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.open("POST", "SERVER.SCRIPT");
+  //   csv = "";
+  //   for (var i = 0; i < cal.length; i++) {
+  //     csv += cal[i][0] + "," + cal[i][1] + ":";
+  //   }
+  //   xhr.send(csv);
+  // }, 10000);
 }
 init();
 
@@ -28,21 +28,16 @@ function sortFunction(a, b) {
   }
 }
 async function getCal() {
-  var result = null;
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET", "/MCal.dat", false);
-  xmlhttp.send();
-  if (xmlhttp.status == 200) {
-    result = xmlhttp.responseText;
-  }
-//   console.log(result);
-  result = result.split(":");
-  for (var i = 0; i < result.length; i++) {
-    result[i] = result[i].split(",");
-  }
-//   console.log(result);
-  cal = result;
+  const fs = require("fs");
+  JSONcal = fs.readFileSync("MCal.json", 'utf8');
+  cal = JSON.parse(JSONcal);
   dateDisplay();
+}
+
+function putCal() {
+  var JSONcal = JSON.stringify(cal);
+  const fs = require("fs");
+  fs.writeFileSync("MCal.json", JSONcal, "utf-8");
 }
 
 function sortDay() {
@@ -92,6 +87,7 @@ function pullDay() {
   } else {
     cal[intital][1] = btoa(document.getElementById("day-wrapper").innerHTML);
   }
+  putCal();
 }
 
 function dateDisplay() {
