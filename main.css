@@ -91,6 +91,10 @@ body {
     background-color: var(--nord1);
 }
 
+.event br {
+    display: auto
+}
+
 #delete{
     background-color: var(--nord13);
     border:none;

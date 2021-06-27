@@ -1,20 +1,13 @@
+const fs = require("fs");
 var cal = [];
+var notes = "";
 
 function init() {
   //calGen();
   today = new Date();
   document.getElementById("start_dt").value = getDateString(today);
-  //document.getElementById("day-wrapper").innerHTML = '<div class=event><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="return this.parentNode.remove();pullDay();">Delete</button></div>';
+  //document.getElementById("day-wrapper").innerHTML = '<div  class="event"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>';
   getCal();
-  // setInterval(function () {
-  //   var xhr = new XMLHttpRequest();
-  //   xhr.open("POST", "SERVER.SCRIPT");
-  //   csv = "";
-  //   for (var i = 0; i < cal.length; i++) {
-  //     csv += cal[i][0] + "," + cal[i][1] + ":";
-  //   }
-  //   xhr.send(csv);
-  // }, 10000);
 }
 init();
 
@@ -27,17 +20,23 @@ function sortFunction(a, b) {
       : 1;
   }
 }
-async function getCal() {
-  const fs = require("fs");
-  JSONcal = fs.readFileSync("MCal.json", 'utf8');
+
+function getCal() {
+  JSONcal = fs.readFileSync("MCal.json", "utf8");
   cal = JSON.parse(JSONcal);
+  notes = fs.readFileSync("MCal.html", "utf8");
+  document.getElementById("notes-wrapper").innerHTML = notes;
   dateDisplay();
 }
 
 function putCal() {
   var JSONcal = JSON.stringify(cal);
-  const fs = require("fs");
   fs.writeFileSync("MCal.json", JSONcal, "utf-8");
+}
+
+function saveNotes() {
+  notes = document.getElementById("notes-wrapper").innerHTML;
+  fs.writeFileSync("MCal.html", notes, "utf-8");
 }
 
 function sortDay() {
@@ -67,11 +66,12 @@ function sortDay() {
 function checkDay() {
   //   if (document.getElementById("day-wrapper").lastChild.lastChild.innerText != "") {
   if (document.querySelectorAll("#contents")[document.querySelectorAll("#contents").length - 1].innerText != "") {
-    document.getElementById("day-wrapper").innerHTML += '<div class=event><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="return this.parentNode.remove();pullDay();">Delete</button></div>';
+    document.getElementById("day-wrapper").innerHTML += '<div  class="event"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>';
   }
 }
 
 function pullDay() {
+  document.getElementById("day-wrapper").innerHTML=document.getElementById("day-wrapper").innerHTML.replace(/<br>/g,"");
   let events = document.querySelectorAll(".event");
   if (events.length >= 2) {
     sortDay();
@@ -100,7 +100,7 @@ function findDay(toFind) {
       return cal[i][1];
     }
   }
-  return btoa('<div class=event><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="return this.parentNode.remove();pullDay();">Delete</button></div>');
+  return btoa('<div  class="event"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>');
 }
 
 function findDayIndex(toFind) {
@@ -112,6 +112,13 @@ function findDayIndex(toFind) {
   return "false";
 }
 
+function delEvent(node) {
+  if (document.querySelectorAll("#contents").length >= 2) {
+    node.remove();
+    pullDay();
+  }
+}
+
 function calGen() {
   startDate = new Date("01/01/2000");
   for (var i = 0; i < 36500; i++) {
@@ -121,6 +128,9 @@ function calGen() {
     startDate.setDate(startDate.getDate() + 1);
   }
 }
+
+
+
 
 // Keyboard shortcuts
 var eventSelect = 0;
