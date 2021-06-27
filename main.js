@@ -3,7 +3,7 @@ var cal = [];
 function init() {
   //calGen();
   today = new Date();
-  document.getElementById("start_dt").value = getDateString(today);
+  document.getElementById("start_dt").value = get_date_string(today);
   //document.getElementById("day-wrapper").innerHTML = '<div class=event><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="return this.parentNode.remove();pullDay();">Delete</button></div>';
   getCal();
   setInterval(function () {
@@ -42,7 +42,7 @@ async function getCal() {
   }
 //   console.log(result);
   cal = result;
-  dateDisplay();
+  date_display();
 }
 
 function sortDay() {
@@ -92,10 +92,6 @@ function pullDay() {
   } else {
     cal[intital][1] = btoa(document.getElementById("day-wrapper").innerHTML);
   }
-}
-
-function dateDisplay() {
-  document.getElementById("day-wrapper").innerHTML = atob(findDay(document.getElementById("start_dt").value));
 }
 
 function findDay(toFind) {

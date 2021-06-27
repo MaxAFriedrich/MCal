@@ -120,9 +120,9 @@ body {
 /* datepicker */
 .datepicker {
     background-color: var(--nord1);
-    color: var(--nord4);  
+    color: var(--nord4);
     border:none;
-    margin: 1rem; 
+    margin: 1rem;
 }
 
 .datepickerdropdown {
@@ -162,6 +162,10 @@ body {
 
 .datepickerdropdown input.today {
     border: 1px solid var(--nord8);
+}
+
+.datepickerdropdown input.selected {
+    border: 1px solid var(--nord6);
 }
 
 .datepickerdropdown input.othermonth {
