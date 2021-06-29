@@ -127,15 +127,24 @@ function calGen() {
 
 // Keyboard shortcuts
 var eventSelect = 0;
-//document.addEventListener('keydown', recordKey);
+document.addEventListener("keydown", key_pressed);
 
-function recordKey(e) {
-	console.log(e.key);
-	if (e.key == "ArrowDown" && e.ctrlKey) {
-		const ul = document.querySelector("#events");
-		const childern = ul.childNodes;
-		console.log(childern[1].innerText);
-	} else if (e.key == "ArrowUp" && e.ctrlKey) {
-		console.log("Up item");
+function key_pressed(e) {
+	if (e.ctrlKey) {
+		switch (e.key) {
+			case "ArrowRight":
+				next_day();
+				break;
+			case "ArrowLeft":
+				previous_day();
+				break;
+			case "ArrowUp":
+				console.log("Up item");
+				break;
+			case "ArrowDown":
+				console.log("Down item");
+				break;
+			default:
+		}
 	}
 }

@@ -14,6 +14,14 @@ function date_display() {
   document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = atob(findDay(document.getElementById(START_TEXT_BOX_ID).value));
 }
 
+function get_selected_date() {
+	return document.getElementById(START_TEXT_BOX_ID).value;
+}
+
+function set_textbox_date(string_date) {
+	document.getElementById(START_TEXT_BOX_ID).value = string_date;
+}
+
 // Converts a date into '12/6/1984' format
 function get_date_string(date) {
     return date.getDate() + '/' + index_to_month(date.getMonth()) + '/' + date.getFullYear();
@@ -47,14 +55,6 @@ function get_target_of_event(e) {
     return targ;
 }
 
-// Returns the textbox from a div
-function get_textbox(div) {
-    var id_of_textbox = div.getAttribute(DATE_PICKER_TEXT_BOX_CLASS_NAME); // Get the textbox id which was saved in the div
-    var textbox = document.getElementById(id_of_textbox); // Find the textbox now
-
-    return textbox;
-}
-
 // This is the function called when the user clicks any button
 function choose_date(e) {
     function get_div_from(target) {
@@ -73,9 +73,10 @@ function choose_date(e) {
     if (value_is_month_or_year_button(targ.value)) {
         create_calendar(div, new Date(targ.getAttribute("date")));
     } else {
-        var textbox = get_textbox(div);
-        textbox.value = targ.getAttribute("date"); // Set the selected date
-        create_calendar(div, parse_digit_date(textbox.value));
+        var string_date = targ.getAttribute("date");
+		set_textbox_date(string_date);
+
+		create_calendar(div, parse_digit_date(string_date));
         date_display();
     }
 }
@@ -145,75 +146,78 @@ function create_calendar_days_row(tbl) {
 
 // This creates the calendar for a given month
 function create_calendar(div, month) {
-    function get_start_date() {
-        var date = new Date(month.getFullYear(), month.getMonth(), 1, 0, 0, 0, 0); // Starting at the 1st of the month
+	function get_start_date() {
+		var date = new Date(month.getFullYear(), month.getMonth(), 1, 0, 0, 0, 0); // Starting at the 1st of the month
 
-        var extras = (date.getDay() + 6) % 7; // How many days of the last month do we need to include?
-        date.setDate(date.getDate() - extras); // Skip back to the previous monday
+		var extras = (date.getDay() + 6) % 7; // How many days of the last month do we need to include?
+		date.setDate(date.getDate() - extras); // Skip back to the previous monday
 
-        return date;
-    }
+		return date;
+	}
 
-    function create_day_button(date, today, selected) {
-        function add_class_names_to_day(day, date, today, selected) {
-            function add_class_name(inp, name) {
-                if (inp.className) inp.className += ' ';
-                inp.className += name;
-            }
+	function create_day_button(date, today, selected) {
+		function add_class_names_to_day(day, date, today, selected) {
+			function add_class_name(inp, name) {
+				if (inp.className) inp.className += " ";
+				inp.className += name;
+			}
 
-            if (date.getMonth() != month.getMonth()) {
-                add_class_name(day, OTHER_MONTH_DATES_CLASS_NAME);
-            }
+			if (date.getMonth() != month.getMonth()) {
+				add_class_name(day, OTHER_MONTH_DATES_CLASS_NAME);
+			}
 
-            if (date.toDateString() === today.toDateString()) {
-                add_class_name(day, CURRENT_DATE_CLASS_NAME);
-            }
+			if (!isNaN(selected) && date.toDateString() === selected.toDateString()) {
+				add_class_name(day, SELECTED_DATE_CLASS_NAME);
+			}
 
-            if (!isNaN(selected) && date.toDateString() === selected.toDateString()) {
-                add_class_name(day, SELECTED_DATE_CLASS_NAME);
-            }
-        }
+			if (date.toDateString() === today.toDateString()) {
+				add_class_name(day, CURRENT_DATE_CLASS_NAME);
+			}
+		}
 
-        var inp = document.createElement("input");
-        inp.type = "button";
-        inp.value = date.getDate();
-        inp.onclick = choose_date;
-        inp.setAttribute("date", get_date_string(date));
+		var inp = document.createElement("input");
+		inp.type = "button";
+		inp.value = date.getDate();
+		inp.onclick = choose_date;
+		inp.setAttribute("date", get_date_string(date));
 
-        add_class_names_to_day(inp, date, today, selected);
+		add_class_names_to_day(inp, date, today, selected);
 
-        return inp;
-    }
+		return inp;
+	}
 
-    var textbox = get_textbox(div); // Find the textbox now
-    var tbl = document.createElement('table');
+	var tbl = document.createElement("table");
 
-    create_calendar_top_row(tbl, month);
-    create_calendar_days_row(tbl);
+	create_calendar_top_row(tbl, month);
+	create_calendar_days_row(tbl);
 
-    // Make the calendar
-    var selected = parse_digit_date(textbox.value); // Try parsing the date
-    var today = new Date();
-    var date = get_start_date();
+	// Make the calendar
+	var selected = parse_digit_date(get_selected_date()); // Try parsing the date
+	var today = new Date();
+	var date = get_start_date();
 
-    do { // Loop for each week
-        var tr = tbl.insertRow(-1);
-        for (i = 0; i < 7; i++) { // Loop each day of this week
-            var td = tr.insertCell(-1);
+	do {
+		// Loop for each week
+		var tr = tbl.insertRow(-1);
+		for (i = 0; i < 7; i++) {
+			// Loop each day of this week
+			var td = tr.insertCell(-1);
 
-            var day = create_day_button(date, today, selected);
-            td.appendChild(day);
+			var day = create_day_button(date, today, selected);
+			td.appendChild(day);
 
-            date.setDate(date.getDate() + 1); // Increment a day
-        }
-    } while (date.getMonth() == month.getMonth())
+			date.setDate(date.getDate() + 1); // Increment a day
+		}
+	} while (date.getMonth() == month.getMonth());
 
-    // At the end, we do a quick insert of the newly made table, hopefully to remove any chance of screen flicker
-    if (div.hasChildNodes()) { // For flicking between months
-        div.replaceChild(tbl, div.childNodes[0]);
-    } else { // For creating the calendar when they first click the icon
-        div.appendChild(tbl);
-    }
+	// At the end, we do a quick insert of the newly made table, hopefully to remove any chance of screen flicker
+	if (div.hasChildNodes()) {
+		// For flicking between months
+		div.replaceChild(tbl, div.childNodes[0]);
+	} else {
+		// For creating the calendar when they first click the icon
+		div.appendChild(tbl);
+	}
 }
 
 // This is called at the start to create the calendar
@@ -240,6 +244,33 @@ function insert_after(newItem, existingItem) {
     } else { // In case the existingItem has no sibling after itself, append it
         existingItem.parentNode.appendChild(newItem);
     }
+}
+
+function update_date_pickers(month) {
+	var pickers = document.getElementsByClassName(DATE_PICKER_DIV_CLASS_NAME);
+
+	console.log("Updating " + pickers.length + " date pickers");
+
+	for (i = 0; i < pickers.length; i++) {
+		create_calendar(pickers[i], month);
+	}
+}
+
+function next_day() {
+	var display_date = get_selected_date();
+	var date = parse_digit_date(display_date);
+	date.setDate(date.getDate() + 1); // Increment a day
+	set_textbox_date(get_date_string(date));
+
+	update_date_pickers(date);
+}
+function previous_day() {
+	var display_date = get_selected_date();
+	var date = parse_digit_date(display_date);
+	date.setDate(date.getDate() - 1); // Decrement a day
+	set_textbox_date(get_date_string(date));
+
+	update_date_pickers(date);
 }
 
 /**
