@@ -1,6 +1,17 @@
+const DATE_PICKER_DIV_CLASS_NAME = "date_picker";
+const DATE_PICKER_TEXT_BOX_CLASS_NAME = "date_picker_textbox";
+const MONTH_DISPLAY_CLASS_NAME = "month_display";
+
+const SELECTED_DATE_CLASS_NAME = "selected";
+const CURRENT_DATE_CLASS_NAME = "today";
+const OTHER_MONTH_DATES_CLASS_NAME = "other_month";
+const DAYS_ROW_CLASS_NAME = "days_row"
+
+const START_TEXT_BOX_ID = "start_dt"
+
 
 function date_display() {
-  document.getElementById("day-wrapper").innerHTML = atob(findDay(document.getElementById("start_dt").value));
+  document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = atob(findDay(document.getElementById(START_TEXT_BOX_ID).value));
 }
 
 // Converts a date into '12/6/1984' format
@@ -38,7 +49,7 @@ function get_target_of_event(e) {
 
 // Returns the textbox from a div
 function get_textbox(div) {
-    var id_of_textbox = div.getAttribute('datepickertextbox'); // Get the textbox id which was saved in the div
+    var id_of_textbox = div.getAttribute(DATE_PICKER_TEXT_BOX_CLASS_NAME); // Get the textbox id which was saved in the div
     var textbox = document.getElementById(id_of_textbox); // Find the textbox now
 
     return textbox;
@@ -62,12 +73,10 @@ function choose_date(e) {
     if (value_is_month_or_year_button(targ.value)) {
         create_calendar(div, new Date(targ.getAttribute("date")));
     } else {
-        // create_calendar(div, );
         var textbox = get_textbox(div);
         textbox.value = targ.getAttribute("date"); // Set the selected date
         create_calendar(div, parse_digit_date(textbox.value));
         date_display();
-        //div.parentNode.removeChild(div); // Remove the dropdown box now
     }
 }
 
@@ -104,7 +113,7 @@ function create_calendar_top_row(tbl, month) {
         text.value = get_month_year_string(month);
         text.size = 15;
         text.disabled = "disabled";
-        text.className = "monthDsp"
+        text.className = MONTH_DISPLAY_CLASS_NAME;
 
         td.appendChild(text);
     }
@@ -131,7 +140,7 @@ function create_calendar_days_row(tbl) {
     var days_row = tbl.insertRow(-1);
 
     ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].forEach((day) => days_row.insertCell(-1).innerHTML = day)
-    days_row.className = "daysRow";
+    days_row.className = DAYS_ROW_CLASS_NAME;
 }
 
 // This creates the calendar for a given month
@@ -153,15 +162,15 @@ function create_calendar(div, month) {
             }
 
             if (date.getMonth() != month.getMonth()) {
-                add_class_name(day, "othermonth");
+                add_class_name(day, OTHER_MONTH_DATES_CLASS_NAME);
             }
 
             if (date.toDateString() === today.toDateString()) {
-                add_class_name(day, "today");
+                add_class_name(day, CURRENT_DATE_CLASS_NAME);
             }
 
             if (!isNaN(selected) && date.toDateString() === selected.toDateString()) {
-                add_class_name(day, "selected");
+                add_class_name(day, SELECTED_DATE_CLASS_NAME);
             }
         }
 
@@ -207,102 +216,64 @@ function create_calendar(div, month) {
     }
 }
 
-// This is called when they click the icon next to the date input box
-function showDatePicker(idOfTextbox) {
+// This is called at the start to create the calendar
+function show_date_picker(idOfTextbox) {
     var textbox = document.getElementById(idOfTextbox);
-
-    // See if the date picker is already there, if so, remove it
-    divs = textbox.parentNode.getElementsByTagName('div');
-    for (i = 0; i < divs.length; i++) {
-        if (divs[i].getAttribute('class') == 'datepickerdropdown') {
-            textbox.parentNode.removeChild(divs[i]);
-            return false;
-        }
-    }
 
     // Grab the date, or use the current date if not valid
     var date = parse_digit_date(textbox.value);
     if (isNaN(date)) date = new Date();
 
     // Create the box
-    var div = document.createElement('div');
-    div.className = 'datepickerdropdown';
-    div.setAttribute('datepickertextbox', idOfTextbox); // Remember the textbox id in the div
+    var div = document.createElement("div");
+    div.className = DATE_PICKER_DIV_CLASS_NAME;
+    div.setAttribute(DATE_PICKER_TEXT_BOX_CLASS_NAME, idOfTextbox); // Remember the textbox id in the div
 
     create_calendar(div, date); // Create the calendar
-    insertAfter(div, textbox); // Add the box to screen just after the textbox
-
-    return false;
+    insert_after(div, textbox); // Add the box to screen just after the textbox
 }
 
 // Adds an item after an existing one
-function insertAfter(newItem, existingItem) {
+function insert_after(newItem, existingItem) {
     if (existingItem.nextSibling) { // Find the next sibling, and add newItem before it
         existingItem.parentNode.insertBefore(newItem, existingItem.nextSibling);
     } else { // In case the existingItem has no sibling after itself, append it
         existingItem.parentNode.appendChild(newItem);
     }
 }
-/*
- * onDOMReady
- * Copyright (c) 2009 Ryan Morr (ryanmorr.com)
- * Licensed under the MIT license.
+
+/**
+ * Determines if the document has finished loading and has been parsed.
+ * @param {Function|undefined} opt_callback
+ *     Optional.  If given as a function it will be called once the DOM is
+ *     ready.  The first parameter passed to it will be the event object in the
+ *     case that the callback is delayed, otherwise it will be null.  The "this"
+ *     keyword will refer to the document.
+ * @param {HTMLDocument|undefined} opt_document
+ *     Optional.  Defaults to the current document.  If given as a document this
+ *     will be the document tested against.
+ * @returns {boolean}
+ *     Value indicating if the document is finished loading and has been parsed.
+ * @license Copyright 2020 - Chris West - MIT Licensed
  */
-function onDOMReady(fn, ctx) {
-    var ready, timer;
-    var onStateChange = (e) => {
-        if (e && e.type == "DOMContentLoaded") {
-            fireDOMReady()
-        } else if (e && e.type == "load") {
-            fireDOMReady()
-        } else if (document.readyState) {
-            if ((/loaded|complete/).test(document.readyState)) {
-                fireDOMReady();
-            } else if (!!document.documentElement.doScroll) {
-                try {
-                    ready || document.documentElement.doScroll('left')
-                } catch (e) {
-                    return
-                }
-                fireDOMReady();
-            }
-        }
-    };
-    var fireDOMReady = () => {
-        if (!ready) {
-            ready = true;
-            fn.call(ctx || window);
-            if (document.removeEventListener) document.removeEventListener("DOMContentLoaded", onStateChange, false);
-            document.onreadystatechange = null;
-            window.onload = null;
-            clearInterval(timer);
-            timer = null;
-        }
-    };
-    if (document.addEventListener) document.addEventListener("DOMContentLoaded", onStateChange, false);
-    document.onreadystatechange = onStateChange;
-    timer = setInterval(onStateChange, 5);
-    window.onload = onStateChange;
+function domReady(opt_callback, opt_document) {
+  var doc = opt_document || document;
+  var isReady = /^(loaded|complete|interactive)$/.test(doc.readyState);
+  if (opt_callback) {
+    if (isReady) {
+      opt_callback.call(doc);
+    }
+    else {
+      // https://developer.mozilla.org/en-US/docs/Web/API/Document/DOMContentLoaded_event#Browser_compatibility
+      doc.addEventListener('DOMContentLoaded', function() {
+        opt_callback.apply(doc, arguments);
+      }, false);
+    }
+  }
+  return isReady;
 }
-//
-//// This is called when the page loads, it searches for inputs where the class is 'datepicker'
-onDOMReady(function () {
-    showDatePicker("start_dt");
-    //  // Search for elements by class
-    //  var allElements = document.getElementsByTagName("*");
-    //  for (i = 0; i < allElements.length; i++) {
-    //    var className = allElements[i].className;
-    //    if (className == 'datepicker' || className.indexOf('datepicker ') != -1 || className.indexOf(' datepicker') != -1) {
-    //      // Found one! Now lets add a datepicker next to it
-    //      var a = document.createElement('a');
-    //      a.href = '#';
-    //      a.className = "datepickershow";
-    //      a.setAttribute('onclick', 'return showDatePicker("' + allElements[i].id + '")');
-    //      var img = document.createElement('img');
-    //      img.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAAK/INwWK6QAAABh0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjM2qefiJQAAAdtJREFUOE+Vj+9PUnEUxvPvar3xja96Q1hGEKG0ubZqbfHCNqIVA4eYLAwFp0LYD4iIJEdeRGGZwDAEcUOn9oNIvPcGgjBQfHE69/YFihe1zs59du7d83nOuR0AcOq/CgEqWbaHDqaD+clF1rLAmija6MsZ5vb0s9nB1xm168s9x67y6Y7q2TaXjo8tVKjUTv7Zt61pAkwt/UA3zFwFuxysV2BKAuYeMAnBcBaGukDdCaozaLg5sUGAiQDLA3IIDIBfAfO34N118PaDRwYvRfBcCMrTaLg2liTAOEW3NjzpBZsMpqUwKQaLCMYvwGMhjArQIDfGCTDqy3EAX47lfVTnCo3qCnOzJ8IpW6pJR2IEGHn7/bBaR5MLO8y8CtPuKO2J0nMfGdKr+5uZ4kVdhAD6N99K1bo7ynB5vHpj3AZ0NxWBbs0KAbTur8VKfTbGeFcbkc1sfnBHuA1CzTIB7js/H5SPffFW3q9sau2PDdLhxkl3X+wiQCVYf4Jt3h1Itmb8iBvEusZJd2a2CuXjxXUWU5dSnAZ5/b0QkOobgMKWzh8eMcXaXr6aYSqfcuXtbAkdbS3RfSD/MGDfvGFO9ZuSfY/ilx/GLumi57Vhgfp9W597ECJA2/a/v/4ENLpYKsDo3kgAAAAASUVORK5CYII=';
-    //      img.title = 'Show calendar';
-    //      a.appendChild(img);
-    //      insertAfter(a, allElements[i]);
-    //    }
-    //  }
+
+// This is called when the page loads, it searches for inputs where the class is 'datepicker'
+domReady(function () {
+    show_date_picker(START_TEXT_BOX_ID);
 });
