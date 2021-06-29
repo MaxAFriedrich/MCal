@@ -254,23 +254,23 @@ function update_date_pickers(month) {
 	for (i = 0; i < pickers.length; i++) {
 		create_calendar(pickers[i], month);
 	}
+    date_display();
+}
+
+function change_day(change) {
+	var display_date = get_selected_date();
+	var date = parse_digit_date(display_date);
+	date.setDate(date.getDate() + change); // Increment a day
+	set_textbox_date(get_date_string(date));
+
+	update_date_pickers(date);
 }
 
 function next_day() {
-	var display_date = get_selected_date();
-	var date = parse_digit_date(display_date);
-	date.setDate(date.getDate() + 1); // Increment a day
-	set_textbox_date(get_date_string(date));
-
-	update_date_pickers(date);
+	change_day(1);
 }
 function previous_day() {
-	var display_date = get_selected_date();
-	var date = parse_digit_date(display_date);
-	date.setDate(date.getDate() - 1); // Decrement a day
-	set_textbox_date(get_date_string(date));
-
-	update_date_pickers(date);
+    change_day(-1);
 }
 
 /**
