@@ -5,12 +5,7 @@ const path = require('path');
 
 var cal = [];
 var notes = "";
-try {
-	const pathStart = fs.readFileSync("path", "utf8");
-} catch {
-	fs.writeFileSync(path.join("path"), "", "utf-8");
-	const pathStart = "";
-}
+const pathStart = fs.readFileSync("path", "utf8");
 
 function init() {
   //calGen();
