@@ -11,8 +11,23 @@ const START_TEXT_BOX_ID = "start_dt"
 
 
 function date_display() {
-  document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = atob(findDay(document.getElementById(START_TEXT_BOX_ID).value));
+    document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = atob(
+		find_day(document.getElementById(START_TEXT_BOX_ID).value)
+	);
 }
+
+
+function find_day(toFind) {
+	for (var i = 0; i < cal.length; i++) {
+		if (cal[i][0] == toFind) {
+			return cal[i][1];
+		}
+	}
+	return btoa(
+		'<div  class="event"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>'
+	);
+}
+
 
 function get_selected_date() {
 	return document.getElementById(START_TEXT_BOX_ID).value;
