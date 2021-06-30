@@ -1,9 +1,16 @@
 const DAY_WRAPPER_CLASS_NAME = "day-wrapper";
 
 const fs = require("fs");
+const path = require('path');
 
 var cal = [];
 var notes = "";
+try {
+	const pathStart = fs.readFileSync("path", "utf8");
+} catch {
+	fs.writeFileSync(path.join("path"), "", "utf-8");
+	const pathStart = "";
+}
 
 function init() {
   //calGen();
@@ -24,21 +31,21 @@ function sortFunction(a, b) {
 }
 
 function getCal() {
-  JSONcal = fs.readFileSync("MCal.json", "utf8");
+  JSONcal = fs.readFileSync(path.join(pathStart,"MCal.json"), "utf8");
   cal = JSON.parse(JSONcal);
-  notes = fs.readFileSync("MCal.html", "utf8");
+  notes = fs.readFileSync(path.join(pathStart,"MCal.html"), "utf8");
   document.getElementById("notes-wrapper").innerHTML = notes;
   date_display();
 }
 
 function putCal() {
   var JSONcal = JSON.stringify(cal);
-  fs.writeFileSync("MCal.json", JSONcal, "utf-8");
+  fs.writeFileSync(path.join(pathStart,"MCal.json"), JSONcal, "utf-8");
 }
 
 function saveNotes() {
   notes = document.getElementById("notes-wrapper").innerHTML;
-  fs.writeFileSync("MCal.html", notes, "utf-8");
+  fs.writeFileSync(path.join(pathStart,"MCal.html"), notes, "utf-8");
 }
 
 function sortDay() {
