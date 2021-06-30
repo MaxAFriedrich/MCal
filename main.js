@@ -8,7 +8,8 @@ var notes = "";
 function init() {
   //calGen();
   today = new Date();
-  document.getElementById(START_TEXT_BOX_ID).value = getDateString(today);
+  document.getElementById(START_TEXT_BOX_ID).value = get_date_string(today);
+  date_display();
   //document.getElementById("day-wrapper").innerHTML = '<div  class="event"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>';
   getCal();
 }
@@ -89,19 +90,6 @@ function pullDay() {
     cal[intital][1] = btoa(document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML);
   }
   putCal();
-}
-
-function dateDisplay() {
-  document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = atob(findDay(document.getElementById(START_TEXT_BOX_ID).value));
-}
-
-function findDay(toFind) {
-  for (var i = 0; i < cal.length; i++) {
-    if (cal[i][0] == toFind) {
-      return cal[i][1];
-    }
-  }
-  return btoa('<div  class="event"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>');
 }
 
 function findDayIndex(toFind) {
