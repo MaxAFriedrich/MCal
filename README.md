@@ -1,6 +1,13 @@
 # MCal
 a calendar of sorts
-#this is very alpha software
 
-### to run
-to run, just clone the repo and run the main.py file, then got to http:localhost in your web browser
+**:warning: this is very alpha software**
+
+currently it is not possible to compile this app, but you can experimentaly run it
+
+### running
+1. download the repo
+2. install nodeJS 14 lts
+3. open the directory of the repo in terminal
+4. run `npm install`
+5. run `npm start`

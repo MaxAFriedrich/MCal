@@ -15,7 +15,7 @@
       <div id="select-wrapper">
         <input onblur="date_display();" id='start_dt' class='datepicker' placeholder="1/1/2000">
       </div>
-      <div id="notes-wrapper" placeholder="Enter your notes here" contenteditable="True"></div>
+      <div onkeyup="saveNotes()" id="notes-wrapper" placeholder="Enter your notes here" contenteditable="True"></div>
     </div>
     <div id="menu-wrapper"></div>
     <script type="text/javascript" src="datepicker.js"></script>
