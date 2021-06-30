@@ -124,51 +124,58 @@ body {
 /* datepicker */
 .datepicker {
     background-color: var(--nord1);
-    color: var(--nord4);  
+    color: var(--nord4);
     border:none;
-    margin: 1rem; 
+    margin: 1rem;
 }
 
-.datepickerdropdown {
+.date_picker {
     position: absolute;
     text-align: center;
     background-color: var(--nord1);
     color: var(--nord4);
 }
 
-.datepickerdropdown table {
+.date_picker table {
     border-collapse: collapse;
     margin: auto;
 }
 
-.datepickerdropdown input {
+.date_picker input {
     border: none;
     border-radius: 0px;
     margin: 1px;
-    padding: 2px 5px;
+    padding: 2px 2px;
     text-align: center;
     background-color: var(--nord1);
     color: var(--nord4);
 }
 
-.datepickerdropdown table input[type=button] {
+.date_picker table input[type=button] {
     width: 2em;
 }
 
-.datepickerdropdown input[type=button]:active {
+.date_picker input[type=button]:active {
     padding: 2px 4px 2px 6px;
 }
 
-.datepickerdropdown input[type=text] {
+.date_picker input[type=text] {
     background: var(--nord0);
     color: var(--nord4);
 }
 
-.datepickerdropdown input.today {
-    border: 1px solid var(--nord8);
+.date_picker input.today {
+    border: 2px solid var(--nord11);
+    border-radius: 50%;
 }
 
-.datepickerdropdown input.othermonth {
+.date_picker input.selected {
+    background-color: var(--nord6);
+    color: var(--nord0);
+    border-radius: 50%;
+}
+
+.date_picker input.other_month {
     color: var(--nord3);
 }
 
@@ -176,12 +183,12 @@ body {
     border: 0;
 }
 
-.monthDsp {
+.month_display {
     width: 80px;
     font-size: 9px;
 }
 
-.daysRow {
+.days_row {
     font-size: 11px;
 }
 
