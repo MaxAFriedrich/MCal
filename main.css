@@ -165,13 +165,12 @@ body {
 }
 
 .date_picker input.today {
-    border: 2px solid var(--nord11);
+    border: 2px solid var(--nord8);
     border-radius: 50%;
 }
 
 .date_picker input.selected {
-    background-color: var(--nord6);
-    color: var(--nord0);
+    background-color: var(--nord3);
     border-radius: 50%;
 }
 
