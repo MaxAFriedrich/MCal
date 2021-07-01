@@ -174,7 +174,9 @@ function change_selected_event(change_by) {
   selected_event = loop_index(selected_event, change_by, events.length);
   set_event_inner_html(get_events_inner_html());
 
-  console.log("Selected index: " + selected_event)
+  console.log("Selected index: " + selected_event);
+  
+  document.querySelectorAll("#startTime")[selected_event].focus();
 }
 
 function key_pressed(e) {
