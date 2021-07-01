@@ -1,14 +1,29 @@
 const DAY_WRAPPER_CLASS_NAME = "day-wrapper";
 
+// Files
+const PATHS_FILE_PATH = "path";
+const NOTES_FILE_PATH = "MCal.html";
+const CAL_FILE_PATH = "MCal.json";
+
 const fs = require("fs");
-const path = require('path');
+const path = require("path");
 
 var cal = [];
 var notes = "";
-const pathStart = fs.readFileSync("path", "utf8");
+
+make_file_exist(PATHS_FILE_PATH);
+const pathStart = fs.readFileSync(PATHS_FILE_PATH, "utf8");
+
+function make_file_exist(path, start_contents = "") {
+  if (!fs.existsSync(path)) {
+    fs.writeFileSync(path, start_contents);
+  }
+}
 
 function init() {
   //calGen();
+  make_file_exist(CAL_FILE_PATH, "[]");
+  make_file_exist(NOTES_FILE_PATH);
   today = new Date();
   document.getElementById(START_TEXT_BOX_ID).value = get_date_string(today);
   date_display();
@@ -18,53 +33,53 @@ function init() {
 init();
 
 function sortFunction(a, b) {
-	if (a[1] === b[1]) {
-		return 0;
-	} else {
-		return a[1] < b[1] ? -1 : 1;
-	}
+  if (a[1] === b[1]) {
+    return 0;
+  } else {
+    return a[1] < b[1] ? -1 : 1;
+  }
 }
 
 function getCal() {
-  JSONcal = fs.readFileSync(path.join(pathStart,"MCal.json"), "utf8");
+  JSONcal = fs.readFileSync(path.join(pathStart,CAL_FILE_PATH), "utf8");
   cal = JSON.parse(JSONcal);
-  notes = fs.readFileSync(path.join(pathStart,"MCal.html"), "utf8");
+  notes = fs.readFileSync(path.join(pathStart,NOTES_FILE_PATH), "utf8");
   document.getElementById("notes-wrapper").innerHTML = notes;
   date_display();
 }
 
 function putCal() {
   var JSONcal = JSON.stringify(cal);
-  fs.writeFileSync(path.join(pathStart,"MCal.json"), JSONcal, "utf-8");
+  fs.writeFileSync(path.join(pathStart,CAL_FILE_PATH), JSONcal, "utf-8");
 }
 
 function saveNotes() {
   notes = document.getElementById("notes-wrapper").innerHTML;
-  fs.writeFileSync(path.join(pathStart,"MCal.html"), notes, "utf-8");
+  fs.writeFileSync(path.join(pathStart,NOTES_FILE_PATH), notes, "utf-8");
 }
 
 function sortDay() {
-	var events = [];
-	document.querySelectorAll(".event").forEach((elm) => {
-		try {
-			eventA = elm.firstElementChild.innerText.split(":");
-			intA = parseInt(eventA[0]);
-			if (eventA[1].includes("PM") || (eventA[1].includes("pm") && eventA[0] != "12")) {
-				intA += 12;
-			}
-			intA += parseInt(eventA[1]) / 60;
-		} catch {
-			intA = 999;
-		}
+  var events = [];
+  document.querySelectorAll(".event").forEach((elm) => {
+    try {
+      eventA = elm.firstElementChild.innerText.split(":");
+      intA = parseInt(eventA[0]);
+      if (eventA[1].includes("PM") || (eventA[1].includes("pm") && eventA[0] != "12")) {
+        intA += 12;
+      }
+      intA += parseInt(eventA[1]) / 60;
+    } catch {
+      intA = 999;
+    }
 
-		events.push([elm, intA]);
-	});
-	events.sort(sortFunction);
-	html = "";
-	events.forEach((elm) => {
-		html += '<div class="event">' + elm[0].innerHTML + "</div>";
-	});
-	document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = html;
+    events.push([elm, intA]);
+  });
+  events.sort(sortFunction);
+  html = "";
+  events.forEach((elm) => {
+    html += '<div class="event">' + elm[0].innerHTML + "</div>";
+  });
+  document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = html;
 }
 
 function checkDay() {
@@ -95,12 +110,12 @@ function pullDay() {
 }
 
 function findDayIndex(toFind) {
-	for (var i = 0; i < cal.length; i++) {
-		if (cal[i][0] == toFind) {
-			return i;
-		}
-	}
-	return "false";
+  for (var i = 0; i < cal.length; i++) {
+    if (cal[i][0] == toFind) {
+      return i;
+    }
+  }
+  return "false";
 }
 
 function delEvent(node) {
@@ -111,13 +126,13 @@ function delEvent(node) {
 }
 
 function calGen() {
-	startDate = new Date("01/01/2000");
-	for (var i = 0; i < 36500; i++) {
-		formatted_date =
-			startDate.getDate() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getFullYear();
-		cal.push([formatted_date, ""]);
-		startDate.setDate(startDate.getDate() + 1);
-	}
+  startDate = new Date("01/01/2000");
+  for (var i = 0; i < 36500; i++) {
+    formatted_date =
+      startDate.getDate() + "/" + (startDate.getMonth() + 1) + "/" + startDate.getFullYear();
+    cal.push([formatted_date, ""]);
+    startDate.setDate(startDate.getDate() + 1);
+  }
 }
 
 // Keyboard shortcuts
@@ -125,21 +140,21 @@ var eventSelect = 0;
 document.addEventListener("keydown", key_pressed);
 
 function key_pressed(e) {
-	if (e.ctrlKey) {
-		switch (e.key) {
-			case "ArrowRight":
-				next_day();
-				break;
-			case "ArrowLeft":
-				previous_day();
-				break;
-			case "ArrowUp":
-				console.log("Up item");
-				break;
-			case "ArrowDown":
-				console.log("Down item");
-				break;
-			default:
-		}
-	}
+  if (e.ctrlKey) {
+    switch (e.key) {
+      case "ArrowRight":
+        next_day();
+        break;
+      case "ArrowLeft":
+        previous_day();
+        break;
+      case "ArrowUp":
+        console.log("Up item");
+        break;
+      case "ArrowDown":
+        console.log("Down item");
+        break;
+      default:
+    }
+  }
 }
