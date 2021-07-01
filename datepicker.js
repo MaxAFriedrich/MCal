@@ -11,7 +11,8 @@ const START_TEXT_BOX_ID = "start_dt"
 
 
 function date_display() {
-    document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = atob(
+  selected_event = 0;
+  document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = atob(
     find_day(document.getElementById(START_TEXT_BOX_ID).value)
   );
 }
@@ -24,7 +25,7 @@ function find_day(toFind) {
     }
   }
   return btoa(
-    '<div  class="event"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>'
+    '<div  class="event selected"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>'
   );
 }
 
@@ -39,61 +40,61 @@ function set_textbox_date(string_date) {
 
 // Converts a date into '12/6/1984' format
 function get_date_string(date) {
-    return date.getDate() + '/' + index_to_month(date.getMonth()) + '/' + date.getFullYear();
+  return date.getDate() + '/' + index_to_month(date.getMonth()) + '/' + date.getFullYear();
 }
 
 function index_to_month(index) {
-    return index + 1;
+  return index + 1;
 }
 
 function get_months() {
-    return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 }
 
 function get_month_name(index) {
-    return get_months()[index];
+  return get_months()[index];
 }
 
 // Converts a date into 'July 2010' format
 function get_month_year_string(date) {
-    return get_month_name(date.getMonth()) + ' ' + date.getFullYear();
+  return get_month_name(date.getMonth()) + ' ' + date.getFullYear();
 }
 
 // Crossbrowser way to find the target (http://www.quirksmode.org/js/events_properties.html)
 function get_target_of_event(e) {
-    var targ;
-    if (e.target) targ = e.target;
-    else if (e.srcElement) targ = e.srcElement;
+  var targ;
+  if (e.target) targ = e.target;
+  else if (e.srcElement) targ = e.srcElement;
 
-    if (targ.nodeType == 3) targ = targ.parentNode; // defeat Safari bug
+  if (targ.nodeType == 3) targ = targ.parentNode; // defeat Safari bug
 
-    return targ;
+  return targ;
 }
 
 // This is the function called when the user clicks any button
 function choose_date(e) {
-    function get_div_from(target) {
-        return target.parentNode.parentNode.parentNode.parentNode.parentNode;
-    }
+  function get_div_from(target) {
+      return target.parentNode.parentNode.parentNode.parentNode.parentNode;
+  }
 
-    function value_is_month_or_year_button(value) {
-        return value == '<' || value == '>' || value == "<<" || value == ">>";
-    }
+  function value_is_month_or_year_button(value) {
+      return value == '<' || value == '>' || value == "<<" || value == ">>";
+  }
 
-    if (!e) var e = window.event;
+  if (!e) var e = window.event;
 
-    var targ = get_target_of_event(e);
-    var div = get_div_from(targ);
+  var targ = get_target_of_event(e);
+  var div = get_div_from(targ);
 
-    if (value_is_month_or_year_button(targ.value)) {
-        create_calendar(div, new Date(targ.getAttribute("date")));
-    } else {
-        var string_date = targ.getAttribute("date");
-    set_textbox_date(string_date);
+  if (value_is_month_or_year_button(targ.value)) {
+      create_calendar(div, new Date(targ.getAttribute("date")));
+  } else {
+      var string_date = targ.getAttribute("date");
+  set_textbox_date(string_date);
 
-    create_calendar(div, parse_digit_date(string_date));
-        date_display();
-    }
+  create_calendar(div, parse_digit_date(string_date));
+      date_display();
+  }
 }
 
 // Parse a date in dd/mm/yyyy format
@@ -107,48 +108,48 @@ function parse_digit_date(date_string) {
 }
 
 function create_calendar_top_row(tbl, month) {
-    function create_button(label, month_change) {
-        b = document.createElement("input");
-        b.type = "button"; // Have to immediately set the type due to IE
-        b.value = label;
-        b.onclick = choose_date;
-        b.setAttribute("date", new Date(month.getFullYear(), month.getMonth() + month_change, 1, 0, 0, 0, 0).toString());
+  function create_button(label, month_change) {
+      b = document.createElement("input");
+      b.type = "button"; // Have to immediately set the type due to IE
+      b.value = label;
+      b.onclick = choose_date;
+      b.setAttribute("date", new Date(month.getFullYear(), month.getMonth() + month_change, 1, 0, 0, 0, 0).toString());
 
-        return b;
-    }
+      return b;
+  }
 
-    function create_button_tuple(index, label, change) {
-        return { index: index, label: label, change: change };
-    }
+  function create_button_tuple(index, label, change) {
+      return { index: index, label: label, change: change };
+  }
 
-    function add_month_text(td) {
-        td.colSpan = 3;
+  function add_month_text(td) {
+      td.colSpan = 3;
 
-        text = document.createElement("input");
-        text.type = "text";
-        text.value = get_month_year_string(month);
-        text.size = 15;
-        text.disabled = "disabled";
-        text.className = MONTH_DISPLAY_CLASS_NAME;
+      text = document.createElement("input");
+      text.type = "text";
+      text.value = get_month_year_string(month);
+      text.size = 15;
+      text.disabled = "disabled";
+      text.className = MONTH_DISPLAY_CLASS_NAME;
 
-        td.appendChild(text);
-    }
+      td.appendChild(text);
+  }
 
-    var top_row = tbl.insertRow(-1);
-    var top_slots = Array(5).fill().map(() => top_row.insertCell(-1))
+  var top_row = tbl.insertRow(-1);
+  var top_slots = Array(5).fill().map(() => top_row.insertCell(-1))
 
-    const buttons = [ create_button_tuple(0, "<<", -12)
-                    , create_button_tuple(1, "<", -1)
-                    , create_button_tuple(3, ">", 1)
-                    , create_button_tuple(4, ">>", 12)
-                    ];
+  const buttons = [ create_button_tuple(0, "<<", -12)
+                  , create_button_tuple(1, "<", -1)
+                  , create_button_tuple(3, ">", 1)
+                  , create_button_tuple(4, ">>", 12)
+                  ];
 
-    buttons.forEach((bn) => {
-        var td = top_slots[bn.index];
-        td.appendChild(create_button(bn.label, bn.change));
-    });
+  buttons.forEach((bn) => {
+      var td = top_slots[bn.index];
+      td.appendChild(create_button(bn.label, bn.change));
+  });
 
-    add_month_text(top_slots[2]);
+  add_month_text(top_slots[2]);
 }
 
 
@@ -285,7 +286,7 @@ function next_day() {
   change_day(1);
 }
 function previous_day() {
-    change_day(-1);
+  change_day(-1);
 }
 
 /**

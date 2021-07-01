@@ -91,8 +91,15 @@ body {
     background-color: var(--nord1);
 }
 
+
 .event br {
     display: auto
+}
+
+.event.selected {
+    margin: 2rem;
+    padding:1rem;
+    background-color: var(--nord2);
 }
 
 #delete{
