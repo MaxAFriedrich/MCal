@@ -80,11 +80,9 @@ function get_events_inner_html() {
 function set_event_inner_html(events_inner_html) {
   html = "";
   events_inner_html.forEach((elm, i) => {
-    if (i == selected_event) {
-      html += '<div class="event selected">' + elm[0].innerHTML + "</div>";
-    } else {
-      html += '<div class="event">' + elm[0].innerHTML + "</div>";
-    }
+    html += '<div class="event'
+    if (i == selected_event) html += ' selected';
+    html += '" onclick="focus_event(' + i + ')">' + elm[0].innerHTML + "</div>";
   });
   document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = html;
 }
@@ -99,6 +97,21 @@ function checkDay() {
   //   if (document.getElementById("day-wrapper").lastChild.lastChild.innerText != "") {
   if (document.querySelectorAll("#contents")[document.querySelectorAll("#contents").length - 1].innerText != "") {
     document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML += '<div  class="event"><span contenteditable=true id=startTime placeholder=12:00PM spellcheck=false></span> <span contenteditable=true id=endTime placeholder=1:00PM spellcheck=false></span> <span onblur="pullDay()" contenteditable=true id=contents placeholder="Event Description"></span><button id="delete" onclick="delEvent(this.parentNode);">Delete</button></div>';
+  }
+}
+
+function focus_event(i) {
+  if (selected_event != i)
+  {
+    // NOTE: This needs to be changed because it is very slow and inefficient
+    selected_event = i;
+    set_event_inner_html(get_events_inner_html());
+    console.log("Selected index: " + i);
+    document.querySelectorAll("#startTime")[selected_event].focus();
+
+    var mouseX = window.event.clientX
+    var mouseY = window.event.clientY;
+    document.elementFromPoint(mouseX, mouseY).focus();
   }
 }
 
@@ -172,10 +185,11 @@ function change_selected_event(change_by) {
 
   events = get_events();
   selected_event = loop_index(selected_event, change_by, events.length);
+  events[selected_event].scrollIntoViewIfNeeded();
   set_event_inner_html(get_events_inner_html());
 
   console.log("Selected index: " + selected_event);
-  
+
   document.querySelectorAll("#startTime")[selected_event].focus();
 }
 

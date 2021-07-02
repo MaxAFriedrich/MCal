@@ -15,6 +15,7 @@ function date_display() {
   document.getElementById(DAY_WRAPPER_CLASS_NAME).innerHTML = atob(
     find_day(document.getElementById(START_TEXT_BOX_ID).value)
   );
+  sortDay();
 }
 
 
