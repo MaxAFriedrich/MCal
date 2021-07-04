@@ -1,4 +1,4 @@
-import { createButton, createInput, createTable, setDatePicker } from "../gui/gui";
+import { createButton, createInput, createTable, DOMElement, setDatePicker, setElementValue } from "../gui/gui";
 
 const MONTH_DISPLAY_CLASS_NAME = "month_display";
 const SELECTED_DATE_CLASS_NAME = "selected";
@@ -22,6 +22,7 @@ export function selectDate(date: Date) {
 	selectedDate = date;
 	monthViewing = date;
 	displaySelector();
+	console.log("Selecting day: " + date.toString());
 }
 
 /**
@@ -31,6 +32,7 @@ export function selectDate(date: Date) {
 export function changeViewingMonth(date: Date) {
 	monthViewing = date;
 	displaySelector();
+	console.log("Changing viewing month: " + date.toString());
 }
 
 /**
@@ -101,12 +103,18 @@ export function getSelector(): HTMLTableElement {
 																								];
 
 		for (const [index, label, monthChange] of buttons) {
-			var nextDate = new Date(monthViewing.getFullYear(), monthViewing.getMonth() + monthChange, 1, 0, 0, 0, 0);
-			topSlots[index].appendChild(createButton(label, () => { changeViewingMonth(nextDate); }, ""));
+			var onPress = ((date: Date) => {
+				return function () {
+					changeViewingMonth(date);
+				}
+			})(new Date(monthViewing.getFullYear(), monthViewing.getMonth() + monthChange, 1, 0, 0, 0, 0));
+
+			topSlots[index].appendChild(createButton(label, onPress, ""));
 		}
 
 		topSlots[2].colSpan = 3;
 		var text = createInput("text", getMonthYearString(monthViewing), MONTH_DISPLAY_CLASS_NAME, true, 15);
+		topSlots[2].appendChild(text);
 	}
 
 	function createDaysRow(table: HTMLTableElement) {
@@ -143,7 +151,13 @@ export function getSelector(): HTMLTableElement {
 
 		className = className.slice(0, -1);
 
-		return createButton(date.getDate().toString(), () => { selectDate(date); }, className);
+		var onPress = ((date: Date) => {
+			return function () {
+				selectDate(date);
+			};
+		})(new Date(date));
+
+		return createButton(date.getDate().toString(), onPress, className);
 	}
 
 	var table = createTable();
@@ -175,6 +189,7 @@ export function getSelector(): HTMLTableElement {
  * Displays the selector of a given month on the screen
  */
 export function displaySelector(): void {
+	setElementValue(DOMElement.date, getDateString(selectedDate));
 	console.log("Updating date selector");
 	setDatePicker(getSelector());
 }

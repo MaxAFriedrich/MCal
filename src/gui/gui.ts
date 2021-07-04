@@ -78,6 +78,10 @@ export function setDatePicker(table: HTMLTableElement): void {
   }
 }
 
+export function setElementValue(element: DOMElement, value: string): void {
+  enumToElement(element).nodeValue = value;
+}
+
 //*add event listener
 export function addElementEventListener(element: DOMElement, type: string, listener: () => void) {
   enumToElement(element).addEventListener(type, listener);
