@@ -1,8 +1,8 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require("electron");
-const path = require("path");
+import {app, BrowserWindow} from "electron";
+import * as path from "path";
 
 function createWindow() {
   // Create the browser window.
@@ -19,7 +19,7 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile("index.html");
+  mainWindow.loadFile(path.join(__dirname, "../index.html"));
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

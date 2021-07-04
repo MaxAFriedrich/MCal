@@ -8,18 +8,19 @@
   </head>
 
   <body>
-    <div id="day-wrapper">
-      <!-- <div class="event"><span contenteditable="true" id="startTime" placeholder="12:00PM" spellcheck="false">12:00PM</span> <span contenteditable="true" id="endTime" placeholder="1:00PM" spellcheck="false">1:00PM</span> <span onblur="pullDay()" contenteditable="true" id="contents" placeholder="Event Description">1</span></div><div class="event"><span contenteditable="true" id="startTime" placeholder="12:00PM" spellcheck="false">2:00PM</span> <span contenteditable="true" id="endTime" placeholder="1:00PM" spellcheck="false">3:00PM</span> <span onblur="pullDay()" contenteditable="true" id="contents" placeholder="Event Description">2</span></div><div class="event"><span contenteditable="true" id="startTime" placeholder="12:00PM" spellcheck="false">9:00AM</span> <span contenteditable="true" id="endTime" placeholder="1:00PM" spellcheck="false">10:00AM</span> <span onblur="pullDay()" contenteditable="true" id="contents" placeholder="Event Description">3</span></div><div class="event"><span contenteditable="true" id="startTime" placeholder="12:00PM" spellcheck="false"></span> <span contenteditable="true" id="endTime" placeholder="1:00PM" spellcheck="false"></span> <span onblur="pullDay()" contenteditable="true" id="contents" placeholder="Event Description"></span></div> -->
-    </div>
-    <div class="right-wrapper">
-      <div id="select-wrapper">
-        <input onblur="date_display();" id='start_dt' class='datepicker' placeholder="1/1/2000">
+    <div id="body-wrapper">
+      <div id="day-wrapper"></div>
+      <div class="right-wrapper">
+        <div id="select-wrapper">
+          <input id='start_dt' class='datepicker' placeholder="1/1/2000">
+        </div>
+        <div id="notes-wrapper" placeholder="Enter your notes here" contenteditable="True"></div>
       </div>
-      <div onkeyup="saveNotes()" id="notes-wrapper" placeholder="Enter your notes here" contenteditable="True"></div>
+      <div id="menu-wrapper"></div>
     </div>
-    <div id="menu-wrapper"></div>
-    <script type="text/javascript" src="datepicker.js"></script>
-    <script src="main.js"></script>
+    <script>
+      require('./dist/main.js');
+    </script>
   </body>
 
 </html>
