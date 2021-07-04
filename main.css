@@ -136,19 +136,19 @@ body {
     margin: 1rem;
 }
 
-.date_picker {
+#day_picker {
     position: absolute;
     text-align: center;
     background-color: var(--nord1);
     color: var(--nord4);
 }
 
-.date_picker table {
+#day_picker table {
     border-collapse: collapse;
     margin: auto;
 }
 
-.date_picker input {
+#day_picker input {
     border: none;
     border-radius: 0px;
     margin: 1px;
@@ -158,30 +158,30 @@ body {
     color: var(--nord4);
 }
 
-.date_picker table input[type=button] {
+#day_picker table input[type=button] {
     width: 2em;
 }
 
-.date_picker input[type=button]:active {
+#day_picker input[type=button]:active {
     padding: 2px 4px 2px 6px;
 }
 
-.date_picker input[type=text] {
+#day_picker input[type=text] {
     background: var(--nord0);
     color: var(--nord4);
 }
 
-.date_picker input.today {
+#day_picker input.today {
     border: 2px solid var(--nord8);
     border-radius: 50%;
 }
 
-.date_picker input.selected {
+#day_picker input.selected {
     background-color: var(--nord3);
     border-radius: 50%;
 }
 
-.date_picker input.other_month {
+#day_picker input.otherMonth {
     color: var(--nord3);
 }
 
@@ -189,12 +189,12 @@ body {
     border: 0;
 }
 
-.month_display {
+.monthDisplay {
     width: 80px;
     font-size: 9px;
 }
 
-.days_row {
+.daysRow {
     font-size: 11px;
 }
 

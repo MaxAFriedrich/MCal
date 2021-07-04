@@ -1,10 +1,11 @@
 import { createButton, createInput, createTable, DOMElement, setDatePicker, setElementValue } from "../gui/gui";
 
-const MONTH_DISPLAY_CLASS_NAME = "month_display";
+const DATE_PICKER_DIV_CLASS_NAME = "date_picker"; // TODO: Please change this name
+const MONTH_DISPLAY_CLASS_NAME = "monthDisplay";
 const SELECTED_DATE_CLASS_NAME = "selected";
 const CURRENT_DATE_CLASS_NAME = "today";
-const OTHER_MONTH_DATES_CLASS_NAME = "other_month";
-const DAYS_ROW_CLASS_NAME = "days_row"
+const OTHER_MONTH_DATES_CLASS_NAME = "otherMonth";
+const DAYS_ROW_CLASS_NAME = "daysRow"
 
 var monthViewing: Date;
 var selectedDate: Date;
@@ -118,12 +119,12 @@ export function getSelector(): HTMLTableElement {
 	}
 
 	function createDaysRow(table: HTMLTableElement) {
-		var days_row = table.insertRow(-1);
+		var daysRow = table.insertRow(-1);
 
 		for (var day of ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]) {
-			days_row.insertCell(-1).innerHTML = day
+			daysRow.insertCell(-1).innerHTML = day
 		}
-		days_row.className = DAYS_ROW_CLASS_NAME;
+		daysRow.className = DAYS_ROW_CLASS_NAME;
 	}
 
 	function getStartDate(): Date {

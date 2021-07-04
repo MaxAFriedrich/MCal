@@ -4,13 +4,15 @@ var select = document.getElementById("select-wrapper");
 var date = document.getElementById("start_dt");
 var note = document.getElementById("notes-wrapper");
 var body = document.getElementById("body-wrapper");
+var cal = document.getElementById("day_picker");
 
 export enum DOMElement {
   day,
   select,
   date,
   note,
-  body
+  body,
+  cal
 }
 //* getters and setters
 
@@ -37,6 +39,10 @@ function enumToElement(element: DOMElement): HTMLElement {
     }
     case DOMElement.note: {
       returnElem = note;
+      break;
+    }
+    case DOMElement.cal: {
+      returnElem = cal;
       break;
     }
     default: {
@@ -69,12 +75,12 @@ export function setHTML(element: DOMElement, setter: string): void {
  * @param table
  */
 export function setDatePicker(table: HTMLTableElement): void {
-  if (select.hasChildNodes()) {
+  if (cal.hasChildNodes()) {
     // For flicking between months
-    select.replaceChild(table, select.childNodes[0]);
+    cal.replaceChild(table, cal.childNodes[0]);
   } else {
     // For creating the calendar when they first click the icon
-    select.appendChild(table);
+    cal.appendChild(table);
   }
 }
 
