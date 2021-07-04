@@ -1,3 +1,8 @@
-export function temp(){
-    console.log("change to note ocoured")
+export function temp() {
+  console.log("change to note ocoured");
+}
+
+//!NOTE: This is not comeptled code and has been pulled directily from https://github.com/MaxAFriedrich/markdown-parser
+export function markdownParser(input : string) {
+  return input.replace(/^###### (.*)\{#(.*)\}$/gim, '<h6 id="$2">$1</h6>').replace(/^###### (.*$)/gim, "<h6>$1</h6>").replace(/^##### (.*)\{#(.*)\}$/gim, '<h5 id="$2">$1</h5>').replace(/^##### (.*$)/gim, "<h5>$1</h5>").replace(/^#### (.*)\{#(.*)\}$/gim, '<h4 id="$2">$1</h4>').replace(/^#### (.*$)/gim, "<h4>$1</h4>").replace(/^### (.*)\{#(.*)\}$/gim, '<h3 id="$2">$1</h3>').replace(/^### (.*$)/gim, "<h3>$1</h3>").replace(/^## (.*)\{#(.*)\}$/gim, '<h2 id="$2">$1</h2>').replace(/^## (.*$)/gim, "<h2>$1</h2>").replace(/^# (.*)\{#(.*)\}$/gim, '<h1 id="$2">$1</h1>').replace(/^# (.*$)/gim, "<h1>$1</h1>").replace(/^\> (.*$)/gim, "<blockquote>$1</blockquote>").replace(/\*\*\*(.*)\*\*\*/gim, "<i><b>$1</b></i>").replace(/\*\*(.*)\*\*/gim, "<b>$1</b>").replace(/__(.*)__/gim, "<b>$1</b>").replace(/\*(.*)\*/gim, "<i>$1</i>").replace(/_(.*)_/gim, "<i>$1</i>").replace(/~~(.*)~~/gim, "<s>$1</s>").replace(/^- \[\x\](\s*)(.*)/gim, '<ul style="list-style-type: none;"><li><input type="checkbox"checked="true">$2</li></ul>').replace(/^- \[ \](\s*)(.*)/gim, '<ul style="list-style-type: none;"><li><input type="checkbox">$2</li></ul>').replace(/^(\*|- )(\s*)(.*)/gim, "<ul><li>$3</li></ul>").replace(/(^1\.\s*(.|\n)*\d\.\s*.*)/gim, "<ol>$1</ol>").replace(/\d\.\s*(.*)/gim, "<li>$1</li>").replace(/\=\=(.*)\=\=/gim, "<mark>$1</mark>").replace(/\`\`\`(.*)([\s\S]*)\`\`\`/gim, "<pre>$2</pre>").replace(/^(.*)\n: (.*)/gim, "<p><dfn>$1</dfn> $2</p>").replace(/\`(.*)\`/gim, "<code>$1</code>").replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />").replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>").replace(/^---/gim, "<hr>").replace(/\n$/gim, "<br />");
 }
