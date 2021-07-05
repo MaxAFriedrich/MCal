@@ -1,4 +1,4 @@
-import {setContEdit} from '../gui/gui'
+import { setContEdit } from '../gui/guiElement'
 
 //*global vars
 //toggle for preview

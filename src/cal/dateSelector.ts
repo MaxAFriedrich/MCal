@@ -1,13 +1,19 @@
-import { ClassName, createButton, createInput, createTable, DOMElement, getClassNameString, setDatePicker, setHTML } from "../gui/gui";
+import { createButton, createInput, createTable } from "../gui/creation";
+import { ClassName, addClassNameToElement } from "../gui/className";
+import { GUIElement, setDatePicker, setHTML } from "../gui/guiElement";
 
 var monthViewing: Date;
 var selectedDate: Date;
 
+/**
+ * Sets up initial variables and displays the selector
+ */
 export function init() {
 	monthViewing = new Date();
 	selectedDate = new Date();
 	displaySelector();
 }
+
 /**
  * Selects a new date and displays it on the screen
  * @param date date to select
@@ -117,7 +123,7 @@ export function getSelector(): HTMLTableElement {
 		for (var day of ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]) {
 			daysRow.insertCell(-1).innerHTML = day
 		}
-		daysRow.className = getClassNameString(ClassName.daysRow);
+		addClassNameToElement(ClassName.daysRow, daysRow);
 	}
 
 	function getStartDate(): Date {
@@ -182,7 +188,7 @@ export function getSelector(): HTMLTableElement {
  */
 export function displaySelector(): void {
 	// TODO: Get this to actually work please
-	setHTML(DOMElement.date, getDateString(selectedDate));
+	setHTML(GUIElement.date, getDateString(selectedDate));
 	console.log("Updating date selector");
 	setDatePicker(getSelector());
 }

@@ -1,5 +1,5 @@
 // import Color = require("color");
-import { ClassName, createDiv, createSpan } from "../../gui/gui";
+import { ClassName, ElementID, createDiv, createSpan } from "../../gui/creation";
 
 // const DEFAULT_COLOUR: Color = Color.rgb(0, 0, 0);
 const DEFAULT_COLOUR: string = "#FFFFFF"
@@ -7,6 +7,16 @@ const DEFAULT_COLOUR: string = "#FFFFFF"
 // TODO: Needs to be changed to put further up the hierarchy
 function pullDay() {
 
+}
+
+export function createEventBar(isSelected: boolean = false, startTime: string = "", endTime: string = "", description: string = "", onBlurFunc: () => void = () => { }) {
+	var classNames = [ClassName.event].concat((isSelected ? [ClassName.selected] : []))
+	var myDiv = createDiv(classNames);
+	myDiv.appendChild(createSpan(ElementID.eventStartTime, "12:00PM", "true", false, startTime));
+	myDiv.appendChild(createSpan(ElementID.eventEndTime, "1:00PM", "true", false, endTime));
+	myDiv.appendChild(createSpan(ElementID.eventContents, "Event Description", "true", false, description, onBlurFunc));
+
+	return myDiv;
 }
 
 export class CalEvent {
@@ -25,12 +35,6 @@ export class CalEvent {
 	}
 
 	public getDiv(isSelected: boolean): HTMLDivElement {
-		var classNames = [ClassName.event].concat((isSelected ? [ClassName.selected] : []))
-		var myDiv = createDiv(classNames);
-		myDiv.appendChild(createSpan("startTime", "12:00PM", "true", false, this.startTime));
-		myDiv.appendChild(createSpan("endTime", "1:00PM", "true", false, this.endTime));
-		myDiv.appendChild(createSpan("contents", "Event Description", "true", false, this.description, pullDay));
-
-		return myDiv;
+		return createEventBar(isSelected, this.startTime, this.endTime, this.description, pullDay);
 	}
 }
