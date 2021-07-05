@@ -1,4 +1,4 @@
-import { removeAllChildren, DOMElement, createButton, appendChildToElement, createDiv, createSpan } from "../../gui/gui";
+import { removeAllChildren, DOMElement, createButton, appendChildToElement, createDiv, createSpan, ClassName } from "../../gui/gui";
 import { CalEvent } from "./calEvent"
 
 export class CalDay {
@@ -29,12 +29,13 @@ export class CalDay {
 					day.removeEvent(index);
 				}
 			})(this, i);
-			div.appendChild(createButton("Delete", deleteFunc, "delete"));
+			div.appendChild(createButton("Delete", deleteFunc, [ClassName.delete]));
 
 			appendChildToElement(DOMElement.day, div);
 		});
 
-		var newDiv = createDiv("event" + (this.selectedEvent == this.events.length ? " selected" : ""));
+		var classNames = [ClassName.event].concat(this.selectedEvent == this.events.length ? [ClassName.selected] : [])
+		var newDiv = createDiv(classNames);
 		newDiv.appendChild(createSpan("startTime", "12:00PM", "true", false));
 		newDiv.appendChild(createSpan("endTime", "1:00PM", "true", false));
 		newDiv.appendChild(createSpan("contents", "Event Description", "true", false));
