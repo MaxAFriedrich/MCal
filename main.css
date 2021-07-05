@@ -52,6 +52,9 @@
     background: var(--nord9);
 }
 
+*:focus {
+    outline: none;
+  }
 
 html {
     font-family: 'Roboto', sans-serif;
@@ -233,6 +236,13 @@ body {
     width: 98%;
     padding: 1%;
     height: 2vh;
+}
+
+.previewMD{
+    background-color: var(--nord9);
+    border:none;
+    color:var(--nord1);
+    float:right;
 }
 
 #err {
