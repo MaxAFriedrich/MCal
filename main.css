@@ -102,7 +102,7 @@ body {
     background-color: var(--nord2);
 }
 
-#delete{
+.delete{
     background-color: var(--nord13);
     border:none;
     color:var(--nord3);

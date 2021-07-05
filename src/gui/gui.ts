@@ -84,13 +84,26 @@ export function setDatePicker(table: HTMLTableElement): void {
   }
 }
 
+/**
+ * Sets nodeValue of element
+ * @param element to set value to
+ * @param value to set to the element
+ */
 export function setElementValue(element: DOMElement, value: string): void {
   enumToElement(element).nodeValue = value;
+}
+
+export function removeAllChildren(element: DOMElement): void {
+  enumToElement(element).innerHTML = "";
 }
 
 //*add event listener
 export function addElementEventListener(element: DOMElement, type: string, listener: () => void) {
   enumToElement(element).addEventListener(type, listener);
+}
+
+export function appendChildToElement(element: DOMElement, child: HTMLElement) {
+  enumToElement(element).appendChild(child);
 }
 
 //*change body
@@ -128,4 +141,24 @@ export function createButton(label: string, onclick: Function, className: string
 
 export function createTable(): HTMLTableElement {
   return document.createElement("table");
+}
+
+export function createDiv(className: string): HTMLDivElement {
+  var div = document.createElement("div");
+  div.className = className;
+
+  return div;
+}
+
+export function createSpan(id: string, placeholder: string, contentEditable: string, spellCheck: boolean, innerHTML: string = "", onBlurFunc: () => void = () => { }): HTMLSpanElement {
+  var span = document.createElement("span");
+  span.contentEditable = contentEditable;
+  span.id = id;
+  span.spellcheck = spellCheck;
+  span.innerHTML = innerHTML;
+  span.onblur = onBlurFunc;
+
+  span.setAttribute("placeholder", placeholder);
+
+  return span;
 }

@@ -1,4 +1,4 @@
-import { createButton, createInput, createTable, DOMElement, setDatePicker, setElementValue } from "../gui/gui";
+import { createButton, createInput, createTable, DOMElement, setDatePicker, setHTML } from "../gui/gui";
 
 const DATE_PICKER_DIV_CLASS_NAME = "date_picker"; // TODO: Please change this name
 const MONTH_DISPLAY_CLASS_NAME = "monthDisplay";
@@ -190,7 +190,8 @@ export function getSelector(): HTMLTableElement {
  * Displays the selector of a given month on the screen
  */
 export function displaySelector(): void {
-	setElementValue(DOMElement.date, getDateString(selectedDate));
+	// TODO: Get this to actually work please
+	setHTML(DOMElement.date, getDateString(selectedDate));
 	console.log("Updating date selector");
 	setDatePicker(getSelector());
 }

@@ -12,6 +12,7 @@ function init() {
 
   // set gui html
   //TODO call to read cal file
+  // TODO: Check if file exists first
   Gui.setHTML(Gui.DOMElement.note, Rw.read(notesFile));
 
   //event listeners
