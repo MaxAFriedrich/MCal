@@ -29,7 +29,7 @@ export class CalDay {
 					day.removeEvent(index);
 				}
 			})(this, i);
-			div.appendChild(createButton("Button", deleteFunc, "delete"));
+			div.appendChild(createButton("Delete", deleteFunc, "delete"));
 
 			appendChildToElement(DOMElement.day, div);
 		});

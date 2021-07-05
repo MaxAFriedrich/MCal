@@ -85,35 +85,48 @@ body {
     height: 94vh;
 }
 
-.event{
-    margin: 2rem;
-    padding:1rem;
-    background-color: var(--nord1);
-}
-
-
-.event br {
-    display: auto
-}
-
-.event.selected {
-    margin: 2rem;
-    padding:1rem;
-    background-color: var(--nord2);
-}
-
 .delete{
     background-color: var(--nord13);
     border:none;
     color:var(--nord3);
     float:right;
 }
+
+.event{
+    margin: 1rem;
+    padding:1rem;
+    background-color: var(--nord1);
+}
 .event span:empty:before {
     content: attr(placeholder);
     color: var(--nord3);
-    display: inline-block;
-    min-width:10ch;
 }
+
+.event span{
+    margin-left:3ch;
+    display: inline-block;
+    white-space:nowrap;
+    overflow:hidden;
+}
+
+.event.selected {
+    background-color: var(--nord2);
+}
+
+
+#startTime, #endTime{
+    width:8ch;
+}
+
+#contents{
+    max-width:65%;
+}
+
+.event br {
+    display: none;
+}
+
+
 
 .right-wrapper {
     width: 25%;
