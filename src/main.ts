@@ -62,7 +62,7 @@ export function eventCheck() {
  * @param e key code
  */
 function keyPressed(e : any) {
-  console.log(e)
+  // console.log(e)
   if (e.ctrlKey) {
     switch (e.key) {
       case "`":
