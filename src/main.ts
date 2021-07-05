@@ -11,7 +11,7 @@ var dayFile: string = "MCal.json";
 //* main innit funct
 function init() {
   //add preview MD button to menu bar
-  Gui.appendChildToElement(Gui.DOMElement.menu, Gui.createButton("Preview", previewMDInit, "previewMD", "previewMD"));
+  Gui.appendChildToElement(Gui.DOMElement.menu, Gui.createButton("Preview", previewMDInit, [Gui.ClassName.previewMD], "previewMD"));
 
   // set gui html
   //TODO call to read cal file

@@ -1,11 +1,12 @@
 //* define DOM for each of the main eliments
 var day = document.getElementById("day-wrapper");
 var select = document.getElementById("select-wrapper");
-var date = document.getElementById("start_dt");
+var date = document.getElementById("date-selector-box");
 var note = document.getElementById("notes-wrapper");
 var body = document.getElementById("body-wrapper");
 var cal = document.getElementById("day_picker");
 var menu = document.getElementById("menu-wrapper");
+var cal = document.getElementById("date-selector-cal");
 
 export enum DOMElement {
   day,
@@ -15,6 +16,19 @@ export enum DOMElement {
   body,
   cal,
   menu
+}
+
+// TODO: Change names so more representative?
+export enum ClassName {
+  none,
+  selected,
+  today,
+  otherMonth,
+  monthDisplay,
+  daysRow,
+  event,
+  delete,
+  previewMD
 }
 //* getters and setters
 
@@ -66,6 +80,66 @@ function enumToElement(element : DOMElement): HTMLElement {
 
   return returnElem;
 }
+
+export function getClassNameString(className: ClassName): string {
+  var output: string;
+
+  switch (className) {
+    case ClassName.today: {
+      output = "today";
+      break;
+    }
+    case ClassName.selected: {
+      output = "selected";
+      break;
+    }
+    case ClassName.otherMonth: {
+      output = "otherMonth";
+      break;
+    }
+    case ClassName.daysRow: {
+      output = "daysRow";
+      break;
+    }
+    case ClassName.monthDisplay: {
+      output = "monthDisplay";
+      break;
+    }
+    case ClassName.event: {
+      output = "event";
+      break;
+    }
+    case ClassName.delete: {
+      output = "delete";
+      break;
+    }
+    case ClassName.previewMD: {
+      output = "previewMD";
+      break;
+    }
+    case ClassName.none: {
+      output = "";
+      break;
+    }
+    default: {
+      console.log("Unknown class name used!");
+      output = "";
+      break;
+    }
+  }
+
+  return output;
+}
+
+export function convertClassNamesToString(classNames: ClassName[]): string {
+  var output = "";
+  for (var name of classNames) {
+    output += getClassNameString(name) + " ";
+  }
+
+  return output.slice(0, -1);
+}
+
 
 /**
  *
@@ -141,11 +215,11 @@ export function changeBody(newBody : string): string {
 }
 
 //* Creation
-export function createInput(type : string, value : string, className : string, disabled : boolean = false, size : number = 20, idName? : string): HTMLInputElement {
-  var inp = document.createElement("input");
-  inp.type = type;
-  inp.className = className;
-  inp.value = value;
+export function createInput(type : string, value : string, classNames : ClassName[], disabled : boolean = false, size : number = 20, idName? : string): HTMLInputElement {
+ var inp = document.createElement("input");
+	inp.type = type;
+	inp.className = convertClassNamesToString(classNames);
+	inp.value = value;
   inp.disabled = disabled;
   inp.size = size;
   inp.id=idName;
@@ -153,12 +227,9 @@ export function createInput(type : string, value : string, className : string, d
   return inp;
 }
 
-export function createButton(label : string, onclick : Function, className : string, idName? : string): HTMLInputElement {
-  var b = createInput("button", label, className,false,20,idName);
-  b.onclick = () => {
-    onclick();
-  };
-
+export function createButton(label: string, onclick: Function, classNames: ClassName[],idName? : string): HTMLInputElement {
+  var b = createInput("button", label, classNames,false,20,idName);
+	b.onclick = () => { onclick(); };
   return b;
 }
 
@@ -166,9 +237,9 @@ export function createTable(): HTMLTableElement {
   return document.createElement("table");
 }
 
-export function createDiv(className : string): HTMLDivElement {
+export function createDiv(classNames: ClassName[]): HTMLDivElement {
   var div = document.createElement("div");
-  div.className = className;
+  div.className = convertClassNamesToString(classNames);
 
   return div;
 }

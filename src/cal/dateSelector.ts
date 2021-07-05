@@ -1,11 +1,4 @@
-import { createButton, createInput, createTable, DOMElement, setDatePicker, setHTML } from "../gui/gui";
-
-const DATE_PICKER_DIV_CLASS_NAME = "date_picker"; // TODO: Please change this name
-const MONTH_DISPLAY_CLASS_NAME = "monthDisplay";
-const SELECTED_DATE_CLASS_NAME = "selected";
-const CURRENT_DATE_CLASS_NAME = "today";
-const OTHER_MONTH_DATES_CLASS_NAME = "otherMonth";
-const DAYS_ROW_CLASS_NAME = "daysRow"
+import { ClassName, createButton, createInput, createTable, DOMElement, getClassNameString, setDatePicker, setHTML } from "../gui/gui";
 
 var monthViewing: Date;
 var selectedDate: Date;
@@ -110,11 +103,11 @@ export function getSelector(): HTMLTableElement {
 				}
 			})(new Date(monthViewing.getFullYear(), monthViewing.getMonth() + monthChange, 1, 0, 0, 0, 0));
 
-			topSlots[index].appendChild(createButton(label, onPress, ""));
+			topSlots[index].appendChild(createButton(label, onPress, [ClassName.none]));
 		}
 
 		topSlots[2].colSpan = 3;
-		var text = createInput("text", getMonthYearString(monthViewing), MONTH_DISPLAY_CLASS_NAME, true, 15);
+		var text = createInput("text", getMonthYearString(monthViewing), [ClassName.monthDisplay], true, 15);
 		topSlots[2].appendChild(text);
 	}
 
@@ -124,7 +117,7 @@ export function getSelector(): HTMLTableElement {
 		for (var day of ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]) {
 			daysRow.insertCell(-1).innerHTML = day
 		}
-		daysRow.className = DAYS_ROW_CLASS_NAME;
+		daysRow.className = getClassNameString(ClassName.daysRow);
 	}
 
 	function getStartDate(): Date {
@@ -137,20 +130,18 @@ export function getSelector(): HTMLTableElement {
 	}
 
 	function createDayButton(date: Date, today: Date): HTMLInputElement {
-		var className = "";
+		var classNames: ClassName[] = [];
 		if (date.getMonth() != monthViewing.getMonth()) {
-			className += OTHER_MONTH_DATES_CLASS_NAME + ' ';
+			classNames.push(ClassName.otherMonth);
 		}
 
 		if (date.toDateString() === selectedDate.toDateString()) {
-			className += SELECTED_DATE_CLASS_NAME + ' ';
+			classNames.push(ClassName.selected);
 		}
 
 		if (date.toDateString() === today.toDateString()) {
-			className += CURRENT_DATE_CLASS_NAME + ' ';
+			classNames.push(ClassName.today);
 		}
-
-		className = className.slice(0, -1);
 
 		var onPress = ((date: Date) => {
 			return function () {
@@ -158,7 +149,7 @@ export function getSelector(): HTMLTableElement {
 			};
 		})(new Date(date));
 
-		return createButton(date.getDate().toString(), onPress, className);
+		return createButton(date.getDate().toString(), onPress, classNames);
 	}
 
 	var table = createTable();

@@ -1,5 +1,5 @@
 // import Color = require("color");
-import { createDiv, createSpan } from "../../gui/gui";
+import { ClassName, createDiv, createSpan } from "../../gui/gui";
 
 // const DEFAULT_COLOUR: Color = Color.rgb(0, 0, 0);
 const DEFAULT_COLOUR: string = "#FFFFFF"
@@ -25,7 +25,8 @@ export class CalEvent {
 	}
 
 	public getDiv(isSelected: boolean): HTMLDivElement {
-		var myDiv = createDiv("event" + (isSelected ? " selected" : ""));
+		var classNames = [ClassName.event].concat((isSelected ? [ClassName.selected] : []))
+		var myDiv = createDiv(classNames);
 		myDiv.appendChild(createSpan("startTime", "12:00PM", "true", false, this.startTime));
 		myDiv.appendChild(createSpan("endTime", "1:00PM", "true", false, this.endTime));
 		myDiv.appendChild(createSpan("contents", "Event Description", "true", false, this.description, pullDay));

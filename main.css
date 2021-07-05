@@ -152,19 +152,19 @@ body {
     margin: 1rem;
 }
 
-#day_picker {
+#date-selector-cal {
     position: absolute;
     text-align: center;
     background-color: var(--nord1);
     color: var(--nord4);
 }
 
-#day_picker table {
+#date-selector-cal table {
     border-collapse: collapse;
     margin: auto;
 }
 
-#day_picker input {
+#date-selector-cal input {
     border: none;
     border-radius: 0px;
     margin: 1px;
@@ -174,30 +174,30 @@ body {
     color: var(--nord4);
 }
 
-#day_picker table input[type=button] {
+#date-selector-cal table input[type=button] {
     width: 2em;
 }
 
-#day_picker input[type=button]:active {
+#date-selector-cal input[type=button]:active {
     padding: 2px 4px 2px 6px;
 }
 
-#day_picker input[type=text] {
+#date-selector-cal input[type=text] {
     background: var(--nord0);
     color: var(--nord4);
 }
 
-#day_picker input.today {
+#date-selector-cal input.today {
     border: 2px solid var(--nord8);
     border-radius: 50%;
 }
 
-#day_picker input.selected {
+#date-selector-cal input.selected {
     background-color: var(--nord3);
     border-radius: 50%;
 }
 
-#day_picker input.otherMonth {
+#date-selector-cal input.otherMonth {
     color: var(--nord3);
 }
 
