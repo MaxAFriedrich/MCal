@@ -245,6 +245,10 @@ body {
 
 /* css for MD */
 
+#notes-wrapper * {
+  
+}
+
 #notes-wrapper h1,
 h2,
 h3 {
@@ -295,6 +299,9 @@ table th {
   text-align: left;
   background-color: var(--nord9);
   color: var(--nord5);
+}
+#notes-wrapper input{
+  pointer-events: none;
 }
 #notes-wrapper input:not[type="checkbox"],
 select {

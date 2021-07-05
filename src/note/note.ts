@@ -2,7 +2,7 @@ import { setContEdit } from '../gui/guiElement'
 
 //*global vars
 //toggle for preview
-var previewMDState:boolean=true
+var previewMDState:boolean=true;
 
 
 /**
@@ -35,7 +35,7 @@ export function previewMDClick(currentDisplayText:string,currentDisplayHTML:stri
 //!NOTE: This is not completed code and has been pulled directily from https://github.com/MaxAFriedrich/markdown-parser
 //TODO tables and footnotes
 function markdownParser(input : string) {
-  return input.replace(/^###### (.*)\{#(.*)\}$/gim, '<h6 id="$2">$1</h6>')
+  var output:string= input.replace(/^###### (.*)\{#(.*)\}$/gim, '<h6 id="$2">$1</h6>')
   .replace(/^###### (.*$)/gim, "<h6>$1</h6>")
   .replace(/^##### (.*)\{#(.*)\}$/gim, '<h5 id="$2">$1</h5>')
   .replace(/^##### (.*$)/gim, "<h5>$1</h5>")
@@ -47,6 +47,9 @@ function markdownParser(input : string) {
   .replace(/^## (.*$)/gim, "<h2>$1</h2>")
   .replace(/^# (.*)\{#(.*)\}$/gim, '<h1 id="$2">$1</h1>')
   .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+  .replace(/^---/gim, "<hr>")
+  .replace(/^___/gim, "<hr>")
+  .replace(/^\*\*\*/gim, "<hr>")
   .replace(/^\> (.*$)/gim, "<blockquote>$1</blockquote>")
   .replace(/\*\*\*(.*)\*\*\*/gim, "<i><b>$1</b></i>")
   .replace(/\*\*(.*)\*\*/gim, "<b>$1</b>")
@@ -56,7 +59,7 @@ function markdownParser(input : string) {
   .replace(/~~(.*)~~/gim, "<s>$1</s>")
   .replace(/^- \[\x\](\s*)(.*)/gim, '<ul style="list-style-type: none;"><li><input type="checkbox"checked="true">$2</li></ul>')
   .replace(/^- \[ \](\s*)(.*)/gim, '<ul style="list-style-type: none;"><li><input type="checkbox">$2</li></ul>')
-  .replace(/^(\*|- )(\s*)(.*)/gim, "<ul><li>$3</li></ul>")
+  .replace(/^(\*|\-|\+ )(\s*)(.*)/gim, "<ul><li>$3</li></ul>")
   .replace(/(^1\.\s*(.|\n)*\d\.\s*.*)/gim, "<ol>$1</ol>")
   .replace(/\d\.\s*(.*)/gim, "<li>$1</li>")
   .replace(/\=\=(.*)\=\=/gim, "<mark>$1</mark>")
@@ -64,7 +67,37 @@ function markdownParser(input : string) {
   .replace(/^(.*)\n: (.*)/gim, "<p><dfn>$1</dfn> $2</p>")
   .replace(/\`(.*)\`/gim, "<code>$1</code>")
   .replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
-  .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>")
-  .replace(/^---/gim, "<hr>")
+  .replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="javascript:void(0);" onclick="const { shell } = require(`electron`);shell.openExternal(`$2`);">$1</a>')
   .replace(/\n$/gim, "<br />");
+  console.log(output);
+  return markdownTable(output)
+}
+
+function markdownTable(inputHTML:string){
+  var outputHTML:string[]=inputHTML.split("<br />")
+  // for (var i = 0;i<outputHTML.length;i++){
+  //   if (i + 1 != outputHTML.length && outputHTML[i].startsWith("| ") && outputHTML[i].endsWith(" |") && outputHTML[i].includes(" | ") && outputHTML[i + 1].includes("| -") && outputHTML[i + 1].includes("---")) {
+  //     var table = "";
+  //     var j;
+  //     for (j = i; j < outputHTML.length; j++) {
+
+  //         if (outputHTML[j].startsWith("| ") && outputHTML[j].endsWith(" |") && outputHTML[j].includes(" | ") && outputHTML[j].includes("---") == false) {
+  //             table = "".concat(table, outputHTML[j]);
+  //             outputHTML[j] = "";
+  //         } else if (outputHTML[j].includes("---")) {
+  //             outputHTML[j] = "";
+  //         }
+  //     }
+  //     table = table.split(" | ").join("</td><td>");
+
+  //     table = table.split(" |").join("</td></tr>");
+
+  //     table = table.split("| ").join("<tr><td>");
+  //     console.log(table);
+
+  //     outputHTML[i] = "".concat("<table>", table, "</table>");
+  //   }
+  // }
+  console.log(outputHTML)
+  return outputHTML.join("<br />")
 }

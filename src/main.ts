@@ -30,11 +30,10 @@ function init() {
     Cal.temp();
   });
   Gui.addElementEventListener(Gui.GUIElement.note, "input", () => {
-    //TODO figure out the md preview
-    ////Gui.getHTML(Gui.GUIElement.note)=Note.markdownParser
     Rw.write(Gui.getHTML(Gui.GUIElement.note), notesFile);
   });
   Cal.init();
+  //todo make these consitant
   document.addEventListener("keydown", keyPressed);
 }
 init();
