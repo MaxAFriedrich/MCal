@@ -16,6 +16,7 @@ export class CalDay {
 		// TODO: Add binomial search to put in right position
 		this.selectedEvent = this.events.length;
 		this.events.push(event);
+		this.render();
 	}
 
 	public render(): void {
@@ -42,5 +43,6 @@ export class CalDay {
 
 	public removeEvent(index: number): void {
 		delete this.events[index];
+		this.render();
 	}
 }
