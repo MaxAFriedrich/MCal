@@ -1,4 +1,4 @@
-import { createButton, createDiv, createSpan, ClassName, ElementID } from "../../gui/creation";
+import { createButton, ClassName, ElementID } from "../../gui/creation";
 import { removeAllChildren, GUIElement, appendChildToElement } from "../../gui/guiElement";
 import { CalEvent, createEventBar } from "./calEvent"
 
@@ -18,6 +18,13 @@ export class CalDay {
 		this.selectedEvent = this.events.length;
 		this.events.push(event);
 		this.render();
+	}
+
+	public static renderEmptyDay(): void {
+		removeAllChildren(GUIElement.day);
+
+		var newDiv = createEventBar(true);
+		appendChildToElement(GUIElement.day, newDiv);
 	}
 
 	public render(): void {
@@ -42,5 +49,9 @@ export class CalDay {
 	public removeEvent(index: number): void {
 		delete this.events[index];
 		this.render();
+	}
+
+	public getDate(): Date {
+		return this.date;
 	}
 }

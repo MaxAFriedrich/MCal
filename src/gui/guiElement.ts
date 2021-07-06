@@ -45,6 +45,16 @@ export function setHTML(element : GUIElement, setter : string): void {
   enumToElement(element).innerHTML = setter;
 }
 
+/**
+ * Sets an attribute to the given element
+ * @param element to be given an attribute
+ * @param qualifiedName name of the attribute
+ * @param value value to set to the attribute
+ */
+export function setElementAttribute(element: GUIElement, qualifiedName: string, value: string): void {
+  enumToElement(element).setAttribute(qualifiedName, value);
+}
+
 //* Children
 /**
  * Removes all children from HTML

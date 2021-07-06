@@ -1,17 +1,18 @@
 import { createButton, createInput, createTable } from "../gui/creation";
 import { ClassName, addClassNameToElement } from "../gui/className";
-import { GUIElement, setDatePicker, setHTML } from "../gui/guiElement";
+import { GUIElement, setDatePicker, setElementAttribute } from "../gui/guiElement";
 
 var monthViewing: Date;
 var selectedDate: Date;
+var displayDate: () => void;
 
 /**
  * Sets up initial variables and displays the selector
  */
-export function init() {
+export function init(displayDateFunc: () => void) {
 	monthViewing = new Date();
 	selectedDate = new Date();
-	displaySelector();
+	displayDate = displayDateFunc;
 }
 
 /**
@@ -21,8 +22,8 @@ export function init() {
 export function selectDate(date: Date) {
 	selectedDate = date;
 	monthViewing = date;
-	displaySelector();
-	console.log("Selecting day: " + date.toString());
+	console.log("Selected " + date.toDateString());
+	displayDate();
 }
 
 /**
@@ -187,8 +188,6 @@ export function getSelector(): HTMLTableElement {
  * Displays the selector of a given month on the screen
  */
 export function displaySelector(): void {
-	// TODO: Get this to actually work please
-	setHTML(GUIElement.date, getDateString(selectedDate));
-	console.log("Updating date selector");
+	setElementAttribute(GUIElement.date, "value", getDateString(selectedDate));
 	setDatePicker(getSelector());
 }

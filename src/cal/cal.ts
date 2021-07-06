@@ -6,10 +6,13 @@ export function temp(){
 }
 
 export function init() {
-  Selector.init();
   DayWrapper.init();
+  Selector.init(dateDisplay);
+  dateDisplay();
 }
 
-export function dateDisplay() {
-
+function dateDisplay() {
+  var selectedDay = Selector.getSelectedDay();
+  Selector.displaySelector();
+  DayWrapper.display(selectedDay);
 }

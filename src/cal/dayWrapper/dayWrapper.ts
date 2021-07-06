@@ -8,5 +8,16 @@ var days: CalDay[];
 export function init() {
 	days = [];
 	days.push(new CalDay(new Date()));
-	days[0].render();
+}
+
+export function display(selected: Date) {
+	console.log("Displaying events for " + selected.toDateString())
+	// Implement binomial search
+	var day: CalDay = days.find(day => day.getDate().toDateString() == selected.toDateString())
+	if (day == null) {
+		// Render empty day
+		CalDay.renderEmptyDay();
+	} else {
+		day.render();
+	}
 }
