@@ -11,6 +11,10 @@ export function setElementID(id: ElementID, elem: HTMLElement): void {
 	elem.id = getIDString(id);
 }
 
+export function focusHTMLElementFromIDList(id: ElementID, index: number) {
+	document.querySelectorAll<HTMLElement>('#' + getIDString(id))[index].focus();
+}
+
 //* Private
 
 /**

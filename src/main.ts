@@ -3,6 +3,8 @@ import * as Gui from "./gui/guiElement";
 import * as Cal from "./cal/cal";
 import * as Note from "./note/note";
 import * as Rw from "./rw/rw";
+import * as Input from "./input/input";
+import * as InputCallback from "./input/inputCallback";
 
 //TODO get the location to save files and do it proply
 var notesFile: string = "MCal.html";
@@ -10,6 +12,9 @@ var dayFile: string = "MCal.json";
 
 //* main innit funct
 function init() {
+  Input.init(); // Should be first to be initialised
+  Cal.init();
+
   //add preview MD button to menu bar
   Gui.appendChildToElement(Gui.GUIElement.menu, Gui.Creation.createButton("Preview", previewMDInit, [Gui.Creation.ClassName.previewMD], Gui.Creation.ElementID.previewMD));
 
@@ -32,9 +37,10 @@ function init() {
   Gui.addElementEventListener(Gui.GUIElement.note, "input", () => {
     Rw.write(Gui.getHTML(Gui.GUIElement.note), notesFile);
   });
-  Cal.init();
   //todo make these consitant
-  document.addEventListener("keydown", keyPressed);
+
+  // Key callback added
+  InputCallback.addCommandKey('`', previewMDInit);
 }
 init();
 
@@ -54,32 +60,4 @@ function previewMDInit() {
 var eventStack: string[] = [];
 export function eventCheck() {
   return eventStack;
-}
-
-/**
- * check when key press
- * @param e key code
- */
-function keyPressed(e : any) {
-  // console.log(e)
-  if (e.ctrlKey) {
-    switch (e.key) {
-      case "`":
-        previewMDInit();
-        break
-      case "ArrowRight":
-        //next_day();
-        break;
-      case "ArrowLeft":
-        // previous_day();
-        break;
-      case "ArrowUp":
-        //change_selected_event(-1);
-        break;
-      case "ArrowDown":
-        //change_selected_event(1);
-        break;
-      default:
-    }
-  }
 }

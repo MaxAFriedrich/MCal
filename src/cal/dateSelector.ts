@@ -1,6 +1,7 @@
 import { createButton, createInput, createTable } from "../gui/creation";
 import { ClassName, addClassNameToElement } from "../gui/className";
 import { GUIElement, setDatePicker, setElementAttribute } from "../gui/guiElement";
+import { addCommandKey } from "../input/inputCallback";
 
 var monthViewing: Date;
 var selectedDate: Date;
@@ -13,6 +14,9 @@ export function init(displayDateFunc: () => void) {
 	monthViewing = new Date();
 	selectedDate = new Date();
 	displayDate = displayDateFunc;
+
+  addCommandKey("ArrowLeft", () => { changeSelectedDayBy(-1); });
+  addCommandKey("ArrowRight", () => { changeSelectedDayBy(1); });
 }
 
 /**
@@ -33,51 +37,7 @@ export function selectDate(date: Date) {
 export function changeViewingMonth(date: Date) {
 	monthViewing = date;
 	displaySelector();
-	console.log("Changing viewing month: " + date.toString());
-}
-
-/**
- * Returns month as a number from an index value
- * @param index of the month
- * @returns month as a number
- */
-function indexToMonth(index: number) {
-	return index + 1;
-}
-
-/**
- * Returns the date in: dd/mm/YYYY
- * @param date date to display as text
- * @returns string version of the date in numbers
- */
-function getDateString(date: Date): string {
-	return date.getDate() + '/' + indexToMonth(date.getMonth()) + '/' + date.getFullYear();
-}
-
-/**
- *
- * @returns list of all the months with their full names
- */
-function getMonths(): string[] {
-	return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-}
-
-/**
- * Returns name of month from the index
- * @param index of the month
- * @returns month as a string
- */
-function getMonthName(index: number): string {
-	return getMonths()[index];
-}
-
-/**
- *
- * @param date to display
- * @returns String containing month and year
- */
-function getMonthYearString(date: Date): string {
-	return getMonthName(date.getMonth()) + ' ' + date.getFullYear();
+	console.log("Changing viewing month: " + getMonthYearString(date));
 }
 
 /**
@@ -190,4 +150,60 @@ export function getSelector(): HTMLTableElement {
 export function displaySelector(): void {
 	setElementAttribute(GUIElement.date, "value", getDateString(selectedDate));
 	setDatePicker(getSelector());
+}
+
+//* Private
+
+/**
+ * Changes the selected day by a given amount
+ * @param changeBy number to change selected day by
+ */
+function changeSelectedDayBy(changeBy: number) {
+	selectedDate.setDate(selectedDate.getDate() + changeBy);
+	monthViewing = new Date(selectedDate);
+	displayDate();
+}
+
+/**
+ * Returns month as a number from an index value
+ * @param index of the month
+ * @returns month as a number
+ */
+function indexToMonth(index: number) {
+	return index + 1;
+}
+
+/**
+ * Returns the date in: dd/mm/YYYY
+ * @param date date to display as text
+ * @returns string version of the date in numbers
+ */
+function getDateString(date: Date): string {
+	return date.getDate() + '/' + indexToMonth(date.getMonth()) + '/' + date.getFullYear();
+}
+
+/**
+ *
+ * @returns list of all the months with their full names
+ */
+function getMonths(): string[] {
+	return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+}
+
+/**
+ * Returns name of month from the index
+ * @param index of the month
+ * @returns month as a string
+ */
+function getMonthName(index: number): string {
+	return getMonths()[index];
+}
+
+/**
+ *
+ * @param date to display
+ * @returns String containing month and year
+ */
+function getMonthYearString(date: Date): string {
+	return getMonthName(date.getMonth()) + ' ' + date.getFullYear();
 }
