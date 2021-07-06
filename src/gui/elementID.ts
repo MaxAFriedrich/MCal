@@ -7,12 +7,37 @@ export enum ElementID {
 	previewMD
 }
 
+/**
+ * Gives a given element an id
+ * @param id to be set to the element
+ * @param elem element to be given the id
+ */
 export function setElementID(id: ElementID, elem: HTMLElement): void {
 	elem.id = getIDString(id);
 }
 
-export function focusHTMLElementFromIDList(id: ElementID, index: number) {
+/**
+ * Focuses an element with a given ID and
+ * @param id of the elements
+ * @param index of the element in the list of elements with that id to be focused
+ */
+export function focusHTMLElementFromIDList(id: ElementID, index: number): void {
 	document.querySelectorAll<HTMLElement>('#' + getIDString(id))[index].focus();
+}
+
+/**
+ * Returns a list of all the inner HTML inside each element
+ * @param id of the elements to get the inner HTML
+ * @returns a list of the innerHTML of the elements with ID given
+ */
+export function getAllInnerHTMLFrom(id: ElementID): string[] {
+	var elements = document.querySelectorAll<HTMLElement>('#' + getIDString(id));
+	var output: string[] = [];
+	elements.forEach((elem) => {
+		output.push(elem.innerHTML);
+	});
+
+	return output;
 }
 
 //* Private

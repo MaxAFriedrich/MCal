@@ -37,4 +37,16 @@ export class CalEvent {
 	public getDiv(isSelected: boolean): HTMLDivElement {
 		return createEventBar(isSelected, this.startTime, this.endTime, this.description, pullDay);
 	}
+
+	public setDescription(desc: string): void {
+		this.description = desc;
+	}
+
+	public setStartTime(time: string): void {
+		this.startTime = time;
+	}
+
+	public setEndTime(time: string): void {
+		this.description = time;
+	}
 }

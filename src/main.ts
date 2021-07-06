@@ -19,17 +19,17 @@ function init() {
   Gui.appendChildToElement(Gui.GUIElement.menu, Gui.Creation.createButton("Preview", previewMDInit, [Gui.Creation.ClassName.previewMD], Gui.Creation.ElementID.previewMD));
 
   // set gui html
-  //TODO call to read cal file
+  // TODO call to read cal file
   // TODO: Check if file exists first
   Gui.setHTML(Gui.GUIElement.note, Rw.read(notesFile));
 
   //event listeners
   Gui.addElementEventListener(Gui.GUIElement.day, "input", () => {
-    Cal.temp();
+    Cal.eventChanged();
     //TODO call to write cal to file
   });
   Gui.addElementEventListener(Gui.GUIElement.select, "input", () => {
-    Cal.temp();
+    Cal.selectedDayChanged();
   });
   Gui.addElementEventListener(Gui.GUIElement.date, "blur", () => {
     Cal.temp();
@@ -37,7 +37,7 @@ function init() {
   Gui.addElementEventListener(Gui.GUIElement.note, "input", () => {
     Rw.write(Gui.getHTML(Gui.GUIElement.note), notesFile);
   });
-  //todo make these consitant
+  // TODO: make these consitant
 
   // Key callback added
   InputCallback.addCommandKey('`', previewMDInit);

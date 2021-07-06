@@ -1,24 +1,19 @@
-import { ElementID, focusHTMLElementFromIDList } from "../../gui/elementID";
-import { createButton, ClassName } from "../../gui/creation";
+import { ElementID, focusHTMLElementFromIDList, getAllInnerHTMLFrom } from "../../gui/elementID";
+import { createButton } from "../../gui/creation";
 import { removeAllChildren, GUIElement, appendChildToElement } from "../../gui/guiElement";
 import { CalEvent, createEventBar } from "./calEvent"
+import { ClassName, appendChildToElementWithClassName } from "../../gui/className";
 
 export class CalDay {
 	private date: Date;
 	private events: CalEvent[];
+	private numOfEvents: number;
 	private selectedEvent: number;
 
 	constructor(date: Date) {
 		this.date = date;
-		this.events = [new CalEvent("Test1", "12:00PM", "1:00PM"), new CalEvent("Test2", "1:00PM", "2:00PM")];
+		this.events = [];
 		this.selectedEvent = 0;
-	}
-
-	public addEvent(event: CalEvent): void {
-		// TODO: Add binomial search to put in right position
-		this.selectedEvent = this.events.length;
-		this.events.push(event);
-		this.render();
 	}
 
 	public static renderEmptyDay(): void {
@@ -33,12 +28,7 @@ export class CalDay {
 
 		this.events.forEach((e, i) => {
 			var div = e.getDiv(i == this.selectedEvent);
-			var deleteFunc = ((day: CalDay, index: number) => {
-				return function () {
-					day.removeEvent(index);
-				}
-			})(this, i);
-			div.appendChild(createButton("Delete", deleteFunc, [ClassName.delete]));
+			div.appendChild(this.createDeleteButton(i));
 
 			appendChildToElement(GUIElement.day, div);
 		});
@@ -48,8 +38,8 @@ export class CalDay {
 	}
 
 	public removeEvent(index: number): void {
-		delete this.events[index];
-		this.render();
+		this.events.splice(index, 1);
+		this.render(); // Re-renders list which also gets rid of indexing issues
 	}
 
 	public getDate(): Date {
@@ -76,5 +66,45 @@ export class CalDay {
 		this.render();
 		console.log("Selected index: " + this.selectedEvent);
 		focusHTMLElementFromIDList(ElementID.eventStartTime, this.selectedEvent);
+	}
+
+	public extractFromHTML(): void {
+		var startTimes = getAllInnerHTMLFrom(ElementID.eventStartTime);
+		var endTimes = getAllInnerHTMLFrom(ElementID.eventEndTime);
+		var contents = getAllInnerHTMLFrom(ElementID.eventContents);
+
+		if (startTimes.length != this.events.length + 1 || endTimes.length != this.events.length + 1 || contents.length != this.events.length + 1) {
+			console.log("Events list HTML does not match with CalDay events!");
+
+		} else {
+			this.events.forEach((event, i) => {
+				event.setStartTime(startTimes[i]);
+				event.setEndTime(endTimes[i]);
+				event.setDescription(contents[i]);
+			});
+
+			// Checks for the last element (the one that is added post rendering)
+			var lastElemIndex = this.events.length
+			if (startTimes[lastElemIndex] != "" || endTimes[lastElemIndex] != "" || contents[lastElemIndex] != "") {
+				console.log("Adding event!");
+				this.events.push(new CalEvent(contents[lastElemIndex], startTimes[lastElemIndex], endTimes[lastElemIndex]));
+
+				// Adds delete button for element without re-rendering whole thing
+				appendChildToElementWithClassName(ClassName.event, lastElemIndex, this.createDeleteButton(lastElemIndex));
+
+				// Adds new last element to list without re-rendering whole thing (which causes user to lose focus)
+				var newDiv = createEventBar(false);
+				appendChildToElement(GUIElement.day, newDiv);
+			}
+		}
+	}
+
+	private createDeleteButton(index: number): HTMLInputElement {
+		var deleteFunc = ((day: CalDay, index: number) => {
+			return function () {
+				day.removeEvent(index);
+			}
+		})(this, index);
+		return createButton("Delete", deleteFunc, [ClassName.delete]);
 	}
 }

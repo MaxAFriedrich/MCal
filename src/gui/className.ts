@@ -25,6 +25,10 @@ export function addClassNamesToElement(classNames: ClassName[], element: HTMLEle
 	element.className += convertClassNamesToString(classNames);
 }
 
+export function appendChildToElementWithClassName(className: ClassName, index: number, elem: HTMLElement) {
+  document.getElementsByClassName(getClassNameString(className))[index].appendChild(elem);
+}
+
 //* Private
 
 /**
