@@ -2,7 +2,7 @@ import { ElementID, focusHTMLElementFromIDList, getAllInnerHTMLFrom } from "../.
 import { createButton } from "../../gui/creation";
 import { removeAllChildren, GUIElement, appendChildToElement } from "../../gui/guiElement";
 import { CalEvent, createEventBar } from "./calEvent"
-import { ClassName, appendChildToElementWithClassName } from "../../gui/className";
+import { ClassName, appendChildToElementWithClassName, removeClassNameFromElementsWith, addClassNamesToElement, addClassNameToElementWith } from "../../gui/className";
 
 export class CalDay {
 	private date: Date;
@@ -16,10 +16,12 @@ export class CalDay {
 		this.selectedEvent = 0;
 	}
 
-	public static renderEmptyDay(): void {
-		removeAllChildren(GUIElement.day);
+	private getOnEventClickFunction(index: number): () => void {
+		return () => this.setSelectedEvent(index);
+	}
 
-		var newDiv = createEventBar(true);
+	private renderLastEmptyEvent(isSelected: boolean) {
+		var newDiv = createEventBar(isSelected, this.getOnEventClickFunction(this.events.length))
 		appendChildToElement(GUIElement.day, newDiv);
 	}
 
@@ -27,23 +29,37 @@ export class CalDay {
 		removeAllChildren(GUIElement.day);
 
 		this.events.forEach((e, i) => {
-			var div = e.getDiv(i == this.selectedEvent);
+			var div = e.getDiv(i == this.selectedEvent, this.getOnEventClickFunction(i));
 			div.appendChild(this.createDeleteButton(i));
 
 			appendChildToElement(GUIElement.day, div);
 		});
 
-		var newDiv = createEventBar(this.selectedEvent == this.events.length)
-		appendChildToElement(GUIElement.day, newDiv);
+		this.renderLastEmptyEvent(this.selectedEvent == this.events.length);
 	}
 
 	public removeEvent(index: number): void {
 		this.events.splice(index, 1);
+		if (this.selectedEvent > this.events.length) {
+			this.selectedEvent = this.events.length;
+		}
 		this.render(); // Re-renders list which also gets rid of indexing issues
 	}
 
 	public getDate(): Date {
 		return this.date;
+	}
+
+	public setSelectedEvent(selected: number): void {
+		if (selected != this.selectedEvent) {
+			if (selected < 0) selected = 0;
+			else if (selected > this.events.length) selected = this.events.length;
+			removeClassNameFromElementsWith([ClassName.event, ClassName.selected], ClassName.selected);
+			this.selectedEvent = selected;
+			addClassNameToElementWith([ClassName.event], ClassName.selected, selected);
+
+			console.log("Selected Event: " + this.selectedEvent);
+		}
 	}
 
 	loopIndex(index: number, changeBy: number, arrayLength: number): number {
@@ -92,9 +108,7 @@ export class CalDay {
 				// Adds delete button for element without re-rendering whole thing
 				appendChildToElementWithClassName(ClassName.event, lastElemIndex, this.createDeleteButton(lastElemIndex));
 
-				// Adds new last element to list without re-rendering whole thing (which causes user to lose focus)
-				var newDiv = createEventBar(false);
-				appendChildToElement(GUIElement.day, newDiv);
+				this.renderLastEmptyEvent(false);
 			}
 		}
 	}

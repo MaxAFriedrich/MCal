@@ -22,8 +22,8 @@ export function display(selected: Date): void {
 	selectedIndex = days.findIndex(day => day.getDate().toDateString() == selected.toDateString())
 	if (selectedIndex == -1) {
 		// Render empty day
-		CalDay.renderEmptyDay();
 		currentDay = new CalDay(new Date(selected));
+		currentDay.render();
 	} else {
 		days[selectedIndex].render();
 		currentDay = null;

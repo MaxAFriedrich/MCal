@@ -12,21 +12,70 @@ export enum ClassName {
 }
 
 //* Add class name
-
+/**
+ * Adds class name to a given element
+ * @param className to add to element
+ * @param element to be given className
+ */
 export function addClassNameToElement(className: ClassName, element: HTMLElement): void {
 	if (element.className != "")
 		element.className += " ";
 	element.className += getClassNameString(className)
 }
 
+/**
+ * Adds list of class names to a given element
+ * @param classNames to add to element
+ * @param element to be given class names
+ */
 export function addClassNamesToElement(classNames: ClassName[], element: HTMLElement): void {
 	if (element.className != "")
 		element.className += " ";
 	element.className += convertClassNamesToString(classNames);
 }
 
-export function appendChildToElementWithClassName(className: ClassName, index: number, elem: HTMLElement) {
+/**
+ * Adds a given element to one that is already on the document
+ * @param className of elements to be searched through
+ * @param index of the element you are wanting to append to
+ * @param elem element that should be added
+ */
+export function appendChildToElementWithClassName(className: ClassName, index: number, elem: HTMLElement): void {
   document.getElementsByClassName(getClassNameString(className))[index].appendChild(elem);
+}
+
+/**
+ * Removes a class name from elements with given set of class names
+ * @param classNames of the elements to remove class name from
+ * @param classNameToRemove
+ * @param index optional to determine a specific element in the list
+ */
+export function removeClassNameFromElementsWith(classNames: ClassName[], classNameToRemove: ClassName, index: number = null): void {
+  var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
+  if (index == null) {
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.remove(getClassNameString(classNameToRemove));
+    }
+  } else {
+    elements[index].classList.remove(getClassNameString(classNameToRemove));
+  }
+}
+
+/**
+ * Adds a class name to element/s with given set of class names
+ * @param classNames of elements to search through
+ * @param classNameToAdd
+ * @param index optional to determine specific element in list of elements with that class name
+ */
+export function addClassNameToElementWith(classNames: ClassName[], classNameToAdd: ClassName, index: number = null): void {
+  var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
+  if (index == null) {
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.add(getClassNameString(classNameToAdd));
+    }
+  } else {
+    elements[index].classList.add(getClassNameString(classNameToAdd));
+  }
 }
 
 //* Private

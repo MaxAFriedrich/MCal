@@ -52,9 +52,12 @@ export function createTable(): HTMLTableElement {
  * @param classNames list of class names that div should be given
  * @returns HTMLDivElement
  */
-export function createDiv(classNames: ClassName[]): HTMLDivElement {
+export function createDiv(classNames: ClassName[], onclick: () => void = null): HTMLDivElement {
   var div = document.createElement("div");
   addClassNamesToElement(classNames, div);
+  if (onclick != null) {
+    div.onclick = onclick;
+  }
 
   return div;
 }

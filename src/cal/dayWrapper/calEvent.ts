@@ -4,17 +4,18 @@ import { ClassName, ElementID, createDiv, createSpan } from "../../gui/creation"
 // const DEFAULT_COLOUR: Color = Color.rgb(0, 0, 0);
 const DEFAULT_COLOUR: string = "#FFFFFF"
 
-// TODO: Needs to be changed to put further up the hierarchy
-function pullDay() {
-
-}
-
-export function createEventBar(isSelected: boolean = false, startTime: string = "", endTime: string = "", description: string = "", onBlurFunc: () => void = () => { }) {
+export function createEventBar(isSelected: boolean = false, onDivClick: () => void = null, startTime: string = "", endTime: string = "", description: string = "") {
 	var classNames = [ClassName.event].concat((isSelected ? [ClassName.selected] : []))
-	var myDiv = createDiv(classNames);
+	var myDiv: HTMLDivElement;
+	if (onDivClick != null) {
+		myDiv = createDiv(classNames, onDivClick);
+
+	} else {
+		myDiv = createDiv(classNames);
+	}
 	myDiv.appendChild(createSpan(ElementID.eventStartTime, "12:00PM", "true", false, startTime));
 	myDiv.appendChild(createSpan(ElementID.eventEndTime, "1:00PM", "true", false, endTime));
-	myDiv.appendChild(createSpan(ElementID.eventContents, "Event Description", "true", false, description, onBlurFunc));
+	myDiv.appendChild(createSpan(ElementID.eventContents, "Event Description", "true", false, description));
 
 	return myDiv;
 }
@@ -34,8 +35,8 @@ export class CalEvent {
 		this.notes = notes;
 	}
 
-	public getDiv(isSelected: boolean): HTMLDivElement {
-		return createEventBar(isSelected, this.startTime, this.endTime, this.description, pullDay);
+	public getDiv(isSelected: boolean, onDivClick: () => void): HTMLDivElement {
+		return createEventBar(isSelected, onDivClick, this.startTime, this.endTime, this.description);
 	}
 
 	public setDescription(desc: string): void {
