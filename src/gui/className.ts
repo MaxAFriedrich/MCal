@@ -37,11 +37,11 @@ export function addClassNamesToElement(classNames: ClassName[], element: HTMLEle
 /**
  * Adds a given element to one that is already on the document
  * @param className of elements to be searched through
- * @param index of the element you are wanting to append to
  * @param elem element that should be added
+ * @param index of the element you are wanting to append to
  */
-export function appendChildToElementWithClassName(className: ClassName, index: number, elem: HTMLElement): void {
-  document.getElementsByClassName(getClassNameString(className))[index].appendChild(elem);
+export function appendChildToElementWithClassNames(classNames: ClassName[], elem: HTMLElement, index: number): void {
+  document.getElementsByClassName(convertClassNamesToString(classNames))[index].appendChild(elem);
 }
 
 /**
@@ -50,9 +50,9 @@ export function appendChildToElementWithClassName(className: ClassName, index: n
  * @param classNameToRemove
  * @param index optional to determine a specific element in the list
  */
-export function removeClassNameFromElementsWith(classNames: ClassName[], classNameToRemove: ClassName, index: number = null): void {
+export function removeClassNameFromElementsWith(classNames: ClassName[], classNameToRemove: ClassName, index: number = -1): void {
   var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
-  if (index == null) {
+  if (index == -1) {
     for (var i = 0; i < elements.length; i++) {
       elements[i].classList.remove(getClassNameString(classNameToRemove));
     }
@@ -67,15 +67,56 @@ export function removeClassNameFromElementsWith(classNames: ClassName[], classNa
  * @param classNameToAdd
  * @param index optional to determine specific element in list of elements with that class name
  */
-export function addClassNameToElementWith(classNames: ClassName[], classNameToAdd: ClassName, index: number = null): void {
+export function addClassNameToElementWith(classNames: ClassName[], classNameToAdd: ClassName, index: number = -1): void {
   var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
-  if (index == null) {
+  if (index == -1) {
     for (var i = 0; i < elements.length; i++) {
       elements[i].classList.add(getClassNameString(classNameToAdd));
     }
   } else {
     elements[index].classList.add(getClassNameString(classNameToAdd));
   }
+}
+
+/**
+ * Removes all the elements with given class name and follows given rules
+ * @param className of the elements to remove
+ * @param condition function that returns a boolean with true meaning it should be removed
+ */
+export function removeAllElementWithClassNamesIf(className: ClassName, condition: (elem: Element) => boolean) {
+  var elems = document.querySelectorAll('.' + getClassNameString(className));
+  elems.forEach((elem: Element) => {
+    if (condition(elem)) {
+      elem.remove();
+    }
+  });
+
+}
+
+/**
+ *
+ * @param className of the class name to check against Element
+ * @param elem element to check
+ * @returns a boolean, with true meaning it contains that class name
+ */
+export function doesElementHaveClassName(className: ClassName, elem: Element): boolean {
+  return elem.classList.contains(getClassNameString(className));
+}
+
+/**
+ *
+ * @param className of the elements to change
+ * @param onclick void function to set the onclick function to
+ * @param index optional, determining specific element
+ */
+export function changeOnClickFuncOfElementWithClassNames(className: ClassName, onclick: () => void, index: number = -1) {
+  var elements = document.querySelectorAll<HTMLElement>('.' + getClassNameString(className));
+  if (index == -1) {
+    elements.forEach((elem) => elem.onclick = onclick);
+  } else {
+    elements[index].onclick = onclick;
+  }
+
 }
 
 //* Private

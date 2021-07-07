@@ -50,4 +50,8 @@ export class CalEvent {
 	public setEndTime(time: string): void {
 		this.description = time;
 	}
+
+	public getStartTime(): string {
+		return this.startTime;
+	}
 }

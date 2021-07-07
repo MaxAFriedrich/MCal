@@ -60,7 +60,7 @@ export function setElementAttribute(element: GUIElement, qualifiedName: string, 
  * Removes all children from HTML
  * @param element with children to be removed
  */
-export function removeAllChildren(element : GUIElement): void {
+export function removeAllChildren(element: GUIElement): void {
   enumToElement(element).innerHTML = "";
 }
 
@@ -69,8 +69,18 @@ export function removeAllChildren(element : GUIElement): void {
  * @param element to add child to
  * @param child to be added to element
  */
-export function appendChildToElement(element : GUIElement, child : HTMLElement) {
+export function appendChildToElement(element: GUIElement, child: HTMLElement) {
   enumToElement(element).appendChild(child);
+}
+
+/**
+ * Adds child to the beginning of the element child list
+ * @param element to add child to
+ * @param child to be added
+ */
+export function appendChildToBeginningOfElement(element: GUIElement, child: HTMLElement) {
+  var elem = enumToElement(element);
+  elem.insertBefore(child, elem.firstChild);
 }
 
 //* Specific element functions

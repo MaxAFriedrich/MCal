@@ -1,8 +1,8 @@
 import { ElementID, focusHTMLElementFromIDList, getAllInnerHTMLFrom } from "../../gui/elementID";
 import { createButton } from "../../gui/creation";
-import { removeAllChildren, GUIElement, appendChildToElement } from "../../gui/guiElement";
+import { removeAllChildren, GUIElement, appendChildToElement, appendChildToBeginningOfElement } from "../../gui/guiElement";
 import { CalEvent, createEventBar } from "./calEvent"
-import { ClassName, appendChildToElementWithClassName, removeClassNameFromElementsWith, addClassNamesToElement, addClassNameToElementWith } from "../../gui/className";
+import { ClassName, appendChildToElementWithClassNames, removeClassNameFromElementsWith, addClassNameToElementWith, removeAllElementWithClassNamesIf, doesElementHaveClassName, changeOnClickFuncOfElementWithClassNames } from "../../gui/className";
 
 export class CalDay {
 	private date: Date;
@@ -23,6 +23,46 @@ export class CalDay {
 	private renderLastEmptyEvent(isSelected: boolean) {
 		var newDiv = createEventBar(isSelected, this.getOnEventClickFunction(this.events.length))
 		appendChildToElement(GUIElement.day, newDiv);
+	}
+
+	public sortEvents(): void {
+		var currentSelectedEvent = this.events[this.selectedEvent];
+
+		this.events.sort((a: CalEvent, b: CalEvent): number => {
+			if (a.getStartTime() < b.getStartTime()) {
+				return -1;
+			} else if (a.getStartTime() > b.getStartTime()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+
+		this.selectedEvent = this.events.findIndex((value: CalEvent) => value === currentSelectedEvent);
+		this.rerenderWithoutLosingFocus();
+	}
+
+	public rerenderWithoutLosingFocus(): void {
+		removeAllElementWithClassNamesIf(ClassName.event, (elem: Element) => !doesElementHaveClassName(ClassName.selected, elem));
+
+		removeAllElementWithClassNamesIf(ClassName.delete, (elem: Element) => doesElementHaveClassName(ClassName.selected, elem.parentElement));
+
+		appendChildToElementWithClassNames([ClassName.event, ClassName.selected], this.createDeleteButton(this.selectedEvent), 0);
+		changeOnClickFuncOfElementWithClassNames(ClassName.event, this.getOnEventClickFunction(this.selectedEvent), 0)
+
+		for (var i = this.selectedEvent - 1; i >= 0; i--) {
+			var div = this.events[i].getDiv(false, this.getOnEventClickFunction(i));
+			div.appendChild(this.createDeleteButton(i));
+			appendChildToBeginningOfElement(GUIElement.day, div);
+		}
+
+		for (var i = this.selectedEvent + 1; i < this.events.length; i++) {
+			var div = this.events[i].getDiv(false, this.getOnEventClickFunction(i));
+			div.appendChild(this.createDeleteButton(i));
+			appendChildToElement(GUIElement.day, div);
+		}
+
+		this.renderLastEmptyEvent(false);
 	}
 
 	public render(): void {
@@ -106,11 +146,13 @@ export class CalDay {
 				this.events.push(new CalEvent(contents[lastElemIndex], startTimes[lastElemIndex], endTimes[lastElemIndex]));
 
 				// Adds delete button for element without re-rendering whole thing
-				appendChildToElementWithClassName(ClassName.event, lastElemIndex, this.createDeleteButton(lastElemIndex));
+				appendChildToElementWithClassNames([ClassName.event], this.createDeleteButton(lastElemIndex), lastElemIndex);
 
 				this.renderLastEmptyEvent(false);
 			}
 		}
+
+		this.sortEvents();
 	}
 
 	private createDeleteButton(index: number): HTMLInputElement {
