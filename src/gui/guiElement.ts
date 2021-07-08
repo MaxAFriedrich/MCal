@@ -1,6 +1,8 @@
 import * as Creation from "./creation"
 
 export { Creation }
+
+// TODO: Unify elementID.ts and guiElement.ts (as they both use IDs)
 //* define DOM for each of the main eliments
 var day = document.getElementById("day-wrapper");
 var select = document.getElementById("select-wrapper");

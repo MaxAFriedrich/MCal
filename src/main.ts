@@ -5,6 +5,7 @@ import * as Note from "./note/note";
 import * as Rw from "./rw/rw";
 import * as Input from "./input/input";
 import * as InputCallback from "./input/inputCallback";
+import { addAttributeToElementWithID, ElementID } from "./gui/elementID";
 
 //* main innit funct
 function init() {
@@ -15,7 +16,6 @@ function init() {
   Gui.appendChildToElement(Gui.GUIElement.menu, Gui.Creation.createButton("Preview", previewMDInit, [Gui.Creation.ClassName.previewMD], Gui.Creation.ElementID.previewMD));
 
   // set gui html
-  // TODO call to read cal file
   Gui.setHTML(Gui.GUIElement.note, Rw.read(Rw.File.notes));
 
   //event listeners
@@ -29,7 +29,7 @@ function init() {
   Gui.addElementEventListener(Gui.GUIElement.note, "input", () => {
     Rw.write(Gui.getHTML(Gui.GUIElement.note), Rw.File.notes);
   });
-  // TODO: make these consitant
+  // TODO: make these consitant ?
 
   // Key callback added
   InputCallback.addCommandKey('`', previewMDInit);
@@ -43,9 +43,7 @@ function previewMDInit() {
   let [toWrite, toDisplay, value] = Note.previewMDClick(Gui.getText(Gui.GUIElement.note), Gui.getHTML(Gui.GUIElement.note), Rw.read(Rw.File.notes));
   Rw.write(toWrite, Rw.File.notes);
   Gui.setHTML(Gui.GUIElement.note, toDisplay);
-  //TODO add function to gui
-  var previewMDElm = document.getElementById("previewMD")as HTMLInputElement;
-  previewMDElm.value = value;
+  addAttributeToElementWithID(ElementID.previewMD, "value", value);
 }
 
 //* event handelling
