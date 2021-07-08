@@ -35,6 +35,12 @@ export class CalEvent {
 		this.notes = notes;
 	}
 
+	public static getEventFromJSON(json: string): CalEvent {
+		var obj = JSON.parse(json);
+
+		return new CalEvent(obj["description"], obj["startTime"], obj["endTime"], obj["colour"], obj["notes"]);
+	}
+
 	public getDiv(isSelected: boolean, onDivClick: () => void): HTMLDivElement {
 		return createEventBar(isSelected, onDivClick, this.startTime, this.endTime, this.description);
 	}

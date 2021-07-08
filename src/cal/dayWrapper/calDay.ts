@@ -25,6 +25,19 @@ export class CalDay {
 		appendChildToElement(GUIElement.day, newDiv);
 	}
 
+	public static getDayFromJSON(json: string): CalDay {
+		var obj = JSON.parse(json);
+		var day: CalDay = new CalDay(new Date(obj["date"]));
+		day.selectedEvent = obj["selectedEvent"];
+
+		// Goes through events
+		for (var key in obj["events"]) {
+			day.events.push(CalEvent.getEventFromJSON(JSON.stringify(obj["events"][key])));
+		}
+
+		return day;
+	}
+
 	public sortEvents(): void {
 		var currentSelectedEvent = this.events[this.selectedEvent];
 
@@ -162,5 +175,9 @@ export class CalDay {
 			}
 		})(this, index);
 		return createButton("Delete", deleteFunc, [ClassName.delete]);
+	}
+
+	public isEmpty(): boolean {
+		return this.events.length == 0
 	}
 }
