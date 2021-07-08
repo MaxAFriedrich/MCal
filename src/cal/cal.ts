@@ -1,9 +1,6 @@
+import { ClassName, scrollToFirstElementWithClassNames } from "../gui/className";
 import * as Selector from "./dateSelector"
 import * as DayWrapper from "./dayWrapper/dayWrapper"
-
-export function temp(){
-  console.log("change to cal ocoured")
-}
 
 export function init(fromFile: string) {
   DayWrapper.init(fromFile);
@@ -18,7 +15,9 @@ export function eventChanged() {
 }
 
 export function selectedDayChanged() {
-  // TODO: Read new day from text box, give to date selector, and redisplay
+  if (Selector.hasDateSelectorChanged()) {
+    dateDisplay();
+  }
 }
 
 export function getSaveFileString(): string {
@@ -27,8 +26,9 @@ export function getSaveFileString(): string {
 
 //* Private
 function dateDisplay() {
-  // TODO: Focus selected day
   var selectedDay = Selector.getSelectedDay();
   Selector.displaySelector();
   DayWrapper.display(selectedDay);
+
+  scrollToFirstElementWithClassNames([ClassName.event, ClassName.selected]);
 }

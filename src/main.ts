@@ -16,20 +16,15 @@ function init() {
 
   // set gui html
   // TODO call to read cal file
-  // TODO: Check if file exists first
   Gui.setHTML(Gui.GUIElement.note, Rw.read(Rw.File.notes));
 
   //event listeners
   Gui.addElementEventListener(Gui.GUIElement.day, "input", () => {
     Cal.eventChanged();
     Rw.write(Cal.getSaveFileString(), Rw.File.calEvents);
-    //TODO call to write cal to file
   });
-  Gui.addElementEventListener(Gui.GUIElement.select, "input", () => {
+  Gui.addElementEventListener(Gui.GUIElement.date, "change", () => {
     Cal.selectedDayChanged();
-  });
-  Gui.addElementEventListener(Gui.GUIElement.date, "blur", () => {
-    Cal.temp();
   });
   Gui.addElementEventListener(Gui.GUIElement.note, "input", () => {
     Rw.write(Gui.getHTML(Gui.GUIElement.note), Rw.File.notes);

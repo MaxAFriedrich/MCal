@@ -1,6 +1,6 @@
 import { createButton, createInput, createTable } from "../gui/creation";
 import { ClassName, addClassNameToElement } from "../gui/className";
-import { GUIElement, setDatePicker, setElementAttribute } from "../gui/guiElement";
+import { getAttributeFromElement, getDateSelectorBoxValue, getHTML, GUIElement, setDatePicker, setElementAttribute } from "../gui/guiElement";
 import { addCommandKey } from "../input/inputCallback";
 
 var monthViewing: Date;
@@ -17,6 +17,22 @@ export function init(displayDateFunc: () => void) {
 
   addCommandKey("ArrowLeft", () => { changeSelectedDayBy(-1); });
   addCommandKey("ArrowRight", () => { changeSelectedDayBy(1); });
+}
+
+/**
+ * Updates the selected date by looking at the date in the date selector text box
+ * @returns boolean to say whether the selected date has changed
+ */
+export function hasDateSelectorChanged(): boolean {
+	var dateString = getDateSelectorBoxValue();
+	var date = parseDateString(dateString);
+	if (!isNaN(date.getTime())) {
+		if (selectedDate.toDateString() === date.toDateString()) return false;
+
+		selectedDate = new Date(date);
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -153,6 +169,21 @@ export function displaySelector(): void {
 }
 
 //* Private
+
+/**
+ * Converts string in form "dd/MM/YYYY" into a date
+ * @param dateString Date in string format
+ * @returns Date (which could be invalid if the date is invalid)
+ */
+function parseDateString(dateString: string): Date {
+	if (dateString == "") return new Date("NotADate");
+
+	var components = dateString.split('/');
+
+	if (components.length != 3) return new Date(dateString);
+
+	return new Date(+components[2], +components[1] - 1, +components[0], 0, 0, 0, 0);
+}
 
 /**
  * Changes the selected day by a given amount
