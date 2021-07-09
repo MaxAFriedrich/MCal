@@ -8,7 +8,8 @@ export enum ClassName {
   daysRow,
   event,
   delete,
-  previewMD
+  previewMD,
+  settings
 }
 
 //* Add class name
@@ -170,6 +171,10 @@ function getClassNameString(className: ClassName): string {
     }
     case ClassName.previewMD: {
       output = "previewMD";
+      break;
+    }
+    case ClassName.settings: {
+      output = "settings";
       break;
     }
     case ClassName.none: {

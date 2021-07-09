@@ -3,7 +3,7 @@
 
   <head>
     <title>MCal</title>
-    <link rel="stylesheet" href="main.css">
+    <link id="mainCSS"rel="stylesheet" href="main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
@@ -17,8 +17,21 @@
         </div>
         <div id="notes-wrapper" placeholder="Enter your notes here" contenteditable="True"></div>
       </div>
-      <div id="menu-wrapper">
-        <!-- <button id="previewMD">Preview MD</button> -->
+      <div id="menu-wrapper"></div>
+    </div>
+    <div id="modalSettings">
+      <div id="settingsContent">
+        <input type="button" id="SetClose" value="Close">
+        <div>
+          <h4>Theme: </h4>
+          <input type="radio" name="setTheme" id="setThemeLight"><lable>Light</lable><br>
+          <input type="radio" name="setTheme" id="setThemeDark"><lable>Dark</lable><br>
+        </div>
+        <div>
+          <h4>User Data Path</h4>
+          Chose where your data is saved.<br>
+          <input id="SetPath" placeholder="path">
+        </div>
       </div>
     </div>
     <script>

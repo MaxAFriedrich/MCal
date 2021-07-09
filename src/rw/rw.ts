@@ -3,7 +3,8 @@ import path = require("path");
 
 export enum File {
     calEvents,
-    notes
+    notes,
+    settings
 }
 
 /**
@@ -51,6 +52,9 @@ function getFilepath(file: File): string {
         case File.notes: {
             return "MCal.html";
         }
+        case File.settings: {
+            return "settings.json";
+        }
         default: {
             console.log("Unknown file!");
             return "";
@@ -70,6 +74,9 @@ function getFileStartContents(file: File): string {
         }
         case File.notes: {
             return "";
+        }
+        case File.settings: {
+            return "{}";
         }
         default: {
             console.log("Unknown file!");

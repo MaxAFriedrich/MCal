@@ -4,7 +4,8 @@ export enum ElementID {
 	eventStartTime,
 	eventEndTime,
 	eventContents,
-	previewMD
+	previewMD,
+	settings
 }
 
 /**
@@ -75,6 +76,10 @@ function getIDString(id: ElementID): string {
 		}
 		case ElementID.previewMD: {
 			output = "previewMD";
+			break;
+		}
+		case ElementID.previewMD: {
+			output = "settings";
 			break;
 		}
 		case ElementID.none: {
