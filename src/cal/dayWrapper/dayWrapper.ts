@@ -1,4 +1,4 @@
-import { addCommandKey } from "../../input/inputCallback";
+import { addCommandKey, CommandKey, PressType } from "../../input/input";
 import { CalDay } from "./calDay"
 
 var days: CalDay[];
@@ -14,8 +14,9 @@ export function init(fromFile: string): void {
 	selectedIndex = -1;
 	currentUnitialisedDay = null;
 
-  addCommandKey("ArrowUp", () => { changeSelectedEventBy(-1); });
-  addCommandKey("ArrowDown", () => { changeSelectedEventBy(1); });
+  addCommandKey([CommandKey.ctrl], "ArrowUp", () => { changeSelectedEventBy(-1); });
+  addCommandKey([CommandKey.ctrl], "ArrowDown", () => { changeSelectedEventBy(1); });
+  addCommandKey([], "Tab", () => { focusShifted() }, PressType.up);
 }
 
 /**
@@ -56,6 +57,15 @@ export function extractFromHTML(): void {
  */
 export function getFileSaveString(): string {
 	return JSON.stringify(days);
+}
+
+/**
+ * Updates the selected element when the focus has been changed
+ */
+export function focusShifted(): void {
+	if (selectedIndex != -1) {
+		days[selectedIndex].getSelectedEventFromFocusedBox();
+	}
 }
 
 //* Private

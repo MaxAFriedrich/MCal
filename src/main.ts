@@ -4,7 +4,6 @@ import * as Cal from "./cal/cal";
 import * as Note from "./note/note";
 import * as Rw from "./rw/rw";
 import * as Input from "./input/input";
-import * as InputCallback from "./input/inputCallback";
 import { addAttributeToElementWithID, ElementID } from "./gui/elementID";
 import {toggle}  from "./setting/gui";
 
@@ -36,8 +35,8 @@ function init() {
   });
 
   // Key callback added
-  InputCallback.addCommandKey('`', previewMDInit);
-  InputCallback.addCommandKey(',', toggle);
+  Input.addCommandKey([Input.CommandKey.ctrl], '`', previewMDInit);
+  Input.addCommandKey([Input.CommandKey.ctrl], ',', toggle);
 }
 init();
 

@@ -108,7 +108,7 @@ body {
   height: 94vh;
 }
 
-.delete {
+#delete {
   background-color: var(--nord13);
   border: none;
   color: var(--nord3);

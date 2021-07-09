@@ -1,7 +1,7 @@
 import { createButton, createInput, createTable } from "../gui/creation";
 import { ClassName, addClassNameToElement } from "../gui/className";
 import { getAttributeFromElement, getDateSelectorBoxValue, getHTML, GUIElement, setDatePicker, setElementAttribute } from "../gui/guiElement";
-import { addCommandKey } from "../input/inputCallback";
+import { addCommandKey, CommandKey } from "../input/input";
 
 var monthViewing: Date;
 var selectedDate: Date;
@@ -15,8 +15,8 @@ export function init(displayDateFunc: () => void) {
 	selectedDate = new Date();
 	displayDate = displayDateFunc;
 
-  addCommandKey("ArrowLeft", () => { changeSelectedDayBy(-1); });
-  addCommandKey("ArrowRight", () => { changeSelectedDayBy(1); });
+  addCommandKey([CommandKey.ctrl], "ArrowLeft", () => { changeSelectedDayBy(-1); });
+  addCommandKey([CommandKey.ctrl], "ArrowRight", () => { changeSelectedDayBy(1); });
 }
 
 /**
