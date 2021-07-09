@@ -8,7 +8,6 @@ export function init() {
 	callbacks = [];
 }
 
-// TODO: Change key to enum?
 /**
  * Adds a key and callback function to list, so when key is pressed, will call the given function
  * @param key to call the function when pressed

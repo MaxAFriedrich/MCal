@@ -1,10 +1,12 @@
 import * as Creation from "./creation"
 
 export { Creation }
+
+// TODO: Unify elementID.ts and guiElement.ts (as they both use IDs)
 //* define DOM for each of the main eliments
 var day = document.getElementById("day-wrapper");
 var select = document.getElementById("select-wrapper");
-var date = document.getElementById("date-selector-box");
+var date = <HTMLInputElement>document.getElementById("date-selector-box");
 var note = document.getElementById("notes-wrapper");
 var body = document.getElementById("body-wrapper");
 var cal = document.getElementById("day_picker");
@@ -53,6 +55,17 @@ export function setHTML(element : GUIElement, setter : string): void {
  */
 export function setElementAttribute(element: GUIElement, qualifiedName: string, value: string): void {
   enumToElement(element).setAttribute(qualifiedName, value);
+}
+
+
+/**
+ * Gets and returns the value of an attribute
+ * @param element to get attribute from
+ * @param attributeName the name of the attribute to get
+ * @returns the attribute value attached to the name given
+ */
+export function getAttributeFromElement(element: GUIElement, attributeName: string): string {
+	return enumToElement(element).getAttribute(attributeName);
 }
 
 //* Children
@@ -125,6 +138,14 @@ export function setContEdit(state : boolean, obj : string) {
       note.contentEditable = "false";
     }
   }
+}
+
+/**
+ *
+ * @returns the value inputted into the date selector text box
+ */
+export function getDateSelectorBoxValue(): string {
+  return date.value;
 }
 
 //* Event listener

@@ -5,39 +5,31 @@ import * as Note from "./note/note";
 import * as Rw from "./rw/rw";
 import * as Input from "./input/input";
 import * as InputCallback from "./input/inputCallback";
-
-//TODO get the location to save files and do it proply
-var notesFile: string = "MCal.html";
-var dayFile: string = "MCal.json";
+import { addAttributeToElementWithID, ElementID } from "./gui/elementID";
 
 //* main innit funct
 function init() {
   Input.init(); // Should be first to be initialised
-  Cal.init();
+  Cal.init(Rw.read(Rw.File.calEvents));
 
   //add preview MD button to menu bar
   Gui.appendChildToElement(Gui.GUIElement.menu, Gui.Creation.createButton("Preview", previewMDInit, [Gui.Creation.ClassName.previewMD], Gui.Creation.ElementID.previewMD));
 
   // set gui html
-  // TODO call to read cal file
-  // TODO: Check if file exists first
-  Gui.setHTML(Gui.GUIElement.note, Rw.read(notesFile));
+  Gui.setHTML(Gui.GUIElement.note, Rw.read(Rw.File.notes));
 
   //event listeners
   Gui.addElementEventListener(Gui.GUIElement.day, "input", () => {
     Cal.eventChanged();
-    //TODO call to write cal to file
+    Rw.write(Cal.getSaveFileString(), Rw.File.calEvents);
   });
-  Gui.addElementEventListener(Gui.GUIElement.select, "input", () => {
+  Gui.addElementEventListener(Gui.GUIElement.date, "change", () => {
     Cal.selectedDayChanged();
   });
-  Gui.addElementEventListener(Gui.GUIElement.date, "blur", () => {
-    Cal.temp();
-  });
   Gui.addElementEventListener(Gui.GUIElement.note, "input", () => {
-    Rw.write(Gui.getHTML(Gui.GUIElement.note), notesFile);
+    Rw.write(Gui.getHTML(Gui.GUIElement.note), Rw.File.notes);
   });
-  // TODO: make these consitant
+  // TODO: make these consitant ?
 
   // Key callback added
   InputCallback.addCommandKey('`', previewMDInit);
@@ -48,12 +40,10 @@ init();
  * function that runs when the previewMD toggle run
  */
 function previewMDInit() {
-  let [toWrite, toDisplay, value] = Note.previewMDClick(Gui.getText(Gui.GUIElement.note), Gui.getHTML(Gui.GUIElement.note), Rw.read(notesFile));
-  Rw.write(toWrite, notesFile);
+  let [toWrite, toDisplay, value] = Note.previewMDClick(Gui.getText(Gui.GUIElement.note), Gui.getHTML(Gui.GUIElement.note), Rw.read(Rw.File.notes));
+  Rw.write(toWrite, Rw.File.notes);
   Gui.setHTML(Gui.GUIElement.note, toDisplay);
-  //TODO add function to gui
-  var previewMDElm = document.getElementById("previewMD")as HTMLInputElement;
-  previewMDElm.value = value;
+  addAttributeToElementWithID(ElementID.previewMD, "value", value);
 }
 
 //* event handelling

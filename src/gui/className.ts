@@ -116,7 +116,17 @@ export function changeOnClickFuncOfElementWithClassNames(className: ClassName, o
   } else {
     elements[index].onclick = onclick;
   }
+}
 
+/**
+ * Scrolls to the first element with the given class names
+ * @param classNames of the element to scroll to
+ */
+export function scrollToFirstElementWithClassNames(classNames: ClassName[]) {
+  var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
+  if (elements.length > 0) {
+    elements[0].scrollIntoView();
+  }
 }
 
 //* Private

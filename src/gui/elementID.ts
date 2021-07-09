@@ -40,6 +40,16 @@ export function getAllInnerHTMLFrom(id: ElementID): string[] {
 	return output;
 }
 
+/**
+ * Sets an attribute to element with given id
+ * @param id of the element to add the attribute to
+ * @param attributeName
+ * @param attributeValue
+ */
+export function addAttributeToElementWithID(id: ElementID, attributeName: string, attributeValue: string): void {
+	document.getElementById(getIDString(id)).setAttribute(attributeName, attributeValue);
+}
+
 //* Private
 
 /**
