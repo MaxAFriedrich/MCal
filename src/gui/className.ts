@@ -7,7 +7,8 @@ export enum ClassName {
   monthDisplay = "monthDisplay",
   daysRow = "daysRow",
   event = "event",
-  previewMD = "previewMD"
+  previewMD = "previewMD",
+  settings = "settings"
 }
 
 //* Add class name

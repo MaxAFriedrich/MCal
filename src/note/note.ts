@@ -56,7 +56,7 @@ function markdownTable(inputHTML : string) {
       lineArray.splice(0, 1);
 
       //is it a table?
-      if (lineArray.length > 3) {
+      if (lineArray.length > 2) {
         //yes is table
         for (let j = 0; j < lineArray.length; j++) {
           if (j < lineArray.length - 1 && lineArray[j + 1].includes("| ---")) {

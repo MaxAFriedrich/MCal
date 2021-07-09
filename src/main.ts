@@ -5,11 +5,16 @@ import * as Note from "./note/note";
 import * as Rw from "./rw/rw";
 import * as Input from "./input/input";
 import { addAttributeToElementWithID, ElementID } from "./gui/elementID";
+import {toggle}  from "./setting/gui";
 
 //* main innit funct
 function init() {
   Input.init(); // Should be first to be initialised
   Cal.init(Rw.read(Rw.File.calEvents));
+
+  //add settings button to menmu bar
+  Gui.appendChildToElement(Gui.GUIElement.menu, Gui.Creation.createButton("Settings", toggle, [Gui.Creation.ClassName.settings], Gui.Creation.ElementID.settings));
+
 
   //add preview MD button to menu bar
   Gui.appendChildToElement(Gui.GUIElement.menu, Gui.Creation.createButton("Preview", previewMDInit, [Gui.Creation.ClassName.previewMD], Gui.Creation.ElementID.previewMD));
@@ -28,10 +33,10 @@ function init() {
   Gui.addElementEventListener(Gui.GUIElement.note, "input", () => {
     Rw.write(Gui.getHTML(Gui.GUIElement.note), Rw.File.notes);
   });
-  // TODO: make these consitant ?
 
   // Key callback added
   Input.addCommandKey([Input.CommandKey.ctrl], '`', previewMDInit);
+  Input.addCommandKey([Input.CommandKey.ctrl], ',', toggle);
 }
 init();
 

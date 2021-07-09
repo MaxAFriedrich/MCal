@@ -6,6 +6,7 @@ export enum ElementID {
 	eventDeleteButton = "delete",
 	eventContents = "contents",
 	previewMD = "previewMD",
+	settings = "settings"
 }
 
 /**
