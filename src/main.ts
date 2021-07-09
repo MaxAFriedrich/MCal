@@ -4,7 +4,6 @@ import * as Cal from "./cal/cal";
 import * as Note from "./note/note";
 import * as Rw from "./rw/rw";
 import * as Input from "./input/input";
-import * as InputCallback from "./input/inputCallback";
 import { addAttributeToElementWithID, ElementID } from "./gui/elementID";
 
 //* main innit funct
@@ -32,7 +31,7 @@ function init() {
   // TODO: make these consitant ?
 
   // Key callback added
-  InputCallback.addCommandKey('`', previewMDInit);
+  Input.addCommandKey([Input.CommandKey.ctrl], '`', previewMDInit);
 }
 init();
 

@@ -1,14 +1,13 @@
 // TODO: Change names so more representative?
 export enum ClassName {
-  none,
-  selected,
-  today,
-  otherMonth,
-  monthDisplay,
-  daysRow,
-  event,
-  delete,
-  previewMD
+  none = "",
+  selected = "selected",
+  today = "today",
+  otherMonth = "otherMonth",
+  monthDisplay = "monthDisplay",
+  daysRow = "daysRow",
+  event = "event",
+  previewMD = "previewMD"
 }
 
 //* Add class name
@@ -20,7 +19,7 @@ export enum ClassName {
 export function addClassNameToElement(className: ClassName, element: HTMLElement): void {
 	if (element.className != "")
 		element.className += " ";
-	element.className += getClassNameString(className)
+  element.className += className;
 }
 
 /**
@@ -35,15 +34,23 @@ export function addClassNamesToElement(classNames: ClassName[], element: HTMLEle
 }
 
 /**
- * Adds a given element to one that is already on the document
- * @param className of elements to be searched through
- * @param elem element that should be added
- * @param index of the element you are wanting to append to
+ * Adds a class name to element/s with given set of class names
+ * @param classNames of elements to search through
+ * @param classNameToAdd
+ * @param index optional to determine specific element in list of elements with that class name
  */
-export function appendChildToElementWithClassNames(classNames: ClassName[], elem: HTMLElement, index: number): void {
-  document.getElementsByClassName(convertClassNamesToString(classNames))[index].appendChild(elem);
+export function addClassNameToElementWith(classNames: ClassName[], classNameToAdd: ClassName, index: number = -1): void {
+  var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
+  if (index == -1) {
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.add(classNameToAdd);
+    }
+  } else {
+    elements[index].classList.add(classNameToAdd);
+  }
 }
 
+//* Removing class name
 /**
  * Removes a class name from elements with given set of class names
  * @param classNames of the elements to remove class name from
@@ -54,27 +61,10 @@ export function removeClassNameFromElementsWith(classNames: ClassName[], classNa
   var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
   if (index == -1) {
     for (var i = 0; i < elements.length; i++) {
-      elements[i].classList.remove(getClassNameString(classNameToRemove));
+      elements[i].classList.remove(classNameToRemove);
     }
   } else {
-    elements[index].classList.remove(getClassNameString(classNameToRemove));
-  }
-}
-
-/**
- * Adds a class name to element/s with given set of class names
- * @param classNames of elements to search through
- * @param classNameToAdd
- * @param index optional to determine specific element in list of elements with that class name
- */
-export function addClassNameToElementWith(classNames: ClassName[], classNameToAdd: ClassName, index: number = -1): void {
-  var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
-  if (index == -1) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].classList.add(getClassNameString(classNameToAdd));
-    }
-  } else {
-    elements[index].classList.add(getClassNameString(classNameToAdd));
+    elements[index].classList.remove(classNameToRemove);
   }
 }
 
@@ -84,15 +74,26 @@ export function addClassNameToElementWith(classNames: ClassName[], classNameToAd
  * @param condition function that returns a boolean with true meaning it should be removed
  */
 export function removeAllElementWithClassNamesIf(className: ClassName, condition: (elem: Element) => boolean) {
-  var elems = document.querySelectorAll('.' + getClassNameString(className));
+  var elems = document.querySelectorAll('.' + className);
   elems.forEach((elem: Element) => {
     if (condition(elem)) {
       elem.remove();
     }
   });
-
 }
 
+//* Children
+/**
+ * Adds a given element to one that is already on the document
+ * @param className of elements to be searched through
+ * @param elem element that should be added
+ * @param index of the element you are wanting to append to
+ */
+export function appendChildToElementWithClassNames(classNames: ClassName[], elem: HTMLElement, index: number): void {
+  document.getElementsByClassName(convertClassNamesToString(classNames))[index].appendChild(elem);
+}
+
+//* Checks
 /**
  *
  * @param className of the class name to check against Element
@@ -100,9 +101,10 @@ export function removeAllElementWithClassNamesIf(className: ClassName, condition
  * @returns a boolean, with true meaning it contains that class name
  */
 export function doesElementHaveClassName(className: ClassName, elem: Element): boolean {
-  return elem.classList.contains(getClassNameString(className));
+  return elem.classList.contains(className);
 }
 
+//* Others
 /**
  *
  * @param className of the elements to change
@@ -110,7 +112,7 @@ export function doesElementHaveClassName(className: ClassName, elem: Element): b
  * @param index optional, determining specific element
  */
 export function changeOnClickFuncOfElementWithClassNames(className: ClassName, onclick: () => void, index: number = -1) {
-  var elements = document.querySelectorAll<HTMLElement>('.' + getClassNameString(className));
+  var elements = document.querySelectorAll<HTMLElement>('.' + className);
   if (index == -1) {
     elements.forEach((elem) => elem.onclick = onclick);
   } else {
@@ -130,62 +132,6 @@ export function scrollToFirstElementWithClassNames(classNames: ClassName[]) {
 }
 
 //* Private
-
-/**
- *
- * @param className of the class to be turned to a string
- * @returns string variant of the class name
- */
-function getClassNameString(className: ClassName): string {
-  var output: string;
-
-  switch (className) {
-    case ClassName.today: {
-      output = "today";
-      break;
-    }
-    case ClassName.selected: {
-      output = "selected";
-      break;
-    }
-    case ClassName.otherMonth: {
-      output = "otherMonth";
-      break;
-    }
-    case ClassName.daysRow: {
-      output = "daysRow";
-      break;
-    }
-    case ClassName.monthDisplay: {
-      output = "monthDisplay";
-      break;
-    }
-    case ClassName.event: {
-      output = "event";
-      break;
-    }
-    case ClassName.delete: {
-      output = "delete";
-      break;
-    }
-    case ClassName.previewMD: {
-      output = "previewMD";
-      break;
-    }
-    case ClassName.none: {
-      output = "";
-      break;
-    }
-    default: {
-      console.log("Unknown class name used!");
-      output = "";
-      break;
-    }
-  }
-
-  return output;
-}
-
 /**
  *
  * @param classNames list of class names to be turned into string so it can be added to object class name
@@ -194,7 +140,7 @@ function getClassNameString(className: ClassName): string {
 function convertClassNamesToString(classNames: ClassName[]): string {
   var output = "";
   for (var name of classNames) {
-    output += getClassNameString(name) + " ";
+    output += name + " ";
   }
 
   return output.slice(0, -1);

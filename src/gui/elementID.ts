@@ -1,10 +1,11 @@
 
 export enum ElementID {
-	none,
-	eventStartTime,
-	eventEndTime,
-	eventContents,
-	previewMD
+	none = "",
+	eventStartTime = "startTime",
+	eventEndTime = "endTime",
+	eventDeleteButton = "delete",
+	eventContents = "contents",
+	previewMD = "previewMD",
 }
 
 /**
@@ -13,7 +14,7 @@ export enum ElementID {
  * @param elem element to be given the id
  */
 export function setElementID(id: ElementID, elem: HTMLElement): void {
-	elem.id = getIDString(id);
+	elem.id = id;
 }
 
 /**
@@ -22,7 +23,7 @@ export function setElementID(id: ElementID, elem: HTMLElement): void {
  * @param index of the element in the list of elements with that id to be focused
  */
 export function focusHTMLElementFromIDList(id: ElementID, index: number): void {
-	document.querySelectorAll<HTMLElement>('#' + getIDString(id))[index].focus();
+	document.querySelectorAll<HTMLElement>('#' + id)[index].focus();
 }
 
 /**
@@ -31,7 +32,7 @@ export function focusHTMLElementFromIDList(id: ElementID, index: number): void {
  * @returns a list of the innerHTML of the elements with ID given
  */
 export function getAllInnerHTMLFrom(id: ElementID): string[] {
-	var elements = document.querySelectorAll<HTMLElement>('#' + getIDString(id));
+	var elements = document.querySelectorAll<HTMLElement>('#' + id);
 	var output: string[] = [];
 	elements.forEach((elem) => {
 		output.push(elem.innerHTML);
@@ -47,46 +48,44 @@ export function getAllInnerHTMLFrom(id: ElementID): string[] {
  * @param attributeValue
  */
 export function addAttributeToElementWithID(id: ElementID, attributeName: string, attributeValue: string): void {
-	document.getElementById(getIDString(id)).setAttribute(attributeName, attributeValue);
+	document.getElementById(id).setAttribute(attributeName, attributeValue);
 }
 
-//* Private
+/**
+ * Removes all the elements with given class name and follows given rules
+ * @param id of the elements to remove
+ * @param condition function that returns a boolean with true meaning it should be removed
+ */
+export function removeAllElementWithIDIf(id: ElementID, condition: (elem: Element) => boolean) {
+  var elems = document.querySelectorAll('#' + id);
+  elems.forEach((elem: Element) => {
+    if (condition(elem)) {
+      elem.remove();
+    }
+  });
+}
 
 /**
- * Converts a given ID into a string
- * @param id of the element to convert
- * @returns string variant of the ID
+ *
+ * @returns object storing index and class names of the focused element
  */
-function getIDString(id: ElementID): string {
-	var output: string;
+export function getIndexAndIDOfFocusedElement(): { index: number, id: ElementID } {
+  var element = document.activeElement;
+	if (element.id != "") {
+		var elementsWithID = document.querySelectorAll("#" + element.id);
 
-	switch (id) {
-		case ElementID.eventContents: {
-			output = "contents";
-			break;
+		var index = -1;
+		for (var i = 0; i < elementsWithID.length; i++) {
+			if (elementsWithID[i] === element) {
+				index = i;
+				break;
+			}
 		}
-		case ElementID.eventStartTime: {
-			output = "startTime";
-			break;
-		}
-		case ElementID.eventEndTime: {
-			output = "endTime";
-			break;
-		}
-		case ElementID.previewMD: {
-			output = "previewMD";
-			break;
-		}
-		case ElementID.none: {
-			output = "";
-			break;
-		}
-		default: {
-			console.log("Unknown element ID");
-			output = "";
-			break;
-		}
+
+		const maybeID = element.id as ElementID;
+		var id: ElementID = maybeID == null ? ElementID.none : maybeID;
+
+		return { index: index, id: id };
 	}
-
-	return output;
+	return { index: -1, id: ElementID.none };
 }

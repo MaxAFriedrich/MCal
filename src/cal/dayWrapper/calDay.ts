@@ -1,4 +1,4 @@
-import { ElementID, focusHTMLElementFromIDList, getAllInnerHTMLFrom } from "../../gui/elementID";
+import { ElementID, focusHTMLElementFromIDList, getAllInnerHTMLFrom, getIndexAndIDOfFocusedElement, removeAllElementWithIDIf } from "../../gui/elementID";
 import { createButton } from "../../gui/creation";
 import { removeAllChildren, GUIElement, appendChildToElement, appendChildToBeginningOfElement } from "../../gui/guiElement";
 import { CalEvent } from "./calEvent"
@@ -81,6 +81,16 @@ export class CalDay {
 		focusHTMLElementFromIDList(ElementID.eventStartTime, this.selectedEvent);
 	}
 
+	/**
+	 * Looks at html and gets the selected event from the field that is currently active
+	 */
+	public getSelectedEventFromFocusedBox(): void {
+		const obj = getIndexAndIDOfFocusedElement();
+		if (obj.index != -1 && [ElementID.eventContents, ElementID.eventStartTime, ElementID.eventEndTime, ElementID.eventDeleteButton].includes(obj.id)) {
+			this.setSelectedEvent(obj.index);
+		}
+	}
+
 	//* Events
 	/**
 	 * Removes event and updates selected event if needed
@@ -141,7 +151,7 @@ export class CalDay {
 	public rerenderWithoutLosingFocus(): void {
 		removeAllElementWithClassNamesIf(ClassName.event, (elem: Element) => !doesElementHaveClassName(ClassName.selected, elem));
 
-		removeAllElementWithClassNamesIf(ClassName.delete, (elem: Element) => doesElementHaveClassName(ClassName.selected, elem.parentElement));
+		removeAllElementWithIDIf(ElementID.eventDeleteButton, (elem: Element) => doesElementHaveClassName(ClassName.selected, elem.parentElement));
 
 		appendChildToElementWithClassNames([ClassName.event, ClassName.selected], this.createDeleteButton(this.selectedEvent), 0);
 		changeOnClickFuncOfElementWithClassNames(ClassName.event, this.getOnEventClickFunction(this.selectedEvent), 0)
@@ -224,13 +234,13 @@ export class CalDay {
 	 * @param index of the event to delete with the press of the button
 	 * @returns Button that can be used to delete event at the given index
 	 */
-	private createDeleteButton(index: number): HTMLInputElement {
+	private createDeleteButton(index: number): HTMLInputElement { // TODO: Delete should call a save function
 		var deleteFunc = ((day: CalDay, index: number) => {
 			return function () {
 				day.removeEvent(index);
 			}
 		})(this, index);
-		return createButton("Delete", deleteFunc, [ClassName.delete]);
+		return createButton("Delete", deleteFunc, [], ElementID.eventDeleteButton);
 	}
 
 	/**
