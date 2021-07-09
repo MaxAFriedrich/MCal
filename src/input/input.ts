@@ -14,7 +14,6 @@ export enum PressType {
 /**
  * Initialises the callbacks variable
  */
-
 export function init() {
 	keyDownCallbacks = [];
 	keyUpCallbacks = [];
@@ -29,7 +28,7 @@ export function init() {
  * @param callbackFunc to be called when the key is pressed
  */
 export function addCommandKey(commandKeys: CommandKey[], key: string, callbackFunc: () => void, type: PressType = PressType.down): void {
-	const callback = keyDownCallbacks.find(element => element.key == key);
+	const callback = keyDownCallbacks.find(element => element.key == key && element.commandKeys === commandKeys);
 	if (callback == null) {
 		if (type == PressType.down) {
 			keyDownCallbacks.push({ commandKeys: commandKeys, key: key, function: callbackFunc });
@@ -86,9 +85,11 @@ export function areCommandKeysPressed(e: KeyboardEvent, commandKeys: CommandKey[
  * @param callbacks list of the callback objects to be searched through
  */
 function runCommandFromKey(e: KeyboardEvent, callbacks: { commandKeys: CommandKey[], key: string, function: () => void }[]): void {
-	const callback = callbacks.find(element => element.key == e.key);
-	if (callback != null && areCommandKeysPressed(e, callback.commandKeys)) {
-		callback.function();
+	const allCallbacks = callbacks.filter(element => element.key == e.key);
+	for (const callback of allCallbacks) {
+		if (callback != null && areCommandKeysPressed(e, callback.commandKeys)) {
+			callback.function();
+		}
 	}
 }
 

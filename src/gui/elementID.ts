@@ -89,3 +89,12 @@ export function getIndexAndIDOfFocusedElement(): { index: number, id: ElementID 
 	}
 	return { index: -1, id: ElementID.none };
 }
+
+export function getIDOfFocusedElement(): ElementID {
+	var element = document.activeElement;
+
+	const maybeID = element.id as ElementID;
+	var id: ElementID = maybeID == null ? ElementID.none : maybeID;
+
+	return id;
+}

@@ -15,8 +15,8 @@ export function init(displayDateFunc: () => void) {
 	selectedDate = new Date();
 	displayDate = displayDateFunc;
 
-  addCommandKey([CommandKey.ctrl], "ArrowLeft", () => { changeSelectedDayBy(-1); });
-  addCommandKey([CommandKey.ctrl], "ArrowRight", () => { changeSelectedDayBy(1); });
+  addCommandKey([CommandKey.alt], "ArrowLeft", () => { changeSelectedDayBy(-1); });
+  addCommandKey([CommandKey.alt], "ArrowRight", () => { changeSelectedDayBy(1); });
 }
 
 /**

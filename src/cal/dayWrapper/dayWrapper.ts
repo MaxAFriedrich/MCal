@@ -16,7 +16,10 @@ export function init(fromFile: string): void {
 
   addCommandKey([CommandKey.ctrl], "ArrowUp", () => { changeSelectedEventBy(-1); });
   addCommandKey([CommandKey.ctrl], "ArrowDown", () => { changeSelectedEventBy(1); });
-  addCommandKey([], "Tab", () => { focusShifted() }, PressType.up);
+  addCommandKey([CommandKey.ctrl], "ArrowLeft", moveFocusLeft);
+  addCommandKey([CommandKey.ctrl], "ArrowRight", moveFocusRight);
+  addCommandKey([CommandKey.ctrl], "d", deleteSelectedEvent);
+  addCommandKey([], "Tab", focusShifted, PressType.up);
 }
 
 /**
@@ -105,4 +108,26 @@ function getCalFromFileContents(fromFile: string): CalDay[] {
 	}
 
 	return output;
+}
+
+/**
+ * Deletes the selected event
+ */
+function deleteSelectedEvent(): void {
+	// TODO: Save when event is deleted
+	if (selectedIndex != -1) {
+		days[selectedIndex].deleteSelectedEvent();
+	}
+}
+
+function moveFocusRight(): void {
+	if (selectedIndex != -1) {
+		days[selectedIndex].moveFocusRight();
+	}
+}
+
+function moveFocusLeft(): void {
+	if (selectedIndex != -1) {
+		days[selectedIndex].moveFocusLeft();
+	}
 }

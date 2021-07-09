@@ -1,4 +1,4 @@
-import { ElementID, focusHTMLElementFromIDList, getAllInnerHTMLFrom, getIndexAndIDOfFocusedElement, removeAllElementWithIDIf } from "../../gui/elementID";
+import { ElementID, focusHTMLElementFromIDList, getAllInnerHTMLFrom, getIDOfFocusedElement, getIndexAndIDOfFocusedElement, removeAllElementWithIDIf } from "../../gui/elementID";
 import { createButton } from "../../gui/creation";
 import { removeAllChildren, GUIElement, appendChildToElement, appendChildToBeginningOfElement } from "../../gui/guiElement";
 import { CalEvent } from "./calEvent"
@@ -7,7 +7,6 @@ import { ClassName, appendChildToElementWithClassNames, removeClassNameFromEleme
 export class CalDay {
 	private date: Date;
 	private events: CalEvent[];
-	private numOfEvents: number;
 	private selectedEvent: number;
 
 	constructor(date: Date) {
@@ -91,6 +90,15 @@ export class CalDay {
 		}
 	}
 
+	/**
+	 * Deletes the currently selected event
+	 */
+	public deleteSelectedEvent(): void {
+		if (this.selectedEvent < this.events.length) {
+			this.removeEvent(this.selectedEvent);
+		}
+	}
+
 	//* Events
 	/**
 	 * Removes event and updates selected event if needed
@@ -125,6 +133,20 @@ export class CalDay {
 
 		this.selectedEvent = this.events.findIndex((value: CalEvent) => value === currentSelectedEvent);
 		this.rerenderWithoutLosingFocus();
+	}
+
+	//* Focusing
+	/**
+	 * Moves focus to the field on the right of the currently focused on in event
+	 */
+	public moveFocusRight(): void {
+		this.moveFocusBy(1);
+	}
+	/**
+	 * Moves focus to the field on the left of the currently focused on in event
+	 */
+	public moveFocusLeft(): void {
+		this.moveFocusBy(-1);
 	}
 
 	//* Rendering
@@ -261,4 +283,70 @@ export class CalDay {
 		appendChildToElement(GUIElement.day, newDiv);
 	}
 
+	/**
+	 * Moves focus on current selected event
+	 * @param direction negative means left, postive means right
+	 */
+	private moveFocusBy(direction: number): void {
+		enum EventElem {
+			loopToEnd = 0,
+			startTime,
+			endTime,
+			contents,
+			loopToStart
+		}
+
+		var currentElem: EventElem;
+		switch (getIDOfFocusedElement()) {
+			case ElementID.eventStartTime: {
+				currentElem = EventElem.startTime;
+				break;
+			}
+			case ElementID.eventEndTime: {
+				currentElem = EventElem.endTime;
+				break;
+			}
+			case ElementID.eventContents: {
+				currentElem = EventElem.contents;
+				break;
+			}
+			default: {
+				return;
+			}
+		}
+
+		if (direction < 0) {
+			currentElem--;
+			if (currentElem == EventElem.loopToEnd) {
+				currentElem = EventElem.loopToStart - 1;
+			}
+		} else {
+			currentElem++;
+			if (currentElem == EventElem.loopToStart) {
+				currentElem = EventElem.loopToEnd + 1;
+			}
+		}
+
+		var nextID: ElementID;
+		switch (currentElem) {
+			case EventElem.startTime: {
+				nextID = ElementID.eventStartTime;
+				break;
+			}
+			case EventElem.endTime: {
+				nextID = ElementID.eventEndTime;
+				break;
+			}
+			case EventElem.contents: {
+				nextID = ElementID.eventContents;
+				break;
+			}
+			default: {
+				console.log("Unknown event component");
+				return;
+			}
+		}
+
+		focusHTMLElementFromIDList(nextID, this.selectedEvent);
+	}
 }
