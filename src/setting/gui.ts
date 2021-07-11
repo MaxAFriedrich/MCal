@@ -2,61 +2,39 @@ import * as Setter from "./setter";
 
 ////Setter.theme("mainLight.css")
 
+/**
+ * all of the main fetures of the settings modal
+ */
 enum SettingProperty {
   none,
-  close,
-  wrapper,
-  content
+  close="SetClose",
+  wrapper="modalSettings",
+  content="settingsContent"
 }
+
+/**
+ * global bool for display of modal, false=hidden
+ */
 var toggleDisplay: boolean = false;
 
 /**
- * Converts a given ID into a string
- * @param id of the element to convert
- * @returns string variant of the ID
+ * Open the modal using DOM
  */
-function getIDString(id : SettingProperty): string {
-  var output: string;
-
-  switch (id) {
-    case SettingProperty.close:
-      {
-        output = "SetClose";
-        break;
-      }
-    case SettingProperty.wrapper:
-      {
-        output = "modalSettings";
-        break;
-      }
-    case SettingProperty.content:
-      {
-        output = "settingsContent";
-        break;
-      }
-    case SettingProperty.none:
-      {
-        output = "";
-        break;
-      }
-    default:
-      {
-        console.log("Unknown element ID");
-        output = "";
-        break;
-      }
-  }
-
-  return output;
+function Open() {
+  document.getElementById(SettingProperty.wrapper).style.display = "block";
 }
 
-export function Open() {
-  document.getElementById(getIDString(SettingProperty.wrapper)).style.display = "block";
-}
-export function Close() {
-  document.getElementById(getIDString(SettingProperty.wrapper)).style.display = "none";
+/**
+ * Close the modal using DOM
+ */
+function Close() {
+  document.getElementById(SettingProperty.wrapper).style.display = "none";
 }
 
+
+/**
+ * Function to either open or close the modal depending on toggleDisplay
+ */
 export function toggle() {
   if (toggleDisplay) {
     Close();
@@ -68,8 +46,12 @@ export function toggle() {
 }
 ////toggle()
 
+
+/**
+ * runs on program start and makes sure that all eliments have the correct content and sets the settings as necessary for the gui
+ */
 function initGui() {
-  document.getElementById(getIDString(SettingProperty.close)).addEventListener("click", toggle);
+  document.getElementById(SettingProperty.close).addEventListener("click", toggle);
 
   let pathInpt = document.getElementById("SetPath")as HTMLInputElement;
   let lightTheme = document.getElementById("setThemeLight")as HTMLInputElement;
