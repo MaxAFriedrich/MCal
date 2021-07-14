@@ -1,4 +1,5 @@
 import * as Setter from "./setter";
+import * as Path from "../rw/path";
 
 ////Setter.theme("mainLight.css")
 
@@ -58,7 +59,7 @@ function initGui() {
     "setThemeLight"
   ) as HTMLInputElement;
   const darkTheme = document.getElementById("setThemeDark") as HTMLInputElement;
-  const currentPath: string = Setter.getPath();
+  const currentPath: string = Path.livePath;
   const currentTheme: string = Setter.getTheme();
 
   lightTheme.addEventListener("click", () => {

@@ -1,3 +1,4 @@
+import * as Path from "../rw/path";
 import * as Rw from "../rw/rw";
 
 /**
@@ -28,9 +29,10 @@ export function theme(themeName: string): void {
  * @param value path string
  */
 export function path(value: string): void {
-  settingJson.path = value;
-  saveJson();
-  //TODO make it do something usefull
+  Path.setLivePath(value);
+  Path.setPathFile(value);
+  //TODO reload content from new source
+  //?Any solutions?
 }
 
 /**
@@ -40,12 +42,4 @@ export function path(value: string): void {
 export function getTheme(): string {
   const x: string = settingJson.theme;
   return x;
-}
-
-/**
- * get the user settings from JSON
- * @returns string of path to user settings
- */
-export function getPath(): string {
-  return settingJson.path;
 }

@@ -1,5 +1,6 @@
 import fs = require("fs");
-// import path = require("path"); // NOTE: THIS  IS UNUSED!
+import nodePath = require("path");
+import * as Path from "./path";
 
 export enum File {
   calEvents,
@@ -47,17 +48,17 @@ function makeFileExist(file: File): void {
 function getFilepath(file: File): string {
   switch (file) {
     case File.calEvents: {
-      return "MCal.json";
+      return nodePath.join(Path.livePath,"MCal.json");
     }
     case File.notes: {
-      return "MCal.html";
+      return nodePath.join(Path.livePath,"MCal.html");
     }
     case File.settings: {
-      return "settings.json";
+      return nodePath.join(Path.livePath,"settings.json");
     }
     default: {
       console.log("Unknown file!");
-      return "";
+      return nodePath.join(Path.livePath,"");
     }
   }
 }
