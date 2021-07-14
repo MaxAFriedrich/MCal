@@ -1,22 +1,30 @@
-var keyDownCallbacks: { commandKeys: CommandKey[], key: string, function: () => void }[];
-var keyUpCallbacks: { commandKeys: CommandKey[], key: string, function: () => void }[];
+let keyDownCallbacks: {
+  commandKeys: CommandKey[];
+  key: string;
+  function: () => void;
+}[];
+let keyUpCallbacks: {
+  commandKeys: CommandKey[];
+  key: string;
+  function: () => void;
+}[];
 
 export enum CommandKey {
-	ctrl,
-	alt,
-	shift
+  ctrl,
+  alt,
+  shift,
 }
 export enum PressType {
-	down,
-	up
+  down,
+  up,
 }
 
 /**
  * Initialises the callbacks variable
  */
-export function init() {
-	keyDownCallbacks = [];
-	keyUpCallbacks = [];
+export function init(): void {
+  keyDownCallbacks = [];
+  keyUpCallbacks = [];
   document.addEventListener("keydown", keyPressedDown);
   document.addEventListener("keyup", keyPressedUp);
 }
@@ -27,17 +35,32 @@ export function init() {
  * @param key to call the function when pressed
  * @param callbackFunc to be called when the key is pressed
  */
-export function addCommandKey(commandKeys: CommandKey[], key: string, callbackFunc: () => void, type: PressType = PressType.down): void {
-	const callback = keyDownCallbacks.find(element => element.key == key && element.commandKeys === commandKeys);
-	if (callback == null) {
-		if (type == PressType.down) {
-			keyDownCallbacks.push({ commandKeys: commandKeys, key: key, function: callbackFunc });
-		} else {
-			keyUpCallbacks.push({ commandKeys: commandKeys, key: key, function: callbackFunc });
-		}
-	} else {
-		console.log("Duplicate command key, which this cannot handle!");
-	}
+export function addCommandKey(
+  commandKeys: CommandKey[],
+  key: string,
+  callbackFunc: () => void,
+  type: PressType = PressType.down
+): void {
+  const callback = keyDownCallbacks.find(
+    (element) => element.key == key && element.commandKeys === commandKeys
+  );
+  if (callback == null) {
+    if (type == PressType.down) {
+      keyDownCallbacks.push({
+        commandKeys: commandKeys,
+        key: key,
+        function: callbackFunc,
+      });
+    } else {
+      keyUpCallbacks.push({
+        commandKeys: commandKeys,
+        key: key,
+        function: callbackFunc,
+      });
+    }
+  } else {
+    console.log("Duplicate command key, which this cannot handle!");
+  }
 }
 
 //* Private
@@ -47,35 +70,38 @@ export function addCommandKey(commandKeys: CommandKey[], key: string, callbackFu
  * @param commandKeys
  * @returns boolean saying if all the command keys are pressed or not
  */
-export function areCommandKeysPressed(e: KeyboardEvent, commandKeys: CommandKey[]): boolean {
-	for (const key of commandKeys) {
-		switch (key) {
-			case CommandKey.ctrl: {
-				if (!e.ctrlKey) {
-					return false;
-				}
-				break;
-			}
-			case CommandKey.alt: {
-				if (!e.altKey) {
-					return false;
-				}
-				break;
-			}
-			case CommandKey.shift: {
-				if (!e.shiftKey) {
-					return false;
-				}
-				break;
-			}
-			default: {
-				console.log("Unknown command key");
-				return false;
-			}
-		}
-	}
+export function areCommandKeysPressed(
+  e: KeyboardEvent,
+  commandKeys: CommandKey[]
+): boolean {
+  for (const key of commandKeys) {
+    switch (key) {
+      case CommandKey.ctrl: {
+        if (!e.ctrlKey) {
+          return false;
+        }
+        break;
+      }
+      case CommandKey.alt: {
+        if (!e.altKey) {
+          return false;
+        }
+        break;
+      }
+      case CommandKey.shift: {
+        if (!e.shiftKey) {
+          return false;
+        }
+        break;
+      }
+      default: {
+        console.log("Unknown command key");
+        return false;
+      }
+    }
+  }
 
-	return true;
+  return true;
 }
 
 //* Private
@@ -84,13 +110,16 @@ export function areCommandKeysPressed(e: KeyboardEvent, commandKeys: CommandKey[
  * @param e keyboard event
  * @param callbacks list of the callback objects to be searched through
  */
-function runCommandFromKey(e: KeyboardEvent, callbacks: { commandKeys: CommandKey[], key: string, function: () => void }[]): void {
-	const allCallbacks = callbacks.filter(element => element.key == e.key);
-	for (const callback of allCallbacks) {
-		if (callback != null && areCommandKeysPressed(e, callback.commandKeys)) {
-			callback.function();
-		}
-	}
+function runCommandFromKey(
+  e: KeyboardEvent,
+  callbacks: { commandKeys: CommandKey[]; key: string; function: () => void }[]
+): void {
+  const allCallbacks = callbacks.filter((element) => element.key == e.key);
+  for (const callback of allCallbacks) {
+    if (callback != null && areCommandKeysPressed(e, callback.commandKeys)) {
+      callback.function();
+    }
+  }
 }
 
 /**
@@ -98,7 +127,7 @@ function runCommandFromKey(e: KeyboardEvent, callbacks: { commandKeys: CommandKe
  * @param e Keyboard event that is called
  */
 function keyPressedDown(e: KeyboardEvent): void {
-	runCommandFromKey(e, keyDownCallbacks);
+  runCommandFromKey(e, keyDownCallbacks);
 }
 
 /**
@@ -106,5 +135,6 @@ function keyPressedDown(e: KeyboardEvent): void {
  * @param e Keyboard event that is called
  */
 function keyPressedUp(e: KeyboardEvent): void {
-	runCommandFromKey(e, keyUpCallbacks);
+  runCommandFromKey(e, keyUpCallbacks);
 }
+

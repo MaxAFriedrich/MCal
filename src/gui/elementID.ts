@@ -1,12 +1,11 @@
-
 export enum ElementID {
-	none = "",
-	eventStartTime = "startTime",
-	eventEndTime = "endTime",
-	eventDeleteButton = "delete",
-	eventContents = "contents",
-	previewMD = "previewMD",
-	settings = "settings"
+  none = "",
+  eventStartTime = "startTime",
+  eventEndTime = "endTime",
+  eventDeleteButton = "delete",
+  eventContents = "contents",
+  previewMD = "previewMD",
+  settings = "settings",
 }
 
 /**
@@ -15,7 +14,7 @@ export enum ElementID {
  * @param elem element to be given the id
  */
 export function setElementID(id: ElementID, elem: HTMLElement): void {
-	elem.id = id;
+  elem.id = id;
 }
 
 /**
@@ -24,7 +23,7 @@ export function setElementID(id: ElementID, elem: HTMLElement): void {
  * @param index of the element in the list of elements with that id to be focused
  */
 export function focusHTMLElementFromIDList(id: ElementID, index: number): void {
-	document.querySelectorAll<HTMLElement>('#' + id)[index].focus();
+  document.querySelectorAll<HTMLElement>("#" + id)[index].focus();
 }
 
 /**
@@ -33,13 +32,13 @@ export function focusHTMLElementFromIDList(id: ElementID, index: number): void {
  * @returns a list of the innerHTML of the elements with ID given
  */
 export function getAllInnerHTMLFrom(id: ElementID): string[] {
-	var elements = document.querySelectorAll<HTMLElement>('#' + id);
-	var output: string[] = [];
-	elements.forEach((elem) => {
-		output.push(elem.innerHTML);
-	});
+  const elements = document.querySelectorAll<HTMLElement>("#" + id);
+  const output: string[] = [];
+  elements.forEach((elem) => {
+    output.push(elem.innerHTML);
+  });
 
-	return output;
+  return output;
 }
 
 /**
@@ -48,8 +47,12 @@ export function getAllInnerHTMLFrom(id: ElementID): string[] {
  * @param attributeName
  * @param attributeValue
  */
-export function addAttributeToElementWithID(id: ElementID, attributeName: string, attributeValue: string): void {
-	document.getElementById(id).setAttribute(attributeName, attributeValue);
+export function addAttributeToElementWithID(
+  id: ElementID,
+  attributeName: string,
+  attributeValue: string
+): void {
+  document.getElementById(id).setAttribute(attributeName, attributeValue);
 }
 
 /**
@@ -57,8 +60,11 @@ export function addAttributeToElementWithID(id: ElementID, attributeName: string
  * @param id of the elements to remove
  * @param condition function that returns a boolean with true meaning it should be removed
  */
-export function removeAllElementWithIDIf(id: ElementID, condition: (elem: Element) => boolean) {
-  var elems = document.querySelectorAll('#' + id);
+export function removeAllElementWithIDIf(
+  id: ElementID,
+  condition: (elem: Element) => boolean
+): void {
+  const elems = document.querySelectorAll("#" + id);
   elems.forEach((elem: Element) => {
     if (condition(elem)) {
       elem.remove();
@@ -70,32 +76,35 @@ export function removeAllElementWithIDIf(id: ElementID, condition: (elem: Elemen
  *
  * @returns object storing index and class names of the focused element
  */
-export function getIndexAndIDOfFocusedElement(): { index: number, id: ElementID } {
-  var element = document.activeElement;
-	if (element.id != "") {
-		var elementsWithID = document.querySelectorAll("#" + element.id);
+export function getIndexAndIDOfFocusedElement(): {
+  index: number;
+  id: ElementID;
+} {
+  const element = document.activeElement;
+  if (element.id != "") {
+    const elementsWithID = document.querySelectorAll("#" + element.id);
 
-		var index = -1;
-		for (var i = 0; i < elementsWithID.length; i++) {
-			if (elementsWithID[i] === element) {
-				index = i;
-				break;
-			}
-		}
+    let index = -1;
+    for (let i = 0; i < elementsWithID.length; i++) {
+      if (elementsWithID[i] === element) {
+        index = i;
+        break;
+      }
+    }
 
-		const maybeID = element.id as ElementID;
-		var id: ElementID = maybeID == null ? ElementID.none : maybeID;
+    const maybeID = element.id as ElementID;
+    const id: ElementID = maybeID == null ? ElementID.none : maybeID;
 
-		return { index: index, id: id };
-	}
-	return { index: -1, id: ElementID.none };
+    return { index: index, id: id };
+  }
+  return { index: -1, id: ElementID.none };
 }
 
 export function getIDOfFocusedElement(): ElementID {
-	var element = document.activeElement;
+  const element = document.activeElement;
 
-	const maybeID = element.id as ElementID;
-	var id: ElementID = maybeID == null ? ElementID.none : maybeID;
+  const maybeID = element.id as ElementID;
+  const id: ElementID = maybeID == null ? ElementID.none : maybeID;
 
-	return id;
+  return id;
 }

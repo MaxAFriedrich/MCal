@@ -8,7 +8,7 @@ const settingJson = JSON.parse(Rw.read(Rw.File.settings));
 /**
  * write the JSON to a file
  */
-function saveJson() {
+function saveJson(): void {
   Rw.write(JSON.stringify(settingJson), Rw.File.settings);
 }
 
@@ -16,10 +16,10 @@ function saveJson() {
  * sets the CSS theme using DOM and the name of the CSS file
  * @param themeName name of theme file
  */
-export function theme(themeName : string) {
+export function theme(themeName: string): void {
   settingJson.theme = themeName;
   saveJson();
-  var style = document.getElementById("mainCSS")as HTMLLinkElement;
+  const style = document.getElementById("mainCSS") as HTMLLinkElement;
   style.href = themeName;
 }
 
@@ -27,7 +27,7 @@ export function theme(themeName : string) {
  *  sets the path of where all user data is saved
  * @param value path string
  */
-export function path(value : string) {
+export function path(value: string): void {
   settingJson.path = value;
   saveJson();
   //TODO make it do something usefull
@@ -37,8 +37,8 @@ export function path(value : string) {
  * get the theme from JSON
  * @returns theme CSS file name as string from JSON
  */
-export function getTheme() {
-    let x:string=settingJson.theme;
+export function getTheme(): string {
+  const x: string = settingJson.theme;
   return x;
 }
 
@@ -46,6 +46,6 @@ export function getTheme() {
  * get the user settings from JSON
  * @returns string of path to user settings
  */
-export function getPath() {
+export function getPath(): string {
   return settingJson.path;
 }

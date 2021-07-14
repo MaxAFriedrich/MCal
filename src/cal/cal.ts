@@ -1,12 +1,15 @@
-import { ClassName, scrollToFirstElementWithClassNames } from "../gui/className";
-import * as Selector from "./dateSelector"
-import * as DayWrapper from "./dayWrapper/dayWrapper"
+import {
+  ClassName,
+  scrollToFirstElementWithClassNames,
+} from "../gui/className";
+import * as Selector from "./dateSelector";
+import * as DayWrapper from "./dayWrapper/dayWrapper";
 
 /**
  * Initialises each section and displays the starting section
  * @param fromFile contents of .json save file
  */
-export function init(fromFile: string) {
+export function init(fromFile: string): void {
   DayWrapper.init(fromFile);
   Selector.init(dateDisplay);
   dateDisplay();
@@ -15,7 +18,7 @@ export function init(fromFile: string) {
 /**
  * Function to be called when the events have been edited
  */
-export function eventChanged() {
+export function eventChanged(): void {
   console.log("Calendar events have changed, updating CalDay");
   DayWrapper.extractFromHTML();
 }
@@ -23,7 +26,7 @@ export function eventChanged() {
 /**
  * Function to be called when the selected day in the text box has been changed
  */
-export function selectedDayChanged() {
+export function selectedDayChanged(): void {
   if (Selector.hasDateSelectorChanged()) {
     dateDisplay();
   }
@@ -42,10 +45,11 @@ export function getSaveFileString(): string {
 /**
  * Displays the events for the selected day
  */
-function dateDisplay() {
-  var selectedDay = Selector.getSelectedDay();
+function dateDisplay(): void {
+  const selectedDay = Selector.getSelectedDay();
   Selector.displaySelector();
   DayWrapper.display(selectedDay);
 
   scrollToFirstElementWithClassNames([ClassName.event, ClassName.selected]);
 }
+

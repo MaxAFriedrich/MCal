@@ -7,15 +7,15 @@ import * as Setter from "./setter";
  */
 enum SettingProperty {
   none,
-  close="SetClose",
-  wrapper="modalSettings",
-  content="settingsContent"
+  close = "SetClose",
+  wrapper = "modalSettings",
+  content = "settingsContent",
 }
 
 /**
  * global bool for display of modal, false=hidden
  */
-var toggleDisplay: boolean = false;
+let toggleDisplay = false;
 
 /**
  * Open the modal using DOM
@@ -31,11 +31,10 @@ function Close() {
   document.getElementById(SettingProperty.wrapper).style.display = "none";
 }
 
-
 /**
  * Function to either open or close the modal depending on toggleDisplay
  */
-export function toggle() {
+export function toggle(): void {
   if (toggleDisplay) {
     Close();
     toggleDisplay = !toggleDisplay;
@@ -46,18 +45,21 @@ export function toggle() {
 }
 ////toggle()
 
-
 /**
  * runs on program start and makes sure that all eliments have the correct content and sets the settings as necessary for the gui
  */
 function initGui() {
-  document.getElementById(SettingProperty.close).addEventListener("click", toggle);
+  document
+    .getElementById(SettingProperty.close)
+    .addEventListener("click", toggle);
 
-  let pathInpt = document.getElementById("SetPath")as HTMLInputElement;
-  let lightTheme = document.getElementById("setThemeLight")as HTMLInputElement;
-  let darkTheme = document.getElementById("setThemeDark")as HTMLInputElement;
-  let currentPath: string = Setter.getPath();
-  let currentTheme: string = Setter.getTheme();
+  const pathInpt = document.getElementById("SetPath") as HTMLInputElement;
+  const lightTheme = document.getElementById(
+    "setThemeLight"
+  ) as HTMLInputElement;
+  const darkTheme = document.getElementById("setThemeDark") as HTMLInputElement;
+  const currentPath: string = Setter.getPath();
+  const currentTheme: string = Setter.getTheme();
 
   lightTheme.addEventListener("click", () => {
     Setter.theme("mainLight.css");

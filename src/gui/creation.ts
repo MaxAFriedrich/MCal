@@ -1,7 +1,7 @@
 import { ClassName, addClassNamesToElement } from "./className";
 import { ElementID, setElementID } from "./elementID";
 
-export { ClassName, ElementID }
+export { ClassName, ElementID };
 
 /**
  * Creates and returns HTMLInputElement
@@ -13,11 +13,18 @@ export { ClassName, ElementID }
  * @param idName id of object
  * @returns
  */
-export function createInput(type : string, value : string, classNames : ClassName[], disabled : boolean = false, size : number = 20, id: ElementID = ElementID.none): HTMLInputElement {
-  var inp = document.createElement("input");
-	inp.type = type;
+export function createInput(
+  type: string,
+  value: string,
+  classNames: ClassName[],
+  disabled = false,
+  size = 20,
+  id: ElementID = ElementID.none
+): HTMLInputElement {
+  const inp = document.createElement("input");
+  inp.type = type;
   addClassNamesToElement(classNames, inp);
-	inp.value = value;
+  inp.value = value;
   inp.disabled = disabled;
   inp.size = size;
   setElementID(id, inp);
@@ -33,9 +40,16 @@ export function createInput(type : string, value : string, classNames : ClassNam
  * @param idName id of the button
  * @returns HTML Button Object
  */
-export function createButton(label: string, onclick: Function, classNames: ClassName[], id: ElementID = ElementID.none): HTMLInputElement {
-  var b = createInput("button", label, classNames, false, 20, id);
-	b.onclick = () => { onclick(); };
+export function createButton(
+  label: string,
+  onclick: () => void,
+  classNames: ClassName[],
+  id: ElementID = ElementID.none
+): HTMLInputElement {
+  const b = createInput("button", label, classNames, false, 20, id);
+  b.onclick = () => {
+    onclick();
+  };
   return b;
 }
 
@@ -52,8 +66,11 @@ export function createTable(): HTMLTableElement {
  * @param classNames list of class names that div should be given
  * @returns HTMLDivElement
  */
-export function createDiv(classNames: ClassName[], onclick: () => void = null): HTMLDivElement {
-  var div = document.createElement("div");
+export function createDiv(
+  classNames: ClassName[],
+  onclick: () => void = null
+): HTMLDivElement {
+  const div = document.createElement("div");
   addClassNamesToElement(classNames, div);
   if (onclick != null) {
     div.onclick = onclick;
@@ -72,8 +89,15 @@ export function createDiv(classNames: ClassName[], onclick: () => void = null): 
  * @param onBlurFunc (default: empty function)
  * @returns HTML Span Element
  */
-export function createSpan(id: ElementID, placeholder : string, contentEditable : string, spellCheck : boolean, innerHTML : string = "", onBlurFunc : () => void = () => {}): HTMLSpanElement {
-  var span = document.createElement("span");
+export function createSpan(
+  id: ElementID,
+  placeholder: string,
+  contentEditable: string,
+  spellCheck: boolean,
+  innerHTML = "",
+  onBlurFunc?: () => void
+): HTMLSpanElement {
+  const span = document.createElement("span");
   span.contentEditable = contentEditable;
   setElementID(id, span);
   span.spellcheck = spellCheck;

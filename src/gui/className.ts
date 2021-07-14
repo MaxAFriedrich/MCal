@@ -8,7 +8,7 @@ export enum ClassName {
   daysRow = "daysRow",
   event = "event",
   previewMD = "previewMD",
-  settings = "settings"
+  settings = "settings",
 }
 
 //* Add class name
@@ -17,9 +17,11 @@ export enum ClassName {
  * @param className to add to element
  * @param element to be given className
  */
-export function addClassNameToElement(className: ClassName, element: HTMLElement): void {
-	if (element.className != "")
-		element.className += " ";
+export function addClassNameToElement(
+  className: ClassName,
+  element: HTMLElement
+): void {
+  if (element.className != "") element.className += " ";
   element.className += className;
 }
 
@@ -28,10 +30,12 @@ export function addClassNameToElement(className: ClassName, element: HTMLElement
  * @param classNames to add to element
  * @param element to be given class names
  */
-export function addClassNamesToElement(classNames: ClassName[], element: HTMLElement): void {
-	if (element.className != "")
-		element.className += " ";
-	element.className += convertClassNamesToString(classNames);
+export function addClassNamesToElement(
+  classNames: ClassName[],
+  element: HTMLElement
+): void {
+  if (element.className != "") element.className += " ";
+  element.className += convertClassNamesToString(classNames);
 }
 
 /**
@@ -40,10 +44,16 @@ export function addClassNamesToElement(classNames: ClassName[], element: HTMLEle
  * @param classNameToAdd
  * @param index optional to determine specific element in list of elements with that class name
  */
-export function addClassNameToElementWith(classNames: ClassName[], classNameToAdd: ClassName, index: number = -1): void {
-  var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
+export function addClassNameToElementWith(
+  classNames: ClassName[],
+  classNameToAdd: ClassName,
+  index = -1
+): void {
+  const elements = document.getElementsByClassName(
+    convertClassNamesToString(classNames)
+  );
   if (index == -1) {
-    for (var i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       elements[i].classList.add(classNameToAdd);
     }
   } else {
@@ -58,10 +68,16 @@ export function addClassNameToElementWith(classNames: ClassName[], classNameToAd
  * @param classNameToRemove
  * @param index optional to determine a specific element in the list
  */
-export function removeClassNameFromElementsWith(classNames: ClassName[], classNameToRemove: ClassName, index: number = -1): void {
-  var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
+export function removeClassNameFromElementsWith(
+  classNames: ClassName[],
+  classNameToRemove: ClassName,
+  index = -1
+): void {
+  const elements = document.getElementsByClassName(
+    convertClassNamesToString(classNames)
+  );
   if (index == -1) {
-    for (var i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       elements[i].classList.remove(classNameToRemove);
     }
   } else {
@@ -74,8 +90,11 @@ export function removeClassNameFromElementsWith(classNames: ClassName[], classNa
  * @param className of the elements to remove
  * @param condition function that returns a boolean with true meaning it should be removed
  */
-export function removeAllElementWithClassNamesIf(className: ClassName, condition: (elem: Element) => boolean) {
-  var elems = document.querySelectorAll('.' + className);
+export function removeAllElementWithClassNamesIf(
+  className: ClassName,
+  condition: (elem: Element) => boolean
+): void {
+  const elems = document.querySelectorAll("." + className);
   elems.forEach((elem: Element) => {
     if (condition(elem)) {
       elem.remove();
@@ -90,8 +109,14 @@ export function removeAllElementWithClassNamesIf(className: ClassName, condition
  * @param elem element that should be added
  * @param index of the element you are wanting to append to
  */
-export function appendChildToElementWithClassNames(classNames: ClassName[], elem: HTMLElement, index: number): void {
-  document.getElementsByClassName(convertClassNamesToString(classNames))[index].appendChild(elem);
+export function appendChildToElementWithClassNames(
+  classNames: ClassName[],
+  elem: HTMLElement,
+  index: number
+): void {
+  document
+    .getElementsByClassName(convertClassNamesToString(classNames))
+    [index].appendChild(elem);
 }
 
 //* Checks
@@ -101,7 +126,10 @@ export function appendChildToElementWithClassNames(classNames: ClassName[], elem
  * @param elem element to check
  * @returns a boolean, with true meaning it contains that class name
  */
-export function doesElementHaveClassName(className: ClassName, elem: Element): boolean {
+export function doesElementHaveClassName(
+  className: ClassName,
+  elem: Element
+): boolean {
   return elem.classList.contains(className);
 }
 
@@ -112,10 +140,14 @@ export function doesElementHaveClassName(className: ClassName, elem: Element): b
  * @param onclick void function to set the onclick function to
  * @param index optional, determining specific element
  */
-export function changeOnClickFuncOfElementWithClassNames(className: ClassName, onclick: () => void, index: number = -1) {
-  var elements = document.querySelectorAll<HTMLElement>('.' + className);
+export function changeOnClickFuncOfElementWithClassNames(
+  className: ClassName,
+  onclick: () => void,
+  index = -1
+): void {
+  const elements = document.querySelectorAll<HTMLElement>("." + className);
   if (index == -1) {
-    elements.forEach((elem) => elem.onclick = onclick);
+    elements.forEach((elem) => (elem.onclick = onclick));
   } else {
     elements[index].onclick = onclick;
   }
@@ -125,8 +157,12 @@ export function changeOnClickFuncOfElementWithClassNames(className: ClassName, o
  * Scrolls to the first element with the given class names
  * @param classNames of the element to scroll to
  */
-export function scrollToFirstElementWithClassNames(classNames: ClassName[]) {
-  var elements = document.getElementsByClassName(convertClassNamesToString(classNames));
+export function scrollToFirstElementWithClassNames(
+  classNames: ClassName[]
+): void {
+  const elements = document.getElementsByClassName(
+    convertClassNamesToString(classNames)
+  );
   if (elements.length > 0) {
     elements[0].scrollIntoView();
   }
@@ -139,10 +175,11 @@ export function scrollToFirstElementWithClassNames(classNames: ClassName[]) {
  * @returns string variant to be added to the class name of an object
  */
 function convertClassNamesToString(classNames: ClassName[]): string {
-  var output = "";
-  for (var name of classNames) {
+  let output = "";
+  for (const name of classNames) {
     output += name + " ";
   }
 
   return output.slice(0, -1);
 }
+

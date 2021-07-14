@@ -1,21 +1,25 @@
 import { addCommandKey, CommandKey, PressType } from "../../input/input";
-import { CalDay } from "./calDay"
+import { CalDay } from "./calDay";
 
-var days: CalDay[];
-var selectedIndex: number;
-var currentUnitialisedDay: CalDay;
+let days: CalDay[];
+let selectedIndex: number;
+let currentUnitialisedDay: CalDay;
 
 /**
  * Function that initialises the module variables
  * @param fromFile should be string from the save file to initialise the variables
  */
 export function init(fromFile: string): void {
-	days = getCalFromFileContents(fromFile);
-	selectedIndex = -1;
-	currentUnitialisedDay = null;
+  days = getCalFromFileContents(fromFile);
+  selectedIndex = -1;
+  currentUnitialisedDay = null;
 
-  addCommandKey([CommandKey.ctrl], "ArrowUp", () => { changeSelectedEventBy(-1); });
-  addCommandKey([CommandKey.ctrl], "ArrowDown", () => { changeSelectedEventBy(1); });
+  addCommandKey([CommandKey.ctrl], "ArrowUp", () => {
+    changeSelectedEventBy(-1);
+  });
+  addCommandKey([CommandKey.ctrl], "ArrowDown", () => {
+    changeSelectedEventBy(1);
+  });
   addCommandKey([CommandKey.ctrl], "ArrowLeft", moveFocusLeft);
   addCommandKey([CommandKey.ctrl], "ArrowRight", moveFocusRight);
   addCommandKey([CommandKey.ctrl], "d", deleteSelectedEvent);
@@ -27,31 +31,33 @@ export function init(fromFile: string): void {
  * @param selected date to display
  */
 export function display(selected: Date): void {
-	console.log("Displaying events for " + selected.toDateString())
-	// Implement binomial search
-	selectedIndex = days.findIndex(day => day.getDate().toDateString() == selected.toDateString())
-	if (selectedIndex == -1) {
-		// Render empty day
-		currentUnitialisedDay = new CalDay(new Date(selected));
-		currentUnitialisedDay.render();
-	} else {
-		days[selectedIndex].render();
-		currentUnitialisedDay = null;
-	}
+  console.log("Displaying events for " + selected.toDateString());
+  // Implement binomial search
+  selectedIndex = days.findIndex(
+    (day) => day.getDate().toDateString() == selected.toDateString()
+  );
+  if (selectedIndex == -1) {
+    // Render empty day
+    currentUnitialisedDay = new CalDay(new Date(selected));
+    currentUnitialisedDay.render();
+  } else {
+    days[selectedIndex].render();
+    currentUnitialisedDay = null;
+  }
 }
 
 /**
  * Extracts information from HTML and saves it into the data structure (but not to a file)
  */
 export function extractFromHTML(): void {
-	if (selectedIndex == -1) {
-		if (currentUnitialisedDay == null) {
-			console.log("ERROR: events has not been displayed for this day yet");
-		} else {
-			selectedIndex = addDay(currentUnitialisedDay);
-		}
-	}
-	days[selectedIndex].extractFromHTML();
+  if (selectedIndex == -1) {
+    if (currentUnitialisedDay == null) {
+      console.log("ERROR: events has not been displayed for this day yet");
+    } else {
+      selectedIndex = addDay(currentUnitialisedDay);
+    }
+  }
+  days[selectedIndex].extractFromHTML();
 }
 
 /**
@@ -59,16 +65,16 @@ export function extractFromHTML(): void {
  * @returns string to be saved to the file
  */
 export function getFileSaveString(): string {
-	return JSON.stringify(days);
+  return JSON.stringify(days);
 }
 
 /**
  * Updates the selected element when the focus has been changed
  */
 export function focusShifted(): void {
-	if (selectedIndex != -1) {
-		days[selectedIndex].getSelectedEventFromFocusedBox();
-	}
+  if (selectedIndex != -1) {
+    days[selectedIndex].getSelectedEventFromFocusedBox();
+  }
 }
 
 //* Private
@@ -78,9 +84,9 @@ export function focusShifted(): void {
  * @param changeBy number to change selected index by
  */
 function changeSelectedEventBy(changeBy: number): void {
-	if (selectedIndex != -1) {
-		days[selectedIndex].changeSelectedEventBy(changeBy);
-	}
+  if (selectedIndex != -1) {
+    days[selectedIndex].changeSelectedEventBy(changeBy);
+  }
 }
 
 /**
@@ -89,9 +95,9 @@ function changeSelectedEventBy(changeBy: number): void {
  * @returns index where the day was added to
  */
 function addDay(day: CalDay): number {
-	// TODO: Add binomial search to make sure days are sorted
-	days.push(day);
-	return days.length - 1;
+  // TODO: Add binomial search to make sure days are sorted
+  days.push(day);
+  return days.length - 1;
 }
 
 /**
@@ -100,34 +106,34 @@ function addDay(day: CalDay): number {
  * @returns CalDay[] created from the given string input
  */
 function getCalFromFileContents(fromFile: string): CalDay[] {
-	var file = JSON.parse(fromFile);
-	var output: CalDay[] = [];
+  const file = JSON.parse(fromFile);
+  const output: CalDay[] = [];
 
-	for (var key in file) {
-		output.push(CalDay.getDayFromJSON(JSON.stringify(file[key])));
-	}
+  for (const key in file) {
+    output.push(CalDay.getDayFromJSON(JSON.stringify(file[key])));
+  }
 
-	return output;
+  return output;
 }
 
 /**
  * Deletes the selected event
  */
 function deleteSelectedEvent(): void {
-	// TODO: Save when event is deleted
-	if (selectedIndex != -1) {
-		days[selectedIndex].deleteSelectedEvent();
-	}
+  if (selectedIndex != -1) {
+    days[selectedIndex].deleteSelectedEvent();
+  }
 }
 
 function moveFocusRight(): void {
-	if (selectedIndex != -1) {
-		days[selectedIndex].moveFocusRight();
-	}
+  if (selectedIndex != -1) {
+    days[selectedIndex].moveFocusRight();
+  }
 }
 
 function moveFocusLeft(): void {
-	if (selectedIndex != -1) {
-		days[selectedIndex].moveFocusLeft();
-	}
+  if (selectedIndex != -1) {
+    days[selectedIndex].moveFocusLeft();
+  }
 }
+

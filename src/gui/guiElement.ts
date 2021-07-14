@@ -1,17 +1,16 @@
-import * as Creation from "./creation"
+import * as Creation from "./creation";
 
-export { Creation }
+export { Creation };
 
 // TODO: Unify elementID.ts and guiElement.ts (as they both use IDs)
 //* define DOM for each of the main eliments
-var day = document.getElementById("day-wrapper");
-var select = document.getElementById("select-wrapper");
-var date = <HTMLInputElement>document.getElementById("date-selector-box");
-var note = document.getElementById("notes-wrapper");
-var body = document.getElementById("body-wrapper");
-var cal = document.getElementById("day_picker");
-var menu = document.getElementById("menu-wrapper");
-var cal = document.getElementById("date-selector-cal");
+const day = document.getElementById("day-wrapper");
+const select = document.getElementById("select-wrapper");
+const date = <HTMLInputElement>document.getElementById("date-selector-box");
+const note = document.getElementById("notes-wrapper");
+const body = document.getElementById("body-wrapper");
+const menu = document.getElementById("menu-wrapper");
+const cal = document.getElementById("date-selector-cal");
 
 export enum GUIElement {
   day,
@@ -20,7 +19,7 @@ export enum GUIElement {
   note,
   body,
   cal,
-  menu
+  menu,
 }
 
 //* Getters and Setters
@@ -28,14 +27,14 @@ export enum GUIElement {
  *
  * @returns HTML string
  */
-export function getHTML(element : GUIElement): string {
+export function getHTML(element: GUIElement): string {
   return enumToElement(element).innerHTML;
 }
 /**
  *
  * @returns HTML text
  */
-export function getText(element : GUIElement): string {
+export function getText(element: GUIElement): string {
   return enumToElement(element).innerText;
 }
 
@@ -43,7 +42,7 @@ export function getText(element : GUIElement): string {
  *
  * @param setter HTML string
  */
-export function setHTML(element : GUIElement, setter : string): void {
+export function setHTML(element: GUIElement, setter: string): void {
   enumToElement(element).innerHTML = setter;
 }
 
@@ -53,10 +52,13 @@ export function setHTML(element : GUIElement, setter : string): void {
  * @param qualifiedName name of the attribute
  * @param value value to set to the attribute
  */
-export function setElementAttribute(element: GUIElement, qualifiedName: string, value: string): void {
+export function setElementAttribute(
+  element: GUIElement,
+  qualifiedName: string,
+  value: string
+): void {
   enumToElement(element).setAttribute(qualifiedName, value);
 }
-
 
 /**
  * Gets and returns the value of an attribute
@@ -64,8 +66,11 @@ export function setElementAttribute(element: GUIElement, qualifiedName: string, 
  * @param attributeName the name of the attribute to get
  * @returns the attribute value attached to the name given
  */
-export function getAttributeFromElement(element: GUIElement, attributeName: string): string {
-	return enumToElement(element).getAttribute(attributeName);
+export function getAttributeFromElement(
+  element: GUIElement,
+  attributeName: string
+): string {
+  return enumToElement(element).getAttribute(attributeName);
 }
 
 //* Children
@@ -82,7 +87,10 @@ export function removeAllChildren(element: GUIElement): void {
  * @param element to add child to
  * @param child to be added to element
  */
-export function appendChildToElement(element: GUIElement, child: HTMLElement) {
+export function appendChildToElement(
+  element: GUIElement,
+  child: HTMLElement
+): void {
   enumToElement(element).appendChild(child);
 }
 
@@ -91,8 +99,11 @@ export function appendChildToElement(element: GUIElement, child: HTMLElement) {
  * @param element to add child to
  * @param child to be added
  */
-export function appendChildToBeginningOfElement(element: GUIElement, child: HTMLElement) {
-  var elem = enumToElement(element);
+export function appendChildToBeginningOfElement(
+  element: GUIElement,
+  child: HTMLElement
+): void {
+  const elem = enumToElement(element);
   elem.insertBefore(child, elem.firstChild);
 }
 
@@ -101,7 +112,7 @@ export function appendChildToBeginningOfElement(element: GUIElement, child: HTML
  * Change the date picker to a given table
  * @param table
  */
-export function setDatePicker(table : HTMLTableElement): void {
+export function setDatePicker(table: HTMLTableElement): void {
   if (cal.hasChildNodes()) {
     // For flicking between months
     cal.replaceChild(table, cal.childNodes[0]);
@@ -116,8 +127,8 @@ export function setDatePicker(table : HTMLTableElement): void {
  * @param newBody new body as HTML string
  * @returns the old body as HTML string
  */
-export function changeBody(newBody : string): string {
-  var oldBody: string = body.innerHTML;
+export function changeBody(newBody: string): string {
+  const oldBody: string = body.innerHTML;
   body.innerHTML = newBody;
 
   return oldBody;
@@ -128,7 +139,7 @@ export function changeBody(newBody : string): string {
  * @param state bool to set content editable to
  * @param obj what to set, string
  */
-export function setContEdit(state : boolean, obj : string) {
+export function setContEdit(state: boolean, obj: string): void {
   if (state) {
     if (obj == "note") {
       note.contentEditable = "true";
@@ -156,8 +167,19 @@ export function getDateSelectorBoxValue(): string {
  * @param type of event listener
  * @param listener function that should be called when that event happens
  */
-export function addElementEventListener(element : GUIElement, type : string, listener : () => void) {
+export function addElementEventListener(
+  element: GUIElement,
+  type: string,
+  listener: () => void
+): void {
   enumToElement(element).addEventListener(type, listener);
+}
+
+export function triggerEvent(element: GUIElement, eventName: string): void {
+  const event = document.createEvent("HTMLEvents");
+  event.initEvent(eventName, true, true);
+  // event.eventName = eventName;
+  enumToElement(element).dispatchEvent(event);
 }
 
 //* Private functions
@@ -165,45 +187,39 @@ export function addElementEventListener(element : GUIElement, type : string, lis
  * @param GUIElement
  * @returns HTMLElement that enum refers to
  */
-function enumToElement(element : GUIElement): HTMLElement {
-  var returnElem: HTMLElement;
+function enumToElement(element: GUIElement): HTMLElement {
+  let returnElem: HTMLElement;
   switch (element) {
-    case GUIElement.day:
-      {
-        returnElem = day;
-        break;
-      }
-    case GUIElement.select:
-      {
-        returnElem = select;
-        break;
-      }
-    case GUIElement.date:
-      {
-        returnElem = date;
-        break;
-      }
-    case GUIElement.note:
-      {
-        returnElem = note;
-        break;
-      }
-    case GUIElement.cal:
-      {
-        returnElem = cal;
-        break;
-      }
-    case GUIElement.menu:
-      {
-        returnElem = menu;
-        break;
-      }
-    default:
-      {
-        returnElem = body;
-        break;
-      }
+    case GUIElement.day: {
+      returnElem = day;
+      break;
+    }
+    case GUIElement.select: {
+      returnElem = select;
+      break;
+    }
+    case GUIElement.date: {
+      returnElem = date;
+      break;
+    }
+    case GUIElement.note: {
+      returnElem = note;
+      break;
+    }
+    case GUIElement.cal: {
+      returnElem = cal;
+      break;
+    }
+    case GUIElement.menu: {
+      returnElem = menu;
+      break;
+    }
+    default: {
+      returnElem = body;
+      break;
+    }
   }
 
   return returnElem;
 }
+

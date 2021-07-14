@@ -1,10 +1,10 @@
 import fs = require("fs");
-import path = require("path");
+// import path = require("path"); // NOTE: THIS  IS UNUSED!
 
 export enum File {
-    calEvents,
-    notes,
-    settings
+  calEvents,
+  notes,
+  settings,
 }
 
 /**
@@ -13,7 +13,7 @@ export enum File {
  * @param file the file to be edited
  */
 export function write(toWrite: string, file: File): void {
-    fs.writeFileSync(getFilepath(file), toWrite, "utf-8");
+  fs.writeFileSync(getFilepath(file), toWrite, "utf-8");
 }
 
 /**
@@ -22,8 +22,8 @@ export function write(toWrite: string, file: File): void {
  * @returns contents of the file
  */
 export function read(file: File): string {
-    makeFileExist(file);
-    return fs.readFileSync(getFilepath(file), "utf8");
+  makeFileExist(file);
+  return fs.readFileSync(getFilepath(file), "utf8");
 }
 
 //* Private
@@ -33,10 +33,10 @@ export function read(file: File): string {
  * @param file to make exist
  */
 function makeFileExist(file: File): void {
-    var filepath = getFilepath(file);
-    if (!fs.existsSync(filepath)) {
-        fs.writeFileSync(filepath, getFileStartContents(file))
-    }
+  const filepath = getFilepath(file);
+  if (!fs.existsSync(filepath)) {
+    fs.writeFileSync(filepath, getFileStartContents(file));
+  }
 }
 
 /**
@@ -45,21 +45,21 @@ function makeFileExist(file: File): void {
  * @returns the filepath of the file
  */
 function getFilepath(file: File): string {
-    switch (file) {
-        case File.calEvents: {
-            return "MCal.json";
-        }
-        case File.notes: {
-            return "MCal.html";
-        }
-        case File.settings: {
-            return "settings.json";
-        }
-        default: {
-            console.log("Unknown file!");
-            return "";
-        }
+  switch (file) {
+    case File.calEvents: {
+      return "MCal.json";
     }
+    case File.notes: {
+      return "MCal.html";
+    }
+    case File.settings: {
+      return "settings.json";
+    }
+    default: {
+      console.log("Unknown file!");
+      return "";
+    }
+  }
 }
 
 /**
@@ -68,19 +68,20 @@ function getFilepath(file: File): string {
  * @returns the starting contents
  */
 function getFileStartContents(file: File): string {
-    switch (file) {
-        case File.calEvents: {
-            return "[]";
-        }
-        case File.notes: {
-            return "";
-        }
-        case File.settings: {
-            return "{}";
-        }
-        default: {
-            console.log("Unknown file!");
-            return "";
-        }
+  switch (file) {
+    case File.calEvents: {
+      return "[]";
     }
+    case File.notes: {
+      return "";
+    }
+    case File.settings: {
+      return "{}";
+    }
+    default: {
+      console.log("Unknown file!");
+      return "";
+    }
+  }
 }
+
