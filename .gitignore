@@ -1,2 +1,7 @@
+node_modules
+dist
 *.code-workspace
 .vscode
+MCal.html
+MCal.json
+settings.json
