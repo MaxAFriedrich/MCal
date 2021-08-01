@@ -115,8 +115,7 @@ export function appendChildToElementWithClassNames(
   index: number
 ): void {
   document
-    .getElementsByClassName(convertClassNamesToString(classNames))
-    [index].appendChild(elem);
+    .getElementsByClassName(convertClassNamesToString(classNames))[index].appendChild(elem);
 }
 
 //* Checks
