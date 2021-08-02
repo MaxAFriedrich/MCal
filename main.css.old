@@ -1,0 +1,431 @@
+@import url( 'https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@300;400;700&display=swap');
+:root {
+  /*dark tones*/
+  --nord0: #2E3440;
+  --nord1: #3B4252;
+  --nord2: #434C5E;
+  --nord3: #4C566A;
+  /*light tones*/
+  --nord4: #D8DEE9;
+  --nord5: #E5E9F0;
+  --nord6: #ECEFF4;
+  /*blue tones*/
+  --nord7: #8FBCBB;
+  /*highlight*/
+  --nord8: #88C0D0;
+  /*primary*/
+  --nord9: #81A1C1;
+  /*secondary*/
+  --nord10: #5E81AC;
+  /*tertiary*/
+  /*special tones*/
+  --nord11: #BF616A;
+  /*error*/
+  --nord12: #D08770;
+  /*danger*/
+  --nord13: #EBCB8B;
+  /*warning*/
+  --nord14: #A3BE8C;
+  /*success*/
+  --nord15: #B48EAD;
+  /*uncommon function*/
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--nord3);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--nord10);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nord9);
+}
+*:focus {
+  outline: var(--nord8) solid 1px;
+  padding:1px;
+}
+
+html {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: var(--nord4);
+  width: 100%;
+  background-color: var(--nord0);
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+
+}
+
+::selection {
+  background: var(--nord2);
+  /* WebKit/Blink Browsers */
+}
+
+::-moz-selection {
+  background: var(--nord2);
+  /* Gecko Browsers */
+}
+
+#modalSettings{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: var(--nord6); /* Fallback color */
+  background-color: rgba(93,94,96,0.4); /* Black w/ opacity */
+}
+
+#settingsContent{
+  background-color: var(--nord0);
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  width: 80%; /* Could be more or less, depending on screen size */
+  overflow: auto;
+}
+
+#day-wrapper {
+  border-right: 2px solid var(--nord1);
+  width: 74%;
+  float: left;
+  overflow: auto;
+  height: 94vh;
+}
+
+#delete {
+  background-color: var(--nord13);
+  border: none;
+  color: var(--nord3);
+  float: right;
+}
+
+.event {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: var(--nord1);
+}
+.event span:empty:before {
+  content: attr(placeholder);
+  color: var(--nord3);
+}
+
+.event span {
+  margin-left: 3ch;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.event.selected {
+  background-color: var(--nord2);
+}
+
+#endTime,
+#startTime {
+  width: 8ch;
+}
+
+#contents {
+  max-width: 65%;
+}
+
+.event br {
+  display: none;
+}
+
+.right-wrapper {
+  width: 25%;
+  float: right;
+  height: 96vh;
+}
+
+#select-wrapper {
+  width: 98%;
+  padding: 1%;
+  height: 23vh;
+  overflow: hidden;
+}
+
+/* datepicker */
+.datepicker {
+  background-color: var(--nord1);
+  color: var(--nord4);
+  border: none;
+  margin: 1rem;
+}
+
+#date-selector-cal {
+  position: absolute;
+  text-align: center;
+  background-color: var(--nord1);
+  color: var(--nord4);
+}
+
+#date-selector-cal table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
+#date-selector-cal input {
+  border: none;
+  border-radius: 0;
+  margin: 1px;
+  padding: 2px;
+  text-align: center;
+  background-color: var(--nord1);
+  color: var(--nord4);
+}
+
+#date-selector-cal table input[type=button] {
+  width: 2em;
+}
+#date-selector-cal input[type=button]:active {
+  padding: 2px 4px 2px 6px;
+}
+
+#date-selector-cal input[type=text] {
+  background: var(--nord0);
+  color: var(--nord4);
+}
+
+#date-selector-cal input.today {
+  border: 2px solid var(--nord8);
+  border-radius: 50%;
+}
+
+#date-selector-cal input.selected {
+  background-color: var(--nord3);
+  border-radius: 50%;
+}
+
+#date-selector-cal input.otherMonth {
+  color: var(--nord3);
+}
+
+.datepickershow img {
+  border: 0;
+}
+
+.monthDisplay {
+  width: 80px;
+  font-size: 9px;
+}
+
+.daysRow {
+  font-size: 11px;
+}
+
+/* datepicker end   */
+
+#notes-wrapper {
+  border-top: 2px solid var(--nord1);
+  width: 90%;
+  padding: 5%;
+  height: 65vh;
+  overflow: auto;
+}
+#notes-wrapper:empty:before {
+  content: attr(placeholder);
+  color: var(--nord3);
+}
+
+#menu-wrapper {
+  border-top: 2px solid var(--nord1);
+  position: absolute;
+  bottom: 0;
+  width: 98%;
+  padding: 1%;
+  height: 2vh;
+}
+
+.previewMD {
+  background-color: var(--nord9);
+  border: none;
+  color: var(--nord1);
+  float: right;
+}
+.settings {
+  background-color: var(--nord9);
+  border: none;
+  color: var(--nord1);
+  float: none;
+}
+#SetClose {
+  background-color: var(--nord9);
+  border: none;
+  color: var(--nord1);
+  float: right;
+}
+select{
+  background-color: var(--nord1);
+  color:var(--nord4);
+  border:var(--nord10) solid 1px;
+}
+#SetPath{
+  background-color: var(--nord1);
+  color: var(--nord4);
+  border:none;
+  padding: 0.5rem;
+  width:75%;
+  margin:0.5rem;
+}
+
+#err {
+  color: var(--nord12);
+}
+
+/* css for MD */
+
+#notes-wrapper h1,
+h2,
+h3 {
+  color: var(--nord6);
+  margin: 0;
+}
+#notes-wrapper h4,
+h5,
+h6 {
+  color: var(--nord5);
+  margin: 0;
+}
+#notes-wrapper a {
+  color: var(--nord8);
+  text-decoration: none;
+}
+#notes-wrapper a:hover {
+  color: var(--nord9);
+}
+#notes-wrapper mark {
+  background-color: var(--nord7);
+}
+#notes-wrapper p {
+  line-height: 1.5rem;
+  padding: 1rem;
+}
+#notes-wrapper blockquote {
+  font-style: oblique;
+  color: var(--nord5);
+  line-height: 3rem;
+}
+#notes-wrapper iframe {
+  border: none;
+}
+#notes-wrapper table {
+  border-collapse: collapse;
+  width: 96%;
+  margin: 2%;
+}
+#notes-wrapper table td,
+table th {
+  border: 1px solid var(--nord10);
+  padding: 8px;
+}
+#notes-wrapper table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: var(--nord9);
+  color: var(--nord5);
+}
+#notes-wrapper input{
+  pointer-events: none;
+}
+#notes-wrapper input:not[type="checkbox"],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: none;
+  box-sizing: border-box;
+  background-color: var(--nord6);
+  color: var(--nord1);
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+#notes-wrapper input[type=submit] {
+  width: 100%;
+  background-color: var(--nord8);
+  color: var(--nord1);
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+#notes-wrapper button {
+  background-color: var(--nord8);
+  color: var(--nord1);
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+#notes-wrapper img {
+  padding: 5%;
+}
+#notes-wrapper b {
+  font-weight: 700;
+}
+#notes-wrapper i {
+  font-weight: 300;
+}
+#notes-wrapper code {
+  background-color: var(--nord4);
+  color: var(--nord0);
+  width: 90%;
+  padding: 0.1rem;
+  border-radius: 0.1rem;
+  font-family: 'Roboto Mono', monospace;
+}
+#notes-wrapper pre {
+  background-color: var(--nord4);
+  color: var(--nord0);
+  width: 90%;
+  padding: 0.1rem;
+  border-radius: 0.1rem;
+  font-family: 'Roboto Mono', monospace;
+}
+#notes-wrapper samp {
+  background-color: var(--nord4);
+  color: var(--nord15);
+  width: 90%;
+  font-family: 'Roboto Mono', monospace;
+}
+#notes-wrapper header {
+  background-color: var(--nord3);
+  padding: 3rem;
+}
+#notes-wrapper header * {
+  display: inline;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+#notes-wrapper footer {
+  color: var(--nord4);
+  font-weight: 300;
+  text-align: center;
+}
+#notes-wrapper section {
+  background-color: var(--nord1);
+  padding: 1rem;
+}

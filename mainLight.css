@@ -1,488 +1,114 @@
-@import url( 'https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:wght@300;400;700&display=swap');
-
-:root {
-/*dark tones*/
-
-
-
-  --nord0: #2E3440;
-	--nord1: #3B4252;
-	--nord2: #434C5E;
-	--nord3: #4C566A;
-/*light tones*/
-
-
-
-  --nord4: #D8DEE9;
-	--nord5: #E5E9F0;
-	--nord6: #ECEFF4;
-/*blue tones*/
-
-
-
-  --nord7: #8FBCBB;
-/*highlight*/
-
-
-
-  --nord8: #88C0D0;
-/*primary*/
-
-
-
-  --nord9: #81A1C1;
-/*secondary*/
-
-
-
-  --nord10: #5E81AC;
-/*tertiary*/
-
-
-
-  
-
-/*special tones*/
-
-
-  --nord11: #BF616A;
-/*error*/
-
-
-
-  --nord12: #D08770;
-/*danger*/
-
-
-
-  --nord13: #EBCB8B;
-/*warning*/
-
-
-
-  --nord14: #A3BE8C;
-/*success*/
-
-
-
-  --nord15: #B48EAD;
-/*uncommon function*/
-
-}
-
-
-
-/* width */
-
-
-::-webkit-scrollbar {
-	width: 5px;
-}
-
-
-
-/* Track */
-
-
-::-webkit-scrollbar-track {
-	background: var(--nord6);
-}
-
-
-
-/* Handle */
-
-
-::-webkit-scrollbar-thumb {
-	background: var(--nord10);
-}
-
-
-
-/* Handle on hover */
-
-
-::-webkit-scrollbar-thumb:hover {
-	background: var(--nord9);
-}
-
-*:focus {
-	outline: var(--nord8) solid 1px;
-	padding: 1px;
-}
-
+/**NOTE: ONLY PUT LIGHT THEME COLOURS IN THIS FILE*/
 html {
-	font-family: 'Roboto', sans-serif;
-	font-weight: 400;
-	color: var(--nord0);
-	width: 100%;
-	background-color: var(--nord6);
-	overflow: hidden;
+  color: #00060D;
+  background: salmon;
 }
-
-body {
-	margin: 0;
-}
-
 ::selection {
-	background: var(--nord5);
-/* WebKit/Blink Browsers */
-
+  /* !fix this */
+  background: #889BB3;
 }
-
-::-moz-selection {
-	background: var(--nord5);
-/* Gecko Browsers */
-
+*:focus {
+  /* !fix this */
+  outline-color: #C2DDFF;
 }
-
-#modalSettings {
-	display: none;
-/* Hidden by default */
-
-
-
-  position: fixed;
-/* Stay in place */
-
-
-
-  z-index: 1;
-/* Sit on top */
-
-
-
-  left: 0;
-	top: 0;
-	width: 100%;
-/* Full width */
-
-
-
-  height: 100%;
-/* Full height */
-
-
-
-  overflow: auto;
-/* Enable scroll if needed */
-
-
-
-  background-color: var(--nord4);
-/* Fallback color */
-
-
-
-  background-color: rgba(30, 34, 42, 0.4);
-/* Black w/ opacity */
-
-}
-
-#settingsContent {
-	background-color: var(--nord4);
-	margin: 15% auto;
-/* 15% from the top and centered */
-
-
-
-  padding: 20px;
-	width: 80%;
-/* Could be more or less, depending on screen size */
-
-
-
-  overflow: auto;
-}
-
+/* day/event stuff */
 #day-wrapper {
-	border-right: 2px solid var(--nord6);
-	width: 74%;
-	float: left;
-	overflow: auto;
-	height: 94vh;
+  background-color: #E6F1FF;
 }
-
-#delete {
-	background-color: var(--nord13);
-	border: none;
-	color: var(--nord3);
-	float: right;
-}
-
 .event {
-	margin: 1rem;
-	padding: 1rem;
-	background-color: var(--nord5);
+  background-color: #7EAFEA;
 }
-
+.eventMore {
+  background-color: red;
+}
 .event span:empty:before {
-	content: attr(placeholder);
-	color: var(--nord3);
+  color: #003980;
 }
-
-.event span {
-	margin-left: 3ch;
-	display: inline-block;
-	white-space: nowrap;
-	overflow: hidden;
-}
-
 .event.selected {
-	background-color: var(--nord4);
+  /* !fix this */
+  background-color: #5395E6;
 }
-
-#endTime,
-#startTime {
-	width: 8ch;
-}
-
-#contents {
-	max-width: 65%;
-}
-
-.event br {
-	display: none;
-}
-
-.right-wrapper {
-	width: 25%;
-	float: right;
-	height: 96vh;
-}
-
-#select-wrapper {
-	width: 98%;
-	padding: 1%;
-	height: 23vh;
-	overflow: hidden;
-}
-
-
 
 /* datepicker */
-
-
-.datepicker {
-	background-color: var(--nord5);
-	color: var(--nord0);
-	border: none;
-	margin: 1rem;
+#select-wrapper {
+  background-color: #D9EAFF;
 }
-
 #date-selector-cal {
-	position: absolute;
-	text-align: center;
-	background-color: var(--nord5);
-	color: var(--nord0);
+  background-color: inherit;
+  color: inherit;
 }
-
-#date-selector-cal table {
-	border-collapse: collapse;
-	margin: auto;
-}
-
 #date-selector-cal input {
-	border: none;
-	border-radius: 0;
-	margin: 1px;
-	padding: 2px;
-	text-align: center;
-	background-color: var(--nord6);
-	color: var(--nord0);
+  background-color: inherit;
+  color: inherit;
 }
-
-#date-selector-cal table input[type=button] {
-	width: 2em;
-}
-
-#date-selector-cal input[type=button]:active {
-	padding: 2px 4px 2px 6px;
-}
-
-#date-selector-cal input[type=text] {
-	background: var(--nord4);
-	color: var(--nord0);
+#date-selector-cal input[type="text"] {
+  background-color: inherit;
+  color: inherit;
 }
 
 #date-selector-cal input.today {
-	border: 2px solid var(--nord8);
-	border-radius: 50%;
+  background-color: inherit;
+  color: inherit;
 }
 
 #date-selector-cal input.selected {
-	background-color: var(--nord4);
-	border-radius: 50%;
+  background-color: #B0D4FF;
+  color: inherit;
 }
 
 #date-selector-cal input.otherMonth {
-	color: var(--nord4);
+  background-color: inherit;
+  color: #7EAFEA;
+}
+/* Scroll Bar */
+::-webkit-scrollbar-track {
+  background: #E6F1FF;
 }
 
-.datepickershow img {
-	border: 0;
+::-webkit-scrollbar-thumb {
+  background: #73A8EA;
 }
 
-.monthDisplay {
-	width: 80px;
-	font-size: 9px;
+::-webkit-scrollbar-thumb:hover {
+  /* !fix this */
+  background: #0067E6;
 }
-
-.daysRow {
-	font-size: 11px;
+/* Notes */
+.notes-wrapper-wrapper {
+  background-color: #B9CFEA;
 }
-
-
-
-/* datepicker end   */
-
-
-
-#notes-wrapper {
-	border-top: 2px solid var(--nord5);
-	width: 90%;
-	padding: 5%;
-	height: 65vh;
-	overflow: auto;
-}
-
 #notes-wrapper:empty:before {
-	content: attr(placeholder);
-	color: var(--nord3);
+  color: #B8C0CC;
 }
 
-#menu-wrapper {
-	border-top: 2px solid var(--nord5);
-	position: absolute;
-	bottom: 0;
-	width: 98%;
-	padding: 1%;
-	height: 2vh;
+/* settings modal */
+#modalSettings {
+  /* !Fix this */
+  background-color: #00306694;
 }
 
-.previewMD {
-	background-color: var(--nord9);
-	border: none;
-	color: var(--nord4);
-	float: right;
+#settingsContent {
+  /* !Fix this */
+  background-color: #E6F1FF;
 }
 
-.settings {
-	background-color: var(--nord9);
-	border: none;
-	color: var(--nord4);
-	float: none;
+#eventsMenu {
+  background-color: #B9CFEA;
+}
+#notesMenu {
+  background-color: #E6F1FF;
 }
 
+/* Icons */
+#date-selector-cal input[value="<<"],
+#date-selector-cal input[value=">>"],
+#date-selector-cal input[value="<"],
+#date-selector-cal input[value=">"],
+#date-selector-cal input[value=">"],
+#delete,
+#previewMD[value="Preview"],
+#previewMD[value="Edit"],
+#settings,
 #SetClose {
-	background-color: var(--nord9);
-	border: none;
-	color: var(--nord4);
-	float: right;
-}
-
-select {
-	background-color: var(--nord5);
-	color: var(--nord0);
-	border: var(--nord10) solid 1px;
-}
-
-#SetPath {
-	background-color: var(--nord5);
-	color: var(--nord1);
-	border: none;
-	padding: 0.5rem;
-	width: 75%;
-	margin: 0.5rem;
-}
-
-#err {
-	color: var(--nord12);
-}
-
-
-
-/* css for MD */
-
-
-
-#notes-wrapper h1, h2, h3 {
-	color: var(--nord3);
-	margin: 0;
-}
-
-#notes-wrapper h4, h5, h6 {
-	color: var(--nord2);
-	margin: 0;
-}
-
-#notes-wrapper a {
-	color: var(--nord8);
-	text-decoration: none;
-}
-
-#notes-wrapper a:hover {
-	color: var(--nord9)
-}
-
-#notes-wrapper mark {
-	background-color: var(--nord7);
-}
-
-#notes-wrapper p {
-	line-height: 1.5rem;
-	padding: 1rem;
-}
-
-#notes-wrapper blockquote {
-	font-style: oblique;
-	color: var(--nord1);
-	line-height: 3rem;
-}
-
-#notes-wrapper table {
-	border-collapse: collapse;
-	width: 96%;
-	margin: 2%;
-}
-
-#notes-wrapper table td, table th {
-	border: 1px solid var(--nord10);
-	padding: 8px;
-}
-
-#notes-wrapper table th {
-	padding-top: 12px;
-	padding-bottom: 12px;
-	text-align: left;
-	background-color: var(--nord9);
-	color: var(--nord5);
-}
-
-#notes-wrapper img {
-	padding: 5%;
-}
-
-#notes-wrapper b {
-	font-weight: 700;
-}
-
-#notes-wrapper i {
-	font-weight: 300;
-}
-
-#notes-wrapper code {
-	background-color: var(--nord0);
-	color: var(--nord4);
-	width: 90%;
-	padding: 0.5rem;
-	border-radius: 0.5rem;
-	font-family: 'Roboto Mono', monospace;
-}
-
-#notes-wrapper samp {
-	background-color: var(--nord0);
-	color: var(--nord15);
-	width: 90%;
-	font-family: 'Roboto Mono', monospace;
+  background-color: #0050B3;
 }

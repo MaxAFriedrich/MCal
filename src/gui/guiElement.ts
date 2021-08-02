@@ -9,7 +9,8 @@ const select = document.getElementById("select-wrapper");
 const date = <HTMLInputElement>document.getElementById("date-selector-box");
 const note = document.getElementById("notes-wrapper");
 const body = document.getElementById("body-wrapper");
-const menu = document.getElementById("menu-wrapper");
+const menuDay = document.getElementById("eventsMenu");
+const menuNote = document.getElementById("notesMenu");
 const cal = document.getElementById("date-selector-cal");
 
 export enum GUIElement {
@@ -19,7 +20,8 @@ export enum GUIElement {
   note,
   body,
   cal,
-  menu,
+  menuDay,
+  menuNote,
 }
 
 //* Getters and Setters
@@ -210,8 +212,12 @@ function enumToElement(element: GUIElement): HTMLElement {
       returnElem = cal;
       break;
     }
-    case GUIElement.menu: {
-      returnElem = menu;
+    case GUIElement.menuDay: {
+      returnElem = menuDay;
+      break;
+    }
+    case GUIElement.menuNote: {
+      returnElem = menuNote;
       break;
     }
     default: {

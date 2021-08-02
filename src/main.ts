@@ -14,7 +14,7 @@ function init(): void {
 
   //add settings button to menmu bar
   Gui.appendChildToElement(
-    Gui.GUIElement.menu,
+    Gui.GUIElement.menuDay,
     Gui.Creation.createButton(
       "Settings",
       toggle,
@@ -25,7 +25,7 @@ function init(): void {
 
   //add preview MD button to menu bar
   Gui.appendChildToElement(
-    Gui.GUIElement.menu,
+    Gui.GUIElement.menuNote,
     Gui.Creation.createButton(
       "Preview",
       previewMDInit,

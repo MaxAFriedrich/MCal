@@ -1,0 +1,23 @@
+## events
+
+bg main, #052E20
+bottom bar, #0F3D2E
+event more, #20604A
+event banner, #366354
+
+## notes
+bg main, #033030
+bottom bar, #0F3D3D
+
+## date picker
+bg main, #002233
+current day, #143D52
+preview day, #1F3A47
+
+
+## text
+
+text main, #ECF2F9
+text highlight, #C6D9EC
+icons, #D9E5F2
+scroll bar, #C6D9EC, #ACBFD2

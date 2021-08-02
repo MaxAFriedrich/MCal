@@ -1,0 +1,20 @@
+## events
+bg main, D1FAEC
+bottom bar, C2F0E0
+event more, 9FDFCA
+event banner, 9CC9BA
+
+## notes
+bg main, CFFCFC
+bottom bar, C2F0F0
+
+## date picker
+bg main, CCEEFF
+current day, ADD6EB
+preview day, B8D3E0
+
+## text
+text main, 060D13
+text highlight, 132639
+icons, 0D1A26
+scroll bar, 132639,2D4053

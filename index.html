@@ -4,20 +4,25 @@
   <head>
     <title>MCal</title>
     <link id="mainCSS"rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="layout.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
     <div id="body-wrapper">
       <div id="day-wrapper"></div>
-      <div class="right-wrapper">
         <div id="select-wrapper">
           <input id='date-selector-box' class='datepicker' placeholder="1/1/2000">
           <div id="date-selector-cal"></div>
         </div>
+        <div class="notes-wrapper-wrapper">
         <div id="notes-wrapper" placeholder="Enter your notes here" contenteditable="True"></div>
-      </div>
-      <div id="menu-wrapper"></div>
+
+        </div>
+        <!-- <div id="menu-wrapper"> -->
+          <div id="eventsMenu"></div>
+          <div id="notesMenu"></div>
+      <!-- </div> -->
     </div>
     <div id="modalSettings">
       <div id="settingsContent">
