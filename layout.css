@@ -220,13 +220,18 @@
     width: 24px;
     overflow: hidden;
   }
+  #previewMD{
+    margin:0px;
+    padding:0px;
+    height: 4.5em;
+    width: 4.5em;
+  }
   #previewMD[value="Preview"] {
     -webkit-mask-image: url("./icons/code_black_24dp.svg");
     -webkit-mask-size: 100% 100%;
     mask-image: url("./icons/code_black_24dp.svg");
     mask-size: 100% 100%;
     color: rgba(0, 0, 0, 0);
-    height: 100%;
     overflow: hidden;
   }
   #previewMD[value="Edit"] {
@@ -235,7 +240,6 @@
     mask-image: url("./icons/code_off_black_24dp.svg");
     mask-size: 100% 100%;
     color: rgba(0, 0, 0, 0);
-    height: 100%;
     overflow: hidden;
   }
   #settings {
@@ -244,8 +248,12 @@
     mask-image: url("./icons/settings_black_24dp.svg");
     mask-size: 100% 100%;
     color: rgba(0, 0, 0, 0);
-    height: 100%;
+    height: 24px;
+    margin:0px;
+    padding:0px;
     overflow: hidden;
+    height: 4em;
+    width: 4em;
   }
   #SetClose {
     -webkit-mask-image: url("./icons/close_black_24dp.svg");
