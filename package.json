@@ -13,7 +13,7 @@
   "author": "GitHub",
   "license": "MIT",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.27.0",
     "electron": "^13.1.5",
     "eslint": "^7.28.0",
