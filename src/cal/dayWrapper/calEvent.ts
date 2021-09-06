@@ -145,7 +145,7 @@ export class CalEvent {
    * @param time to set to event end time
    */
   public setEndTime(time: string): void {
-    this.description = time;
+    this.endTime = time;
   }
 }
 
