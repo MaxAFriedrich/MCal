@@ -4,22 +4,34 @@ import * as Cal from "./cal/cal";
 import * as Note from "./note/note";
 import * as Rw from "./rw/rw";
 import * as Input from "./input/input";
-import { addAttributeToElementWithID, ElementID } from "./gui/elementID";
-import { toggle } from "./setting/gui";
+import { addAttributeToElementWithID, ElementID, toggleSettings, toggleSearch } from "./gui/elementID";
+import * as Settings from "./setting/gui";
+import * as Search from "./search/search";
 
 //* main innit funct
 function init(): void {
   Input.init(); // Should be first to be initialised
   Cal.init(Rw.read(Rw.File.calEvents));
-
+  Settings.initGui();
+  Search.initGui();
   //add settings button to menmu bar
   Gui.appendChildToElement(
     Gui.GUIElement.menuDay,
     Gui.Creation.createButton(
       "Settings",
-      toggle,
+      toggleSettings,
       [Gui.Creation.ClassName.settings],
       Gui.Creation.ElementID.settings
+    )
+  );
+  //add search button to menmu bar
+  Gui.appendChildToElement(
+    Gui.GUIElement.menuDay,
+    Gui.Creation.createButton(
+      "Search",
+      toggleSearch,
+      [Gui.Creation.ClassName.search],
+      Gui.Creation.ElementID.search
     )
   );
 
@@ -54,7 +66,8 @@ function init(): void {
 
   // Key callback added
   Input.addCommandKey([Input.CommandKey.ctrl], "`", previewMDInit);
-  Input.addCommandKey([Input.CommandKey.ctrl], ",", toggle);
+  Input.addCommandKey([Input.CommandKey.ctrl], ",", toggleSettings);
+  Input.addCommandKey([Input.CommandKey.ctrl], "f", toggleSearch);
 }
 init();
 

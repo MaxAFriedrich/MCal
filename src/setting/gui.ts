@@ -1,6 +1,6 @@
 import * as Setter from "./setter";
 import * as Path from "../rw/path";
-
+import * as Elm from "../gui/elementID"
 ////Setter.theme("mainLight.css")
 
 /**
@@ -14,45 +14,12 @@ enum SettingProperty {
 }
 
 /**
- * global bool for display of modal, false=hidden
- */
-let toggleDisplay = false;
-
-/**
- * Open the modal using DOM
- */
-function Open() {
-  document.getElementById(SettingProperty.wrapper).style.display = "block";
-}
-
-/**
- * Close the modal using DOM
- */
-function Close() {
-  document.getElementById(SettingProperty.wrapper).style.display = "none";
-}
-
-/**
- * Function to either open or close the modal depending on toggleDisplay
- */
-export function toggle(): void {
-  if (toggleDisplay) {
-    Close();
-    toggleDisplay = !toggleDisplay;
-  } else {
-    Open();
-    toggleDisplay = !toggleDisplay;
-  }
-}
-////toggle()
-
-/**
  * runs on program start and makes sure that all eliments have the correct content and sets the settings as necessary for the gui
  */
-function initGui() {
+export function initGui():void {
   document
     .getElementById(SettingProperty.close)
-    .addEventListener("click", toggle);
+    .addEventListener("click", Elm.toggleSettings);
 
   const pathInpt = document.getElementById("SetPath") as HTMLInputElement;
   const lightTheme = document.getElementById(
@@ -84,4 +51,3 @@ function initGui() {
     Setter.theme("main.css");
   }
 }
-initGui();

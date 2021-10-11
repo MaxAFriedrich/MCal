@@ -1,7 +1,7 @@
 import { addCommandKey, CommandKey, PressType } from "../../input/input";
 import { CalDay } from "./calDay";
 
-let days: CalDay[];
+export let days: CalDay[];
 let selectedIndex: number;
 let currentUnitialisedDay: CalDay;
 

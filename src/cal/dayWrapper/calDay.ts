@@ -74,6 +74,18 @@ export class CalDay {
     return this.date;
   }
 
+  /**
+   * gets all the descriptions from a event
+   * @returns array of date and array of event descriptions
+   */
+  public getEventDesc():[Date, string[]] {
+    const out: string[] = [];
+    this.events.forEach(e => {
+      out.push(e.getDescription());
+    });
+    return [this.date, out];
+  }
+
   //* Selected Event
   /**
    * Safely sets the selected event and updates the divs (without losing focus)

@@ -126,6 +126,7 @@
   #notes-wrapper:empty:before {
     content: attr(placeholder);
   }
+
   /* Menu */
   #menu-wrapper {
     position: absolute;
@@ -172,7 +173,20 @@
     width: 80%;
     overflow: auto;
   }
-  
+  /* search */  
+  #searchContent {
+    margin: 5% auto;
+    padding: 5px;
+    width: 90%;
+    overflow: auto;
+    max-height: 60%;
+  }
+  #searchField {
+    padding: 1%;
+  }
+  #searchField:empty:before {
+    content: attr(placeholder);
+  }
   /* Icons */
   #date-selector-cal input[value="<<"] {
     -webkit-mask-image: url("./icons/first_page_black_24dp.svg");
@@ -255,7 +269,20 @@
     height: 4em;
     width: 4em;
   }
-  #SetClose {
+  #search {
+    -webkit-mask-image: url("./icons/search_black_24dp.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-image: url("./icons/search_black_24dp.svg");
+    mask-size: 100% 100%;
+    color: rgba(0, 0, 0, 0);
+    height: 24px;
+    margin:0px;
+    padding:0px;
+    overflow: hidden;
+    height: 4em;
+    width: 4em;
+  }
+  #SetClose, #SerClose {
     -webkit-mask-image: url("./icons/close_black_24dp.svg");
     -webkit-mask-size: 100% 100%;
     mask-image: url("./icons/close_black_24dp.svg");

@@ -161,6 +161,10 @@ export class CalEvent {
     return intA;
   }
 
+  public getDescription():string{
+    return this.description;
+  }
+
   /**
    *
    * @param desc to set

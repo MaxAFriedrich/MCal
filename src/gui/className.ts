@@ -9,6 +9,8 @@ export enum ClassName {
   event = "event",
   previewMD = "previewMD",
   settings = "settings",
+  search = "search",
+  resultDay = "resultDay"
 }
 
 //* Add class name
@@ -114,9 +116,7 @@ export function appendChildToElementWithClassNames(
   elem: HTMLElement,
   index: number
 ): void {
-  document
-    .getElementsByClassName(convertClassNamesToString(classNames))
-    [index].appendChild(elem);
+  document.getElementsByClassName(convertClassNamesToString(classNames))[index].appendChild(elem);
 }
 
 //* Checks

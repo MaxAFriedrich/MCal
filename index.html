@@ -38,6 +38,12 @@
           <input id="SetPath" placeholder="path">
         </div>
       </div>
+      <!-- This is a hack to get a reasonable search field. -->
+      <div id="searchContent">
+        <input type="button" id="SerClose" value="Close">
+        <div id="searchField"contenteditable="True" placeholder="Search ..."></div>
+        <div id="searchResults"></div>
+      </div>
     </div>
     <script>
       require('./dist/main.js');

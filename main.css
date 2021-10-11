@@ -88,7 +88,7 @@ html {
   background-color: #00306694;
 }
 
-#settingsContent {
+#settingsContent, #searchContent {
   /* !Fix this */
   background-color: #00060D;
 }
@@ -110,6 +110,7 @@ html {
 #previewMD[value="Preview"],
 #previewMD[value="Edit"],
 #settings,
-#SetClose {
+#search,
+#SetClose, #SerClose {
   background-color: #ACC7E6;
 }

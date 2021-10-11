@@ -6,6 +6,12 @@ export enum ElementID {
   eventContents = "contents",
   previewMD = "previewMD",
   settings = "settings",
+  settingsContent = "settingsContent",
+  search = "search",
+  searchContent = "searchContent",
+  searchField = "searchField",
+  searchResults = "searchResults",
+  modalWrapper = "modalSettings"
 }
 
 /**
@@ -107,4 +113,79 @@ export function getIDOfFocusedElement(): ElementID {
   const id: ElementID = maybeID == null ? ElementID.none : maybeID;
 
   return id;
+}
+
+/**
+ * set display of settings pannel
+ * @param value display or block
+ */
+export function settingsDisp(value:string):void{
+  document.getElementById(ElementID.settingsContent).style.display=value;
+}
+/**
+ * set disaply of search pannel
+ * @param value display or block
+ */
+export function searchDisp(value:string):void{
+  document.getElementById(ElementID.searchContent).style.display=value;
+}
+
+/**
+ * Open the modal using DOM
+ */
+ export function modalOpen():void {
+  document.getElementById(ElementID.modalWrapper).style.display = "block";
+}
+
+/**
+ * Close the modal using DOM
+ */
+export function modalClose():void{
+  document.getElementById(ElementID.modalWrapper).style.display = "none";
+}
+
+
+/**
+ * global bool for display of each modal
+ */
+ let showSettings = true;
+ let showSearch = true;
+
+
+
+ /**
+  * Function to either open or close the modal depending on above globals
+  */
+ export function toggleSettings(): void {
+  if (showSearch){
+    if (showSettings) {
+      modalOpen();
+      settingsDisp("block");
+      searchDisp("none");
+    } else {
+      modalClose();
+      settingsDisp("block");
+      searchDisp("none");
+    }
+    showSettings = !showSettings;
+  }
+ }
+
+
+export function toggleSearch(): void {
+  if (showSettings){
+    const searchField = document.getElementById(ElementID.searchField);
+    if (showSearch) {
+      settingsDisp("none");
+      searchDisp("block");
+      modalOpen();
+      searchField.innerText="";
+      searchField.focus();
+    } else {
+      settingsDisp("block");
+      searchDisp("none");
+      modalClose();
+    }
+    showSearch = !showSearch;
+  }
 }

@@ -266,7 +266,7 @@ body {
   color: var(--nord1);
   float: none;
 }
-#SetClose {
+#SetClose, #SerClose {
   background-color: var(--nord9);
   border: none;
   color: var(--nord1);
