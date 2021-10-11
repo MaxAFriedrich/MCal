@@ -123,6 +123,43 @@ export class CalEvent {
   public getStartTime(): string {
     return this.startTime;
   }
+  /**
+   *
+   * @returns The start time of the event as a int in arbitary form
+   */
+  public getStartTimeInt(): number {
+    let intA;
+    try {
+      const eventA = this.startTime.split(":");
+      intA = parseInt(eventA[0]);
+      if (eventA[1].includes("PM") || (eventA[1].includes("pm") && eventA[0] != "12")) {
+        intA += 12;
+      }
+      intA += parseInt(eventA[1]) / 60;
+    } catch  {
+      intA = 999;
+    }
+    return intA;
+  }
+
+  /**
+   * getEndTimeInt
+   * @returns The end time of the event as a int in arbitary form
+   */
+  public getEndTimeInt(): number {
+    let intA;
+    try {
+      const eventA = this.endTime.split(":");
+      intA = parseInt(eventA[0]);
+      if (eventA[1].includes("PM") || (eventA[1].includes("pm") && eventA[0] != "12")) {
+        intA += 12;
+      }
+      intA += parseInt(eventA[1]) / 60;
+    } catch  {
+      intA = 999;
+    }
+    return intA;
+  }
 
   /**
    *

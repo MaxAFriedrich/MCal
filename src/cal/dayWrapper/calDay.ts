@@ -165,12 +165,24 @@ export class CalDay {
 
     this.events.sort((a: CalEvent, b: CalEvent): number => {
       // TODO: allow key works to be sorted and empty startTimes should be at the end
-      if (a.getStartTime() < b.getStartTime()) {
+      if (a.getStartTimeInt() < b.getStartTimeInt()) {
         return -1;
-      } else if (a.getStartTime() > b.getStartTime()) {
+      } else if (a.getStartTimeInt() > b.getStartTimeInt()) {
         return 1;
       } else {
-        return 0;
+        if (a.getStartTimeInt() == b.getStartTimeInt()){
+          if (a.getEndTimeInt() < b.getEndTimeInt()){
+            return -1;
+          }
+          else if(a.getEndTimeInt() > b.getEndTimeInt()){
+            return 1;
+          }
+          else{
+            return 0;
+          }
+        }else{
+          return 0;
+        }
       }
     });
 
