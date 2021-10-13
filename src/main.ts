@@ -54,6 +54,10 @@ function init(): void {
     Cal.eventChanged();
     saveCalendar();
   });
+  Gui.addElementEventListener(Gui.GUIElement.day, "pasted", () => {
+    Cal.eventPasted();
+    saveCalendar();
+  });
   Gui.addElementEventListener(Gui.GUIElement.day, "eventDeleted", () => {
     saveCalendar();
   });

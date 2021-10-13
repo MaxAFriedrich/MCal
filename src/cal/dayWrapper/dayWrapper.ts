@@ -59,12 +59,25 @@ export function extractFromHTML(): void {
   }
   days[selectedIndex].extractFromHTML();
 }
+/**
+ * innits new days if necessary and saves it into the data structure (but not to a file)
+ */
+export function innitDay(): void {
+  if (selectedIndex == -1) {
+    if (currentUnitialisedDay == null) {
+      console.log("ERROR: events has not been displayed for this day yet");
+    } else {
+      selectedIndex = addDay(currentUnitialisedDay);
+    }
+  }
+}
 
 /**
  *
  * @returns string to be saved to the file
  */
 export function getFileSaveString(): string {
+  console.log(days);
   return JSON.stringify(days);
 }
 

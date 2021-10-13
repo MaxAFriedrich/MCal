@@ -3,8 +3,17 @@ import {
   scrollToFirstElementWithClassNames,
 } from "../gui/className";
 import * as Selector from "./dateSelector";
+import { CalEvent } from "./dayWrapper/calEvent";
 import * as DayWrapper from "./dayWrapper/dayWrapper";
 
+export let copyOn = false;
+export let copyContents:CalEvent;
+export function setCopyOn(value:boolean):void{
+  copyOn=value;
+}
+export function setCopyContents(value:CalEvent):void{
+  copyContents=new CalEvent(value.getDescription(),value.getStartTime(),value.getEndTime(),value.getColor(),value.getNotes());
+}
 /**
  * Initialises each section and displays the starting section
  * @param fromFile contents of .json save file
@@ -21,6 +30,13 @@ export function init(fromFile: string): void {
 export function eventChanged(): void {
   console.log("Calendar events have changed, updating CalDay");
   DayWrapper.extractFromHTML();
+}
+/**
+ * Function to be called when the events have been pasted
+ */
+export function eventPasted(): void {
+  console.log("Calendar event has been pasted, updating CalDay");
+  DayWrapper.innitDay();
 }
 
 /**
@@ -40,6 +56,9 @@ export function getSaveFileString(): string {
   return DayWrapper.getFileSaveString(); // TODO: Add selected day to save?
 }
 
+export function refresh():void{
+  dateDisplay();
+}
 //* Private
 
 /**

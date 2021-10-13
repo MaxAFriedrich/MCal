@@ -7,7 +7,7 @@ import {
 } from "../../gui/creation";
 
 // const DEFAULT_COLOUR: Color = Color.rgb(0, 0, 0);
-const DEFAULT_COLOUR = "#FFFFFF";
+const DEFAULT_COLOUR = "#7F7F7F";
 
 export class CalEvent {
   private description: string;
@@ -93,7 +93,7 @@ export class CalEvent {
         description
       )
     );
-
+    myDiv.style.border="5px solid "+colour;
     return myDiv;
   }
 
@@ -122,6 +122,13 @@ export class CalEvent {
    */
   public getStartTime(): string {
     return this.startTime;
+  }
+  /**
+   *
+   * @returns The start end of the event
+   */
+  public getEndTime(): string {
+    return this.endTime;
   }
   /**
    *
@@ -165,12 +172,28 @@ export class CalEvent {
     return this.description;
   }
 
+  public getNotes():string{
+    return this.notes;
+  }
+
+  public getColor():string{
+    return this.colour;
+  }
+
   /**
    *
    * @param desc to set
    */
   public setDescription(desc: string): void {
     this.description = desc;
+  }
+
+  public setNotes(notes:string):void{
+    this.notes=notes;
+  }
+
+  public setColor(color:string):void{
+    this.colour=color;
   }
 
   /**

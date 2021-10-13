@@ -1,3 +1,5 @@
+import { ElementID } from "./elementID";
+
 // TODO: Change names so more representative?
 export enum ClassName {
   none = "",
@@ -10,7 +12,13 @@ export enum ClassName {
   previewMD = "previewMD",
   settings = "settings",
   search = "search",
-  resultDay = "resultDay"
+  resultDay = "resultDay",
+  twirlExpand = "twirlExpand",
+  twirlContract = "twirlContract",
+  expandDiv = "expandDiv",
+  eventExpandChildren = "eventExpandChildren",
+  pasteCancel = "pasteCancel",
+  pasteEvent = "pasteEvent",
 }
 
 //* Add class name
@@ -168,6 +176,34 @@ export function scrollToFirstElementWithClassNames(
   }
 }
 
+export function getDivAsObject(classToRemove:ClassName):Element{
+  const elements = document.getElementsByClassName(classToRemove);
+  return elements[0];
+}
+export function getDivAndRemove(classToRemove:ClassName):void{
+  const elements = document.getElementsByClassName(classToRemove);
+  elements[0].parentNode.removeChild(elements[0]);
+}
+
+/**
+ * chanege the twirl icon
+ * @param show true=expand false=contract
+ * @param index index of event
+ */
+export function twirlChange(show:boolean, index:number):void{
+  if (show==true){
+    document.querySelectorAll('[id='+ElementID.twirlButton+']')[index].className=ClassName.twirlExpand;
+    
+  }
+  else{
+    document.querySelectorAll('[id='+ElementID.twirlButton+']')[index].className=ClassName.twirlContract;
+
+  }
+}
+
+export function setStyleByClass(className:string,index:number,property:string):void{
+  document.getElementsByClassName(className)[index].setAttribute("style",property)
+}
 //* Private
 /**
  *

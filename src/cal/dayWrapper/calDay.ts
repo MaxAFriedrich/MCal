@@ -6,7 +6,7 @@ import {
   getIndexAndIDOfFocusedElement,
   removeAllElementWithIDIf,
 } from "../../gui/elementID";
-import { createButton } from "../../gui/creation";
+import { createButton, createDiv, appendExpand, createInput } from "../../gui/creation";
 import {
   removeAllChildren,
   GUIElement,
@@ -23,17 +23,26 @@ import {
   removeAllElementWithClassNamesIf,
   doesElementHaveClassName,
   changeOnClickFuncOfElementWithClassNames,
+  getDivAsObject,
+  getDivAndRemove,
+  twirlChange,
+  setStyleByClass,
 } from "../../gui/className";
+import { copyContents, copyOn, setCopyContents, setCopyOn } from "../cal";
 
 export class CalDay {
   private date: Date;
   private events: CalEvent[];
   private selectedEvent: number;
+  private twirl: boolean;
+  private twirlIndex: number;
 
   constructor(date: Date) {
     this.date = date;
     this.events = [];
     this.selectedEvent = 0;
+    this.twirl = false;
+    this.twirlIndex = 0;
   }
 
   //* Static functions
@@ -137,6 +146,7 @@ export class CalDay {
         ElementID.eventContents,
         ElementID.eventStartTime,
         ElementID.eventEndTime,
+        ElementID.twirlButton,
         ElementID.eventDeleteButton,
       ].includes(obj.id)
     ) {
@@ -167,6 +177,60 @@ export class CalDay {
 
     this.render(); // Re-renders list which also gets rid of indexing issues
     triggerEvent(GUIElement.day, "eventDeleted");
+  }
+
+  public expandEvent(index: number):void {
+    const expandDiv = createDiv([ClassName.expandDiv]);
+    const notesDiv = createDiv([ClassName.eventExpandChildren]);
+    notesDiv.contentEditable="True";
+    notesDiv.setAttribute("placeholder","Notes...");
+    notesDiv.id=ElementID.notesDiv;
+    notesDiv.innerHTML = this.events[index].getNotes();
+    expandDiv.appendChild(notesDiv);
+
+    const colorBtn = createInput("button","color",[ClassName.eventExpandChildren],false,20,ElementID.colorClick);
+    colorBtn.addEventListener("click",()=>{
+      document.getElementById(ElementID.colorPalet).click();
+    });
+    expandDiv.appendChild(colorBtn);
+
+    const colorInp = createInput("color",this.events[index].getColor(),[ClassName.eventExpandChildren],false,20,ElementID.colorPalet);
+    expandDiv.appendChild(colorInp);
+
+    const repeatBtn = createInput("button","repeat",[ClassName.eventExpandChildren],false,20,ElementID.repeatEvent);
+    repeatBtn.addEventListener("click",()=>{
+      console.log("repeat event: ",index);
+    });
+
+    expandDiv.appendChild(repeatBtn);
+    const copyBtn = createInput("button","copy",[ClassName.eventExpandChildren],false,20,ElementID.copyEvent);
+    copyBtn.addEventListener("click",()=>{
+      console.log("copy event: ",index);
+      setCopyOn(true);
+      setCopyContents(this.events[index]);
+      this.renderCopyToPaste();
+      this.rerenderWithoutLosingFocus()
+    });
+
+    expandDiv.appendChild(copyBtn);
+    appendExpand(expandDiv,index);
+
+    
+  }
+
+  public contractEvent(index:number, remove?:boolean):void{
+    console.log("Contacting...")
+    const expandDiv = getDivAsObject(ClassName.expandDiv);
+    if (remove){
+      console.log("Removing...")
+      getDivAndRemove(ClassName.expandDiv);
+    }
+    this.events[index].setNotes(expandDiv.getElementsByClassName(ClassName.eventExpandChildren)[0].innerHTML);
+    this.events[index].setColor(expandDiv.getElementsByTagName("input")[1].value);
+    const property = "border: 5px solid "+this.events[index].getColor()+";";
+    setStyleByClass(ClassName.event,index,property);
+    console.log(this.events[index].getNotes());
+    console.log(this.events[index].getColor());
   }
 
   /**
@@ -223,6 +287,7 @@ export class CalDay {
    * Renders the whole events list again, meaning user will lose focus if typing, however must happen for rendering new day
    */
   public render(): void {
+    this.twirl=false;
     removeAllChildren(GUIElement.day);
 
     this.events.forEach((e, i) => {
@@ -230,12 +295,14 @@ export class CalDay {
         i == this.selectedEvent,
         this.getOnEventClickFunction(i)
       );
+      div.appendChild(this.createTwirlButton(i));
       div.appendChild(this.createDeleteButton(i));
 
       appendChildToElement(GUIElement.day, div);
     });
 
     this.renderLastEmptyEvent(this.selectedEvent == this.events.length);
+    this.renderCopyToPaste();
   }
 
   /**
@@ -248,10 +315,18 @@ export class CalDay {
       (elem: Element) => !doesElementHaveClassName(ClassName.selected, elem)
     );
 
+    removeAllElementWithIDIf(ElementID.twirlButton, (elem: Element) =>
+      doesElementHaveClassName(ClassName.selected, elem.parentElement)
+    );
     removeAllElementWithIDIf(ElementID.eventDeleteButton, (elem: Element) =>
       doesElementHaveClassName(ClassName.selected, elem.parentElement)
     );
 
+    appendChildToElementWithClassNames(
+      [ClassName.event, ClassName.selected],
+      this.createTwirlButton(this.selectedEvent),
+      0
+    );
     appendChildToElementWithClassNames(
       [ClassName.event, ClassName.selected],
       this.createDeleteButton(this.selectedEvent),
@@ -265,17 +340,20 @@ export class CalDay {
 
     for (let i = this.selectedEvent - 1; i >= 0; i--) {
       const div = this.events[i].getDiv(false, this.getOnEventClickFunction(i));
+      div.appendChild(this.createTwirlButton(i));
       div.appendChild(this.createDeleteButton(i));
       appendChildToBeginningOfElement(GUIElement.day, div);
     }
 
     for (let i = this.selectedEvent + 1; i < this.events.length; i++) {
       const div = this.events[i].getDiv(false, this.getOnEventClickFunction(i));
+      div.appendChild(this.createTwirlButton(i));
       div.appendChild(this.createDeleteButton(i));
       appendChildToElement(GUIElement.day, div);
     }
 
     this.renderLastEmptyEvent(false);
+    this.renderCopyToPaste();
   }
 
   //* Saving
@@ -283,6 +361,11 @@ export class CalDay {
    * Extracts information from HTML on page, updating the stored events
    */
   public extractFromHTML(): void {
+    //save expanded bit
+    if (this.twirl){
+      this.contractEvent(this.twirlIndex);
+    console.log(this.twirlIndex);
+    }
     const startTimes = getAllInnerHTMLFrom(ElementID.eventStartTime);
     const endTimes = getAllInnerHTMLFrom(ElementID.eventEndTime);
     const contents = getAllInnerHTMLFrom(ElementID.eventContents);
@@ -319,11 +402,18 @@ export class CalDay {
         // Adds delete button for element without re-rendering whole thing
         appendChildToElementWithClassNames(
           [ClassName.event],
+          this.createTwirlButton(lastElemIndex),
+          lastElemIndex
+        );
+
+        appendChildToElementWithClassNames(
+          [ClassName.event],
           this.createDeleteButton(lastElemIndex),
           lastElemIndex
         );
 
         this.renderLastEmptyEvent(false);
+        this.renderCopyToPaste();
       }
     }
 
@@ -372,6 +462,50 @@ export class CalDay {
     return createButton("Delete", deleteFunc, [], ElementID.eventDeleteButton);
   }
 
+
+  /**
+   * Creates and returns the twirl button for more option on event
+   * @param index of the event to expand with the press of the button
+   * @returns Button that can be used to twirl event at the given index
+   */
+  private createTwirlButton(index: number): HTMLInputElement {
+    const addFunc = ((day: CalDay, index: number) => {
+      return function () {
+        function hide(localIndex:number){
+          day.contractEvent(localIndex,true);
+          day.twirl=false;
+          console.log("Hidden expanded thing.");
+        }
+        function show(){
+          day.twirlIndex=index;
+          day.expandEvent(index);
+          day.twirl=true;
+          console.log("Adding expanded thing.");
+        }
+        console.log("Clicked twirl.")
+        if (!day.twirl){
+          // first click
+          show();
+          twirlChange(false,index);
+        }
+        else if (day.twirl && day.twirlIndex==index){
+          // close click
+          hide(index);
+          twirlChange(true,index);
+        }
+        else{
+          // close previous and open current
+          hide(day.twirlIndex);
+          twirlChange(true,day.twirlIndex);
+          show();
+          twirlChange(false,index);
+        }
+        
+      };
+    })(this, index);
+    return createButton("Twirl", addFunc, [ClassName.twirlExpand], ElementID.twirlButton);
+  }
+
   /**
    * Returns function needed to be attached to event div
    * @param index of the event to attach event to
@@ -391,6 +525,31 @@ export class CalDay {
       this.getOnEventClickFunction(this.events.length)
     );
     appendChildToElement(GUIElement.day, newDiv);
+  }
+
+
+  private renderCopyToPaste(){
+    if (copyOn){
+      const newDiv = createDiv([ClassName.event]);
+      newDiv.appendChild(createButton("Paste Event",()=>{
+        this.events.push(
+          new CalEvent(copyContents.getDescription(),copyContents.getStartTime(),
+          copyContents.getEndTime(),copyContents.getColor(),copyContents.getNotes()));
+        this.sortEvents();
+        triggerEvent(GUIElement.day, "pasted");
+        this.render();
+        console.log("Pasted event: "+copyContents.getDescription());
+        if (this.twirl){
+          this.contractEvent(this.twirlIndex);
+        }
+      },[ClassName.pasteEvent]))
+      newDiv.style.display="inline-block";
+      newDiv.appendChild(createButton("Cancel",()=>{
+        newDiv.parentNode.removeChild(newDiv);
+        setCopyOn(false);
+      },[ClassName.pasteCancel]));
+      appendChildToElement(GUIElement.day,newDiv);
+    }
   }
 
   /**

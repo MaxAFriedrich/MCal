@@ -107,10 +107,18 @@ html {
 #date-selector-cal input[value=">"],
 #date-selector-cal input[value=">"],
 #delete,
+#twirlButton,
 #previewMD[value="Preview"],
 #previewMD[value="Edit"],
 #settings,
 #search,
-#SetClose, #SerClose {
+#SetClose, 
+#SerClose,
+#colorClick,
+#colorPalet,
+#repeatEvent,
+.pasteEvent,
+.pasteCancel,
+#copyEvent {
   background-color: #ACC7E6;
 }

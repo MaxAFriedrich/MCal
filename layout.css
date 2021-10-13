@@ -26,13 +26,20 @@
     overflow: auto;
     height: 95vh;
   }
+  #twirlButton {
+    border: none;
+    float: right;
+  }
   #delete {
     border: none;
     float: right;
   }
+
   .event {
     margin: 1rem;
     padding: 1rem;
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr 5fr 24px 24px;
   }
   .event span:empty:before {
     content: attr(placeholder);
@@ -56,6 +63,25 @@
   
   .event br {
     display: none;
+  }
+  #searchField br {
+    display: none;
+  }
+
+  .expandDiv{
+    order:6;
+    grid-column-start: 1;
+    grid-column-end: 5;
+  }
+  .expandDiv *{
+    margin: 0.1rem;
+  }
+  #notesDiv:empty:before {
+    content: attr(placeholder);
+  }
+
+  #twirlButton{
+    order:5;
   }
   
   .right-wrapper {
@@ -182,6 +208,8 @@
   }
   #searchField {
     padding: 1%;
+    white-space: nowrap;
+    overflow: hidden;
   }
   #searchField:empty:before {
     content: attr(placeholder);
@@ -233,6 +261,70 @@
     width: 24px;
     overflow: hidden;
   }
+
+  #colorClick{
+    -webkit-mask-image: url("./icons/palette_black_24dp.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-image: url("./icons/palette_black_24dp.svg");
+    mask-size: 100% 100%;
+    color: rgba(0, 0, 0, 0);
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+  }
+  #colorPalet{
+    box-sizing: inherit;
+    border: none;
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+    line-height: inherit;
+    color: inherit;
+    cursor: pointer;
+    outline: 0;
+    width:0px;
+    height:0px;
+    color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+
+  }
+  #repeatEvent{
+    -webkit-mask-image: url("./icons/repeat_black_24dp.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-image: url("./icons/repeat_black_24dp.svg");
+    mask-size: 100% 100%;
+    color: rgba(0, 0, 0, 0);
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+  }
+  #copyEvent{
+    -webkit-mask-image: url("./icons/content_copy_black_24dp.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-image: url("./icons/content_copy_black_24dp.svg");
+    mask-size: 100% 100%;
+    color: rgba(0, 0, 0, 0);
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+  } 
+  #twirlButton {
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    color: rgba(0, 0, 0, 0);
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+  }
+  .twirlExpand{
+    -webkit-mask-image: url("./icons/expand_more_black_24dp.svg");
+    mask-image: url("./icons/expand_more_black_24dp.svg");
+  }
+  .twirlContract{
+    -webkit-mask-image: url("./icons/expand_less_black_24dp.svg");
+    mask-image: url("./icons/expand_less_black_24dp.svg");
+  }
+
   #previewMD{
     margin:0px;
     padding:0px;
@@ -280,6 +372,30 @@
     overflow: hidden;
     height: 4em;
     width: 4em;
+  }
+  .pasteEvent {
+    -webkit-mask-image: url("./icons/content_paste_black_24dp.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-image: url("./icons/content_paste_black_24dp.svg");
+    mask-size: 100% 100%;
+    color: rgba(0, 0, 0, 0);
+    margin:0.5rem;
+    padding:0px;
+    overflow: hidden;
+    height: 2em;
+    width: 2em;
+  }
+  .pasteCancel {
+    -webkit-mask-image: url("./icons/cancel_black_24dp.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-image: url("./icons/cancel_black_24dp.svg");
+    mask-size: 100% 100%;
+    color: rgba(0, 0, 0, 0);
+    margin:0.5rem;
+    padding:0px;
+    overflow: hidden;
+    height: 2em;
+    width: 2em;
   }
   #SetClose, #SerClose {
     -webkit-mask-image: url("./icons/close_black_24dp.svg");

@@ -11,7 +11,13 @@ export enum ElementID {
   searchContent = "searchContent",
   searchField = "searchField",
   searchResults = "searchResults",
-  modalWrapper = "modalSettings"
+  modalWrapper = "modalSettings",
+  twirlButton = "twirlButton",
+  notesDiv = "notesDiv",
+  repeatEvent = "repeatEvent",
+  copyEvent = "copyEvent",
+  colorPalet = "colorPalet",
+  colorClick = "colorClick",
 }
 
 /**
