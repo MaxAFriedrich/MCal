@@ -125,28 +125,28 @@ export function getIDOfFocusedElement(): ElementID {
  * set display of settings pannel
  * @param value display or block
  */
-export function settingsDisp(value:string):void{
-  document.getElementById(ElementID.settingsContent).style.display=value;
+export function settingsDisp(value: string): void {
+  document.getElementById(ElementID.settingsContent).style.display = value;
 }
 /**
  * set disaply of search pannel
  * @param value display or block
  */
-export function searchDisp(value:string):void{
-  document.getElementById(ElementID.searchContent).style.display=value;
+export function searchDisp(value: string): void {
+  document.getElementById(ElementID.searchContent).style.display = value;
 }
 
 /**
  * Open the modal using DOM
  */
- export function modalOpen():void {
+export function modalOpen(): void {
   document.getElementById(ElementID.modalWrapper).style.display = "block";
 }
 
 /**
  * Close the modal using DOM
  */
-export function modalClose():void{
+export function modalClose(): void {
   document.getElementById(ElementID.modalWrapper).style.display = "none";
 }
 
@@ -154,16 +154,16 @@ export function modalClose():void{
 /**
  * global bool for display of each modal
  */
- let showSettings = true;
- let showSearch = true;
+let showSettings = true;
+let showSearch = true;
 
 
 
- /**
-  * Function to either open or close the modal depending on above globals
-  */
- export function toggleSettings(): void {
-  if (showSearch){
+/**
+ * Function to either open or close the modal depending on above globals
+ */
+export function toggleSettings(): void {
+  if (showSearch) {
     if (showSettings) {
       modalOpen();
       settingsDisp("block");
@@ -175,17 +175,17 @@ export function modalClose():void{
     }
     showSettings = !showSettings;
   }
- }
+}
 
 
 export function toggleSearch(): void {
-  if (showSettings){
+  if (showSettings) {
     const searchField = document.getElementById(ElementID.searchField);
     if (showSearch) {
       settingsDisp("none");
       searchDisp("block");
       modalOpen();
-      searchField.innerText="";
+      searchField.innerText = "";
       searchField.focus();
     } else {
       settingsDisp("block");
@@ -196,6 +196,6 @@ export function toggleSearch(): void {
   }
 }
 
-export function appendDivToParent(elmID:ElementID,newDiv:HTMLDivElement):void{
+export function appendDivToParent(elmID: ElementID, newDiv: HTMLDivElement): void {
   document.getElementById(elmID).parentNode.appendChild(newDiv);
 }

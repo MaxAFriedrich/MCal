@@ -180,11 +180,11 @@ export function scrollToFirstElementWithClassNames(
   }
 }
 
-export function getDivAsObject(classToRemove:ClassName):Element{
+export function getDivAsObject(classToRemove: ClassName): Element {
   const elements = document.getElementsByClassName(classToRemove);
   return elements[0];
 }
-export function getDivAndRemove(classToRemove:ClassName):void{
+export function getDivAndRemove(classToRemove: ClassName): void {
   const elements = document.getElementsByClassName(classToRemove);
   elements[0].parentNode.removeChild(elements[0]);
 }
@@ -194,25 +194,25 @@ export function getDivAndRemove(classToRemove:ClassName):void{
  * @param show true=expand false=contract
  * @param index index of event
  */
-export function twirlChange(show:boolean, index:number):void{
-  if (show==true){
-    document.querySelectorAll('[id='+ElementID.twirlButton+']')[index].className=ClassName.twirlExpand;
-    
+export function twirlChange(show: boolean, index: number): void {
+  if (show == true) {
+    document.querySelectorAll('[id=' + ElementID.twirlButton + ']')[index].className = ClassName.twirlExpand;
+
   }
-  else{
-    document.querySelectorAll('[id='+ElementID.twirlButton+']')[index].className=ClassName.twirlContract;
+  else {
+    document.querySelectorAll('[id=' + ElementID.twirlButton + ']')[index].className = ClassName.twirlContract;
 
   }
 }
 
-export function setStyleByClass(className:string,index:number,property:string):void{
-  document.getElementsByClassName(className)[index].setAttribute("style",property)
+export function setStyleByClass(className: string, index: number, property: string): void {
+  document.getElementsByClassName(className)[index].setAttribute("style", property)
 }
 
-export function scrapeByInputType(type:string,name:ClassName):string[]{
+export function scrapeByInputType(type: string, name: ClassName): string[] {
   const classtoScrape = document.getElementsByClassName(name);
-  const out=[];
-  for (let i = 0;i<classtoScrape.length;i++){
+  const out = [];
+  for (let i = 0; i < classtoScrape.length; i++) {
     const elm = classtoScrape[i] as HTMLInputElement;
     out.push(elm.value);
   }

@@ -48,17 +48,17 @@ function makeFileExist(file: File): void {
 function getFilepath(file: File): string {
   switch (file) {
     case File.calEvents: {
-      return nodePath.join(Path.livePath,"MCal.json");
+      return nodePath.join(Path.livePath, "MCal.json");
     }
     case File.notes: {
-      return nodePath.join(Path.livePath,"MCal.html");
+      return nodePath.join(Path.livePath, "MCal.html");
     }
     case File.settings: {
-      return nodePath.join(Path.livePath,"settings.json");
+      return nodePath.join(Path.livePath, "settings.json");
     }
     default: {
       console.log("Unknown file!");
-      return nodePath.join(Path.livePath,"");
+      return nodePath.join(Path.livePath, "");
     }
   }
 }

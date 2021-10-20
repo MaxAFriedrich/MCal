@@ -162,20 +162,20 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
   const localFor: number[] = [];
 
   for (let i = 0; i < 5; i++) {
-      if (paramEvery[i] == "") {
-          localEvery[i] = 0;
-      }
-      else {
-          localEvery[i] = parseInt(paramEvery[i]);
-      }
+    if (paramEvery[i] == "") {
+      localEvery[i] = 0;
+    }
+    else {
+      localEvery[i] = parseInt(paramEvery[i]);
+    }
   }
   for (let i = 0; i < 5; i++) {
-      if (paramFor[i] == "") {
-          localFor[i] = 0;
-      }
-      else {
-          localFor[i] = parseInt(paramFor[i]);
-      }
+    if (paramFor[i] == "") {
+      localFor[i] = 0;
+    }
+    else {
+      localFor[i] = parseInt(paramFor[i]);
+    }
   }
 
   const tempDate = new Date(days[selectedIndex].getDate().toISOString())
@@ -183,7 +183,7 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
   const eventA = localEventObj.getStartTime().split(":");
   hrs = parseInt(eventA[0]);
   if (eventA[1].toLowerCase().includes("pm") && eventA[0] != "12") {
-      hrs += 12;
+    hrs += 12;
   }
   const mins = parseInt(eventA[1]);
   tempDate.setHours(hrs);
@@ -191,7 +191,7 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
   tempDate.setSeconds(0);
   tempDate.setMilliseconds(0);
 
-  let unixTemp:number;
+  let unixTemp: number;
   unixTemp = tempDate.valueOf() / 1000;
 
   let unixFor = 0;
@@ -210,32 +210,32 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
 
 
   const unixTarget = unixTemp + unixFor;
-  let tempIndex:number;
+  let tempIndex: number;
   unixTemp += unixEvery;
   while (unixTarget > unixTemp) {
-      unixTemp += unixEvery;
-      const tempObj = new Date(unixTemp * 1000);
-      tempIndex = selectedIndex;
-      if (days[tempIndex].getDate().getDate() != tempObj.getDate() && days[tempIndex].getDate().getMonth() != tempObj.getMonth() && days[tempIndex].getDate().getFullYear() != tempObj.getFullYear()) {
-          //find the day with tehcorrect date and then set index acrodinly, initialise new day if aproraopraite
-          let x = false;
-          for (let i = 0; i < days.length; i++) {
-              if (days[i].getDate().getDate() == tempObj.getDate() && days[i].getDate().getMonth() == tempObj.getMonth() && days[i].getDate().getFullYear() == tempObj.getFullYear()) {
-                  tempIndex = i;
-                  x = true;
-                  break;
-              }
-          }
-          if (!x) {
-              tempIndex = days.push(new CalDay(tempObj)) - 1;
-          }
+    unixTemp += unixEvery;
+    const tempObj = new Date(unixTemp * 1000);
+    tempIndex = selectedIndex;
+    if (days[tempIndex].getDate().getDate() != tempObj.getDate() && days[tempIndex].getDate().getMonth() != tempObj.getMonth() && days[tempIndex].getDate().getFullYear() != tempObj.getFullYear()) {
+      //find the day with tehcorrect date and then set index acrodinly, initialise new day if aproraopraite
+      let x = false;
+      for (let i = 0; i < days.length; i++) {
+        if (days[i].getDate().getDate() == tempObj.getDate() && days[i].getDate().getMonth() == tempObj.getMonth() && days[i].getDate().getFullYear() == tempObj.getFullYear()) {
+          tempIndex = i;
+          x = true;
+          break;
+        }
       }
-      // set the date of the event and then add it to the day
-      console.log("-----------------------------\n Intent: "+tempObj.toISOString()+"\nAcutual: "+days[tempIndex].getDate().toISOString()+"\n-----------------------------");
-      days[tempIndex].pushNewEvent(new CalEvent(localEventObj.getDescription(), ("0" + tempObj.getHours().toString()).slice(-2) + ":" + ("0" + tempObj.getMinutes().toString()).slice(-2), localEventObj.getEndTime(), localEventObj.getColor(), localEventObj.getNotes()));
+      if (!x) {
+        tempIndex = days.push(new CalDay(tempObj)) - 1;
+      }
+    }
+    // set the date of the event and then add it to the day
+    console.log("-----------------------------\n Intent: " + tempObj.toISOString() + "\nAcutual: " + days[tempIndex].getDate().toISOString() + "\n-----------------------------");
+    days[tempIndex].pushNewEvent(new CalEvent(localEventObj.getDescription(), ("0" + tempObj.getHours().toString()).slice(-2) + ":" + ("0" + tempObj.getMinutes().toString()).slice(-2), localEventObj.getEndTime(), localEventObj.getColor(), localEventObj.getNotes()));
   }
   if (tempIndex == selectedIndex) {
     days[selectedIndex].render();
-}
+  }
   triggerEvent(GUIElement.day, "pasted");
 }

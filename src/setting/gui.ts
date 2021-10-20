@@ -16,7 +16,7 @@ enum SettingProperty {
 /**
  * runs on program start and makes sure that all eliments have the correct content and sets the settings as necessary for the gui
  */
-export function initGui():void {
+export function initGui(): void {
   document
     .getElementById(SettingProperty.close)
     .addEventListener("click", Elm.toggleSettings);

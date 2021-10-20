@@ -7,12 +7,12 @@ import { CalEvent } from "./dayWrapper/calEvent";
 import * as DayWrapper from "./dayWrapper/dayWrapper";
 
 export let copyOn = false;
-export let copyContents:CalEvent;
-export function setCopyOn(value:boolean):void{
-  copyOn=value;
+export let copyContents: CalEvent;
+export function setCopyOn(value: boolean): void {
+  copyOn = value;
 }
-export function setCopyContents(value:CalEvent):void{
-  copyContents=new CalEvent(value.getDescription(),value.getStartTime(),value.getEndTime(),value.getColor(),value.getNotes());
+export function setCopyContents(value: CalEvent): void {
+  copyContents = new CalEvent(value.getDescription(), value.getStartTime(), value.getEndTime(), value.getColor(), value.getNotes());
 }
 /**
  * Initialises each section and displays the starting section
@@ -56,7 +56,7 @@ export function getSaveFileString(): string {
   return DayWrapper.getFileSaveString(); // TODO: Add selected day to save?
 }
 
-export function refresh():void{
+export function refresh(): void {
   dateDisplay();
 }
 //* Private

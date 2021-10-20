@@ -1,4 +1,4 @@
-import {setContEdit} from "../gui/guiElement";
+import { setContEdit } from "../gui/guiElement";
 
 //*global vars
 //toggle for preview
@@ -11,7 +11,7 @@ let previewMDState = true;
  * @param currentWrite the current contents of the notepad file
  * @returns [text to write to file, text to display] strings
  */
-export function previewMDClick(currentDisplayText : string, currentDisplayHTML : string, currentWrite : string): [string, string, string]{
+export function previewMDClick(currentDisplayText: string, currentDisplayHTML: string, currentWrite: string): [string, string, string] {
   let toWrite: string,
     toDisplay: string,
     value: string;
@@ -35,7 +35,7 @@ export function previewMDClick(currentDisplayText : string, currentDisplayHTML :
 
 //*NOTE: This is not completed code and has been pulled mostly from https://github.com/MaxAFriedrich/markdown-parser
 //TODO footnotes
-function markdownParser(input : string) {
+function markdownParser(input: string) {
   const output: string = input.replace(/^###### (.*)\{#(.*)\}$/gim, '<h6 id="$2">$1</h6>').replace(/^###### (.*$)/gim, "<h6>$1</h6>").replace(/^##### (.*)\{#(.*)\}$/gim, '<h5 id="$2">$1</h5>').replace(/^##### (.*$)/gim, "<h5>$1</h5>").replace(/^#### (.*)\{#(.*)\}$/gim, '<h4 id="$2">$1</h4>').replace(/^#### (.*$)/gim, "<h4>$1</h4>").replace(/^### (.*)\{#(.*)\}$/gim, '<h3 id="$2">$1</h3>').replace(/^### (.*$)/gim, "<h3>$1</h3>").replace(/^## (.*)\{#(.*)\}$/gim, '<h2 id="$2">$1</h2>').replace(/^## (.*$)/gim, "<h2>$1</h2>").replace(/^# (.*)\{#(.*)\}$/gim, '<h1 id="$2">$1</h1>').replace(/^# (.*$)/gim, "<h1>$1</h1>").replace(/^---/gim, "<hr>").replace(/^___/gim, "<hr>").replace(/^\*\*\*/gim, "<hr>").replace(/^\> (.*$)/gim, "<blockquote>$1</blockquote>").replace(/\*\*\*(.*)\*\*\*/gim, "<i><b>$1</b></i>").replace(/\*\*(.*)\*\*/gim, "<b>$1</b>").replace(/__(.*)__/gim, "<b>$1</b>").replace(/\*(.*)\*/gim, "<i>$1</i>").replace(/_(.*)_/gim, "<i>$1</i>").replace(/~~(.*)~~/gim, "<s>$1</s>").replace(/- \[\x\](\s*)(.*)/gim, '<ul style="list-style-type: none;"><li><input type="checkbox"checked="true">$2</li></ul>').replace(/- \[ \](\s*)(.*)/gim, '<ul style="list-style-type: none;"><li><input type="checkbox">$2</li></ul>').replace(/^(\*|\-|\+ )(\s*)(.*)/gim, "<ul><li>$3</li></ul>").replace(/(^1\.\s*(.|\n)*\d\.\s*.*)/gim, "<ol>$1</ol>").replace(/\d\.\s*(.*)/gim, "<li>$1</li>").replace(/\=\=(.*)\=\=/gim, "<mark>$1</mark>").replace(/\`\`\`(.*)([\s\S]*)\`\`\`/gim, "<pre>$2</pre>").replace(/^(.*)\n: (.*)/gim, "<p><dfn>$1</dfn> $2</p>").replace(/\`(.*)\`/gim, "<code>$1</code>").replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />").replace(/\[(.*?)\]\((.*?)\)/gim, '<a href="javascript:void(0);" onclick="const { shell } = require(`electron`);shell.openExternal(`$2`);">$1</a>').replace(/\n$/gim, "<br />");
   return markdownTable(output);
 }
@@ -45,7 +45,7 @@ function markdownParser(input : string) {
  * @param inputHTML html string
  * @returns html string
  */
-function markdownTable(inputHTML : string) {
+function markdownTable(inputHTML: string) {
   const outputHTML: string[] = inputHTML.split("<br />");
   for (let i = 0; i < outputHTML.length; i++) {
     const line: string = outputHTML[i];

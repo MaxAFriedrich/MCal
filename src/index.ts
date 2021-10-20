@@ -1,7 +1,7 @@
 // main.js
 
 // Modules to control application life and create native browser window
-import {app, BrowserWindow} from "electron";
+import { app, BrowserWindow } from "electron";
 import * as path from "path";
 
 function createWindow() {
@@ -35,7 +35,7 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0)
       createWindow();
-    }
+  }
   );
 });
 
@@ -45,7 +45,7 @@ app.whenReady().then(() => {
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin")
     app.quit();
-  }
+}
 );
 
 // In this file you can include the rest of your app's specific main process

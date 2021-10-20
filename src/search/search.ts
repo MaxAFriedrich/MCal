@@ -1,7 +1,7 @@
 import * as Elm from "../gui/elementID";
-import {createDiv, ClassName} from "../gui/creation";
-import {days} from "../cal/dayWrapper/dayWrapper";
-import {selectDate} from "../cal/dateSelector";
+import { createDiv, ClassName } from "../gui/creation";
+import { days } from "../cal/dayWrapper/dayWrapper";
+import { selectDate } from "../cal/dateSelector";
 /**
  * all of the main fetures of the settings modal
  */
@@ -32,10 +32,10 @@ function searcher(): void {
         if (j.toLowerCase().includes(search)) {
           tempList += "<li>" + j + "</li>";
           console.log(j);
-          run =true;
+          run = true;
         }
       }
-      if (run){
+      if (run) {
         const tempDiv = createDiv([ClassName.resultDay], () => {
           selectDate(tempDate);
           Elm.toggleSearch();

@@ -93,7 +93,7 @@ export class CalEvent {
         description
       )
     );
-    myDiv.style.border="5px solid "+colour;
+    myDiv.style.border = "5px solid " + colour;
     return myDiv;
   }
 
@@ -143,7 +143,7 @@ export class CalEvent {
         intA += 12;
       }
       intA += parseInt(eventA[1]) / 60;
-    } catch  {
+    } catch {
       intA = 999;
     }
     return intA;
@@ -162,21 +162,21 @@ export class CalEvent {
         intA += 12;
       }
       intA += parseInt(eventA[1]) / 60;
-    } catch  {
+    } catch {
       intA = 999;
     }
     return intA;
   }
 
-  public getDescription():string{
+  public getDescription(): string {
     return this.description;
   }
 
-  public getNotes():string{
+  public getNotes(): string {
     return this.notes;
   }
 
-  public getColor():string{
+  public getColor(): string {
     return this.colour;
   }
 
@@ -188,12 +188,12 @@ export class CalEvent {
     this.description = desc;
   }
 
-  public setNotes(notes:string):void{
-    this.notes=notes;
+  public setNotes(notes: string): void {
+    this.notes = notes;
   }
 
-  public setColor(color:string):void{
-    this.colour=color;
+  public setColor(color: string): void {
+    this.colour = color;
   }
 
   /**

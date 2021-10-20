@@ -109,6 +109,6 @@ export function createSpan(
   return span;
 }
 
-export function appendExpand(elm: HTMLDivElement,index:number):void{
+export function appendExpand(elm: HTMLDivElement, index: number): void {
   document.getElementsByClassName(ClassName.event)[index].appendChild(elm);
 }
