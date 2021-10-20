@@ -142,7 +142,6 @@ export class CalDay {
       this.events.length
     );
     this.render();
-    console.log("Selected index: " + this.selectedEvent);
     focusHTMLElementFromIDList(ElementID.eventStartTime, this.selectedEvent);
   }
 
@@ -210,7 +209,6 @@ export class CalDay {
 
     const repeatBtn = createInput("button", "repeat", [ClassName.eventExpandChildren], false, 20, ElementID.repeatEvent);
     repeatBtn.addEventListener("click", () => {
-      console.log("repeat event: ", index);
       const newDiv = createDiv([ClassName.repeatBox]);
       newDiv.innerHTML = "<strong>Warning:This is very buggy!</strong>"
       const spanLabel = ["Repeat Event Every:", "For:"]
@@ -241,7 +239,6 @@ export class CalDay {
     expandDiv.appendChild(repeatBtn);
     const copyBtn = createInput("button", "copy", [ClassName.eventExpandChildren], false, 20, ElementID.copyEvent);
     copyBtn.addEventListener("click", () => {
-      console.log("copy event: ", index);
       setCopyOn(true);
       setCopyContents(this.events[index]);
       this.renderCopyToPaste();
@@ -255,18 +252,14 @@ export class CalDay {
   }
 
   public contractEvent(index: number, remove?: boolean): void {
-    console.log("Contacting...")
     const expandDiv = getDivAsObject(ClassName.expandDiv);
     if (remove) {
-      console.log("Removing...")
       getDivAndRemove(ClassName.expandDiv);
     }
     this.events[index].setNotes(expandDiv.getElementsByClassName(ClassName.eventExpandChildren)[0].innerHTML);
     this.events[index].setColor(expandDiv.getElementsByTagName("input")[1].value);
     const property = "border: 5px solid " + this.events[index].getColor() + ";";
     setStyleByClass(ClassName.event, index, property);
-    console.log(this.events[index].getNotes());
-    console.log(this.events[index].getColor());
   }
 
   /**
@@ -400,7 +393,6 @@ export class CalDay {
     //save expanded bit
     if (this.twirl) {
       this.contractEvent(this.twirlIndex);
-      console.log(this.twirlIndex);
     }
     const startTimes = getAllInnerHTMLFrom(ElementID.eventStartTime);
     const endTimes = getAllInnerHTMLFrom(ElementID.eventEndTime);
@@ -426,7 +418,6 @@ export class CalDay {
         endTimes[lastElemIndex] != "" ||
         contents[lastElemIndex] != ""
       ) {
-        console.log("Adding event!");
         this.events.push(
           new CalEvent(
             contents[lastElemIndex],
@@ -510,15 +501,12 @@ export class CalDay {
         function hide(localIndex: number) {
           day.contractEvent(localIndex, true);
           day.twirl = false;
-          console.log("Hidden expanded thing.");
         }
         function show() {
           day.twirlIndex = index;
           day.expandEvent(index);
           day.twirl = true;
-          console.log("Adding expanded thing.");
         }
-        console.log("Clicked twirl.")
         if (!day.twirl) {
           // first click
           show();
@@ -574,7 +562,6 @@ export class CalDay {
         this.sortEvents();
         triggerEvent(GUIElement.day, "pasted");
         this.render();
-        console.log("Pasted event: " + copyContents.getDescription());
         if (this.twirl) {
           this.contractEvent(this.twirlIndex);
         }

@@ -80,7 +80,6 @@ export function innitDay(): void {
  * @returns string to be saved to the file
  */
 export function getFileSaveString(): string {
-  console.log(days);
   return JSON.stringify(days);
 }
 
@@ -231,7 +230,6 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
       }
     }
     // set the date of the event and then add it to the day
-    console.log("-----------------------------\n Intent: " + tempObj.toISOString() + "\nAcutual: " + days[tempIndex].getDate().toISOString() + "\n-----------------------------");
     days[tempIndex].pushNewEvent(new CalEvent(localEventObj.getDescription(), ("0" + tempObj.getHours().toString()).slice(-2) + ":" + ("0" + tempObj.getMinutes().toString()).slice(-2), localEventObj.getEndTime(), localEventObj.getColor(), localEventObj.getNotes()));
   }
   if (tempIndex == selectedIndex) {

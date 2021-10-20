@@ -28,14 +28,12 @@ export function init(fromFile: string): void {
  * Function to be called when the events have been edited
  */
 export function eventChanged(): void {
-  // console.log("Calendar events have changed, updating CalDay");
   DayWrapper.extractFromHTML();
 }
 /**
  * Function to be called when the events have been pasted
  */
 export function eventPasted(): void {
-  console.log("Calendar event has been pasted, updating CalDay");
   DayWrapper.innitDay();
 }
 

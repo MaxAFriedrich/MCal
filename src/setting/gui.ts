@@ -40,7 +40,6 @@ export function initGui(): void {
   });
 
   pathInpt.value = currentPath;
-  console.log(currentTheme);
   if (currentTheme == "mainLight.css") {
     lightTheme.checked = true;
     darkTheme.checked = false;

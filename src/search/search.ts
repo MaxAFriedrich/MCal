@@ -14,7 +14,6 @@ const searchField = document.getElementById(Elm.ElementID.searchField);
  * runs on program start and makes sure that all eliments have the correct content and sets the settings as necessary for the gui
  */
 export function initGui(): void {
-  console.log("innit search");
   document.getElementById(SettingProperty.close).addEventListener("click", Elm.toggleSearch);
   searchField.addEventListener("keyup", searcher);
 }
@@ -27,11 +26,9 @@ function searcher(): void {
       const [tempDate, tempArray] = i.getEventDesc();
       let run = false;
       let tempList = "<h3>" + tempDate.toDateString() + "</h3><ul>";
-      console.log(tempDate.toDateString());
       for (const j of tempArray) {
         if (j.toLowerCase().includes(search)) {
           tempList += "<li>" + j + "</li>";
-          console.log(j);
           run = true;
         }
       }
