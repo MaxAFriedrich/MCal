@@ -3,10 +3,9 @@ new features and support
 - add cloud APIs
 - mobile app
 - add print button
-
 - add return to current day button
 - different views
-
+- notifications
 
 Feature Enhancments
 ===================
