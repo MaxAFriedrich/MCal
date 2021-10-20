@@ -118,6 +118,7 @@ html {
 #repeatEvent,
 .pasteEvent,
 .pasteCancel,
+.repeatAdd,
 #copyEvent{
   background-color: #0050B3;
 }

@@ -195,3 +195,7 @@ export function toggleSearch(): void {
     showSearch = !showSearch;
   }
 }
+
+export function appendDivToParent(elmID:ElementID,newDiv:HTMLDivElement):void{
+  document.getElementById(elmID).parentNode.appendChild(newDiv);
+}

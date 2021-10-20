@@ -19,6 +19,10 @@ export enum ClassName {
   eventExpandChildren = "eventExpandChildren",
   pasteCancel = "pasteCancel",
   pasteEvent = "pasteEvent",
+  repeatBox = "repeatBox",
+  repeatEvery = "repeatEvery",
+  repeatAdd = "repeatAdd",
+  repeatFor = "repeatFor",
 }
 
 //* Add class name
@@ -204,6 +208,17 @@ export function twirlChange(show:boolean, index:number):void{
 export function setStyleByClass(className:string,index:number,property:string):void{
   document.getElementsByClassName(className)[index].setAttribute("style",property)
 }
+
+export function scrapeByInputType(type:string,name:ClassName):string[]{
+  const classtoScrape = document.getElementsByClassName(name);
+  const out=[];
+  for (let i = 0;i<classtoScrape.length;i++){
+    const elm = classtoScrape[i] as HTMLInputElement;
+    out.push(elm.value);
+  }
+  return out;
+}
+
 //* Private
 /**
  *

@@ -1,4 +1,5 @@
 import {
+  appendDivToParent,
   ElementID,
   focusHTMLElementFromIDList,
   getAllInnerHTMLFrom,
@@ -6,7 +7,7 @@ import {
   getIndexAndIDOfFocusedElement,
   removeAllElementWithIDIf,
 } from "../../gui/elementID";
-import { createButton, createDiv, appendExpand, createInput } from "../../gui/creation";
+import { createButton, createDiv, appendExpand, createInput, createSpan } from "../../gui/creation";
 import {
   removeAllChildren,
   GUIElement,
@@ -27,8 +28,10 @@ import {
   getDivAndRemove,
   twirlChange,
   setStyleByClass,
+  scrapeByInputType,
 } from "../../gui/className";
 import { copyContents, copyOn, setCopyContents, setCopyOn } from "../cal";
+import { repeatEventMaker } from "./dayWrapper";
 
 export class CalDay {
   private date: Date;
@@ -121,6 +124,14 @@ export class CalDay {
   }
 
   /**
+   * pushNewEvent
+   * @param toPush event object to be pushed
+   */
+  public pushNewEvent(toPush:CalEvent) :void{
+    this.events.push(toPush);
+  }
+
+  /**
    * Loops selected event index around and renders the new list (note: this means the user loses focus)
    * @param changeBy amount to change selected event by (can be negative)
    */
@@ -200,6 +211,31 @@ export class CalDay {
     const repeatBtn = createInput("button","repeat",[ClassName.eventExpandChildren],false,20,ElementID.repeatEvent);
     repeatBtn.addEventListener("click",()=>{
       console.log("repeat event: ",index);
+      const newDiv=createDiv([ClassName.repeatBox]);
+      newDiv.innerHTML="<strong>Warning:This is very buggy!</strong>"
+      const spanLabel = ["Repeat Event Every:","For:"]
+      const localClassName = [ClassName.repeatEvery,ClassName.repeatFor]
+      for (let h=0;h<2;h++){
+        const placeholderList = ["Mins","Hrs","Days","Mnths","Yrs"];
+        newDiv.appendChild(document.createElement("br"));
+        newDiv.appendChild(createSpan(ElementID.none,"","false",false,spanLabel[h]));
+        newDiv.appendChild(document.createElement("br"));
+        for (let i=0;i<5;i++){
+          const temp = createInput("text","",[localClassName[h]],undefined,5)
+          temp.placeholder=placeholderList[i];
+          newDiv.appendChild(temp);
+          // newDiv.appendChild(document.createElement("br"));
+        }
+      }
+      newDiv.appendChild(document.createElement("br"));
+      newDiv.appendChild(createButton("Cancel",()=>{
+        newDiv.parentNode.removeChild(newDiv);
+      },[ClassName.pasteCancel]));
+      newDiv.appendChild(createButton("Add",()=>{
+        repeatEventMaker(scrapeByInputType("text",ClassName.repeatEvery),scrapeByInputType("text",ClassName.repeatFor),this.events[index]);
+        newDiv.parentNode.removeChild(newDiv);
+      },[ClassName.repeatAdd]));
+      appendDivToParent(ElementID.repeatEvent,newDiv);
     });
 
     expandDiv.appendChild(repeatBtn);

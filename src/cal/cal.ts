@@ -28,7 +28,7 @@ export function init(fromFile: string): void {
  * Function to be called when the events have been edited
  */
 export function eventChanged(): void {
-  console.log("Calendar events have changed, updating CalDay");
+  // console.log("Calendar events have changed, updating CalDay");
   DayWrapper.extractFromHTML();
 }
 /**

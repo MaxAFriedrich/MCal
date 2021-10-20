@@ -1,5 +1,8 @@
+import { GUIElement } from "../../gui/guiElement";
+import { triggerEvent } from "../../gui/guiElement";
 import { addCommandKey, CommandKey, PressType } from "../../input/input";
 import { CalDay } from "./calDay";
+import { CalEvent } from "./calEvent";
 
 export let days: CalDay[];
 let selectedIndex: number;
@@ -150,3 +153,89 @@ function moveFocusLeft(): void {
   }
 }
 
+//["Mins","Hrs","Days","Mnths","Yrs"]
+//  YYYY-MM-DDTHH:mm:ss. sssZ
+//60, 3600, 86400, 2629746, 31556952
+
+export function repeatEventMaker(paramEvery: string[], paramFor: string[], localEventObj: CalEvent): void {
+  const localEvery: number[] = [];
+  const localFor: number[] = [];
+
+  for (let i = 0; i < 5; i++) {
+      if (paramEvery[i] == "") {
+          localEvery[i] = 0;
+      }
+      else {
+          localEvery[i] = parseInt(paramEvery[i]);
+      }
+  }
+  for (let i = 0; i < 5; i++) {
+      if (paramFor[i] == "") {
+          localFor[i] = 0;
+      }
+      else {
+          localFor[i] = parseInt(paramFor[i]);
+      }
+  }
+
+  const tempDate = new Date(days[selectedIndex].getDate().toISOString())
+  let hrs;
+  const eventA = localEventObj.getStartTime().split(":");
+  hrs = parseInt(eventA[0]);
+  if (eventA[1].toLowerCase().includes("pm") && eventA[0] != "12") {
+      hrs += 12;
+  }
+  const mins = parseInt(eventA[1]);
+  tempDate.setHours(hrs);
+  tempDate.setMinutes(mins);
+  tempDate.setSeconds(0);
+  tempDate.setMilliseconds(0);
+
+  let unixTemp:number;
+  unixTemp = tempDate.valueOf() / 1000;
+
+  let unixFor = 0;
+  unixFor += localFor[0] * 60;
+  unixFor += localFor[1] * 3600;
+  unixFor += localFor[2] * 86400;
+  unixFor += localFor[3] * 2629746;
+  unixFor += localFor[4] * 31556952;
+
+  let unixEvery = 0;
+  unixEvery += localEvery[0] * 60;
+  unixEvery += localEvery[1] * 3600;
+  unixEvery += localEvery[2] * 86400;
+  unixEvery += localEvery[3] * 2629746;
+  unixEvery += localEvery[4] * 31556952;
+
+
+  const unixTarget = unixTemp + unixFor;
+  let tempIndex:number;
+  unixTemp += unixEvery;
+  while (unixTarget > unixTemp) {
+      unixTemp += unixEvery;
+      const tempObj = new Date(unixTemp * 1000);
+      tempIndex = selectedIndex;
+      if (days[tempIndex].getDate().getDate() != tempObj.getDate() && days[tempIndex].getDate().getMonth() != tempObj.getMonth() && days[tempIndex].getDate().getFullYear() != tempObj.getFullYear()) {
+          //find the day with tehcorrect date and then set index acrodinly, initialise new day if aproraopraite
+          let x = false;
+          for (let i = 0; i < days.length; i++) {
+              if (days[i].getDate().getDate() == tempObj.getDate() && days[i].getDate().getMonth() == tempObj.getMonth() && days[i].getDate().getFullYear() == tempObj.getFullYear()) {
+                  tempIndex = i;
+                  x = true;
+                  break;
+              }
+          }
+          if (!x) {
+              tempIndex = days.push(new CalDay(tempObj)) - 1;
+          }
+      }
+      // set the date of the event and then add it to the day
+      console.log("-----------------------------\n Intent: "+tempObj.toISOString()+"\nAcutual: "+days[tempIndex].getDate().toISOString()+"\n-----------------------------");
+      days[tempIndex].pushNewEvent(new CalEvent(localEventObj.getDescription(), ("0" + tempObj.getHours().toString()).slice(-2) + ":" + ("0" + tempObj.getMinutes().toString()).slice(-2), localEventObj.getEndTime(), localEventObj.getColor(), localEventObj.getNotes()));
+  }
+  if (tempIndex == selectedIndex) {
+    days[selectedIndex].render();
+}
+  triggerEvent(GUIElement.day, "pasted");
+}

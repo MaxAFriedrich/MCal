@@ -90,6 +90,25 @@
     height: 95vh;
   }
   
+.repeatBox{
+  position: absolute;
+  background-color: #001833;
+  padding: 0.5rem;
+}
+
+.repeatBox br{
+  display: unset;
+}
+
+.repeatBox span{
+  margin:0.1rem;
+}
+.repeatBox input[type="text"]{
+  background-color: inherit;
+  color: inherit;
+  border:none;
+}
+
   /* Scroll Bar */
   
   ::-webkit-scrollbar {
@@ -389,6 +408,18 @@
     -webkit-mask-image: url("./icons/cancel_black_24dp.svg");
     -webkit-mask-size: 100% 100%;
     mask-image: url("./icons/cancel_black_24dp.svg");
+    mask-size: 100% 100%;
+    color: rgba(0, 0, 0, 0);
+    margin:0.5rem;
+    padding:0px;
+    overflow: hidden;
+    height: 2em;
+    width: 2em;
+  }
+  .repeatAdd {
+    -webkit-mask-image: url("./icons/add_circle_outline_black_24dp.svg");
+    -webkit-mask-size: 100% 100%;
+    mask-image: url("./icons/add_circle_outline_black_24dp.svg");
     mask-size: 100% 100%;
     color: rgba(0, 0, 0, 0);
     margin:0.5rem;
