@@ -1,7 +1,6 @@
 import * as Setter from "./setter";
 import * as Path from "../rw/path";
 import * as Elm from "../gui/elementID"
-////Setter.theme("mainLight.css")
 
 /**
  * all of the main fetures of the settings modal

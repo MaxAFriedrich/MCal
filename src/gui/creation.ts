@@ -109,6 +109,11 @@ export function createSpan(
   return span;
 }
 
+/**
+ * appends a expand div to event by index 
+ * @param elm contents of the expand div
+ * @param index index of the event to expand
+ */
 export function appendExpand(elm: HTMLDivElement, index: number): void {
   document.getElementsByClassName(ClassName.event)[index].appendChild(elm);
 }

@@ -4,7 +4,13 @@ import { addCommandKey, CommandKey, PressType } from "../../input/input";
 import { CalDay } from "./calDay";
 import { CalEvent } from "./calEvent";
 
+/**
+ * list of CalDay objects
+ */
 export let days: CalDay[];
+/**
+ * index of current day
+ */
 let selectedIndex: number;
 let currentUnitialisedDay: CalDay;
 
@@ -140,23 +146,36 @@ function deleteSelectedEvent(): void {
   }
 }
 
+/**
+ * move to next box in event
+ */
 function moveFocusRight(): void {
   if (selectedIndex != -1) {
     days[selectedIndex].moveFocusRight();
   }
 }
 
+/**
+ * move to previous box in event
+ */
 function moveFocusLeft(): void {
   if (selectedIndex != -1) {
     days[selectedIndex].moveFocusLeft();
   }
 }
 
-//["Mins","Hrs","Days","Mnths","Yrs"]
-//  YYYY-MM-DDTHH:mm:ss. sssZ
-//60, 3600, 86400, 2629746, 31556952
-
+/**
+ * repeat the event at the speified freqency, **buggy**
+ * NOTE: param arays in form ["Mins","Hrs","Days","Mnths","Yrs"]
+ * @param paramEvery array of data from every inputs
+ * @param paramFor array of data from for inputs
+ * @param localEventObj CalEvent object for event
+ */
 export function repeatEventMaker(paramEvery: string[], paramFor: string[], localEventObj: CalEvent): void {
+  //["Mins","Hrs","Days","Mnths","Yrs"]
+  //[60, 3600, 86400, 2629746, 31556952]
+
+  // convert the input param array to intger arrays from string arrays and set any empty things to 0
   const localEvery: number[] = [];
   const localFor: number[] = [];
 
@@ -177,6 +196,7 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
     }
   }
 
+  // create a date object to be edddited through while loop as unix time
   const tempDate = new Date(days[selectedIndex].getDate().toISOString())
   let hrs;
   const eventA = localEventObj.getStartTime().split(":");
@@ -190,9 +210,10 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
   tempDate.setSeconds(0);
   tempDate.setMilliseconds(0);
 
-  let unixTemp: number;
-  unixTemp = tempDate.valueOf() / 1000;
+  // convert tempDate object to unix time int
+  let unixTemp: number = tempDate.valueOf() / 1000;
 
+  // create unix time ints for 'for' and 'every' fields
   let unixFor = 0;
   unixFor += localFor[0] * 60;
   unixFor += localFor[1] * 3600;
@@ -207,16 +228,30 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
   unixEvery += localEvery[3] * 2629746;
   unixEvery += localEvery[4] * 31556952;
 
-
+  // define a unix time for what the target of the final date is for while loop
   const unixTarget = unixTemp + unixFor;
+  
+  // days array index for temp use in while loop
   let tempIndex: number;
+
+  // bug fix for first event clones 
   unixTemp += unixEvery;
+
+
   while (unixTarget > unixTemp) {
+    // add the repeat interval
     unixTemp += unixEvery;
+
+    // create the working date as a new object
     const tempObj = new Date(unixTemp * 1000);
+
+    // set the index to work with
     tempIndex = selectedIndex;
+
+    //! does the stuff for other days, not working correctly
+    // TODO fix this bit!
     if (days[tempIndex].getDate().getDate() != tempObj.getDate() && days[tempIndex].getDate().getMonth() != tempObj.getMonth() && days[tempIndex].getDate().getFullYear() != tempObj.getFullYear()) {
-      //find the day with tehcorrect date and then set index acrodinly, initialise new day if aproraopraite
+      //find the day with the correct date and then set index acrodinly, initialise new day if aproraopraite
       let x = false;
       for (let i = 0; i < days.length; i++) {
         if (days[i].getDate().getDate() == tempObj.getDate() && days[i].getDate().getMonth() == tempObj.getMonth() && days[i].getDate().getFullYear() == tempObj.getFullYear()) {
@@ -229,11 +264,14 @@ export function repeatEventMaker(paramEvery: string[], paramFor: string[], local
         tempIndex = days.push(new CalDay(tempObj)) - 1;
       }
     }
+
     // set the date of the event and then add it to the day
     days[tempIndex].pushNewEvent(new CalEvent(localEventObj.getDescription(), ("0" + tempObj.getHours().toString()).slice(-2) + ":" + ("0" + tempObj.getMinutes().toString()).slice(-2), localEventObj.getEndTime(), localEventObj.getColor(), localEventObj.getNotes()));
+    // check if current day needs refreshing
+    if (tempIndex == selectedIndex) {
+      days[selectedIndex].render();
+    }
   }
-  if (tempIndex == selectedIndex) {
-    days[selectedIndex].render();
-  }
+  // save changes
   triggerEvent(GUIElement.day, "pasted");
 }

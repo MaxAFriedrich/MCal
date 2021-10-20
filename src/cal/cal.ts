@@ -54,6 +54,9 @@ export function getSaveFileString(): string {
   return DayWrapper.getFileSaveString(); // TODO: Add selected day to save?
 }
 
+/**
+ * runs date display 
+ */
 export function refresh(): void {
   dateDisplay();
 }

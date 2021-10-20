@@ -18,7 +18,11 @@ export function initGui(): void {
   searchField.addEventListener("keyup", searcher);
 }
 
+/**
+ * searches all of the events and checks if they meet the criteteria, if they do they are added to the modal
+ */
 function searcher(): void {
+  // TODO improve as per TODO
   const search = searchField.innerText;
   if (search.length > 0) {
     document.getElementById("searchResults").innerHTML = "";
@@ -38,6 +42,7 @@ function searcher(): void {
           Elm.toggleSearch();
         });
         tempDiv.innerHTML = tempList + "</ul>";
+        // TODO move
         document.getElementById("searchResults").appendChild(tempDiv);
       }
     }

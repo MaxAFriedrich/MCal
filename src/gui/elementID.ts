@@ -112,6 +112,10 @@ export function getIndexAndIDOfFocusedElement(): {
   return { index: -1, id: ElementID.none };
 }
 
+/**
+ * return the element id of a eliment that is focus
+ * @returns id as ElementID
+ */
 export function getIDOfFocusedElement(): ElementID {
   const element = document.activeElement;
 
@@ -160,7 +164,7 @@ let showSearch = true;
 
 
 /**
- * Function to either open or close the modal depending on above globals
+ * toggles the settings modal
  */
 export function toggleSettings(): void {
   if (showSearch) {
@@ -177,7 +181,9 @@ export function toggleSettings(): void {
   }
 }
 
-
+/**
+ * toggles the search modal
+ */
 export function toggleSearch(): void {
   if (showSettings) {
     const searchField = document.getElementById(ElementID.searchField);
@@ -196,6 +202,11 @@ export function toggleSearch(): void {
   }
 }
 
+/**
+ * appends a child object to a parent by ElementID
+ * @param elmID ElementID of parent
+ * @param newDiv element to append
+ */
 export function appendDivToParent(elmID: ElementID, newDiv: HTMLDivElement): void {
   document.getElementById(elmID).parentNode.appendChild(newDiv);
 }

@@ -1,4 +1,3 @@
-// import Color = require("color");
 import {
   ClassName,
   ElementID,
@@ -6,7 +5,6 @@ import {
   createSpan,
 } from "../../gui/creation";
 
-// const DEFAULT_COLOUR: Color = Color.rgb(0, 0, 0);
 const DEFAULT_COLOUR = "#7F7F7F";
 
 export class CalEvent {
@@ -68,7 +66,6 @@ export class CalEvent {
     colour = DEFAULT_COLOUR,
     notes = ""
   ): HTMLDivElement {
-    // TODO: Selected should show notes panel and should change colour depending on the parameter
     const classNames = [ClassName.event].concat(
       isSelected ? [ClassName.selected] : []
     );
@@ -168,14 +165,26 @@ export class CalEvent {
     return intA;
   }
 
+  /**
+   * getter for event description
+   * @returns description of event
+   */
   public getDescription(): string {
     return this.description;
   }
 
+  /**
+   * getter for the notes of a event
+   * @returns notes for event
+   */
   public getNotes(): string {
     return this.notes;
   }
 
+  /**
+   * getter for color of event
+   * @returns color of event
+   */
   public getColor(): string {
     return this.colour;
   }
@@ -188,10 +197,18 @@ export class CalEvent {
     this.description = desc;
   }
 
+  /**
+   * setter for notes
+   * @param notes set the notes of event
+   */
   public setNotes(notes: string): void {
     this.notes = notes;
   }
 
+  /**
+   * setter for event color
+   * @param color set the color
+   */
   public setColor(color: string): void {
     this.colour = color;
   }

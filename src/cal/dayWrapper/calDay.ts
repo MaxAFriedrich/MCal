@@ -33,6 +33,10 @@ import {
 import { copyContents, copyOn, setCopyContents, setCopyOn } from "../cal";
 import { repeatEventMaker } from "./dayWrapper";
 
+/**
+ * Class for each day.
+ * @constructor Date object
+ */
 export class CalDay {
   private date: Date;
   private events: CalEvent[];
@@ -189,7 +193,12 @@ export class CalDay {
     triggerEvent(GUIElement.day, "eventDeleted");
   }
 
+  /**
+   * create dropdown below indexed event when twirl pressed
+   * @param index index of event to expand
+   */
   public expandEvent(index: number): void {
+    // create HTML elimment and add all children
     const expandDiv = createDiv([ClassName.expandDiv]);
     const notesDiv = createDiv([ClassName.eventExpandChildren]);
     notesDiv.contentEditable = "True";
@@ -198,6 +207,7 @@ export class CalDay {
     notesDiv.innerHTML = this.events[index].getNotes();
     expandDiv.appendChild(notesDiv);
 
+    // color button
     const colorBtn = createInput("button", "color", [ClassName.eventExpandChildren], false, 20, ElementID.colorClick);
     colorBtn.addEventListener("click", () => {
       document.getElementById(ElementID.colorPalet).click();
@@ -207,8 +217,10 @@ export class CalDay {
     const colorInp = createInput("color", this.events[index].getColor(), [ClassName.eventExpandChildren], false, 20, ElementID.colorPalet);
     expandDiv.appendChild(colorInp);
 
+    // repeat button
     const repeatBtn = createInput("button", "repeat", [ClassName.eventExpandChildren], false, 20, ElementID.repeatEvent);
     repeatBtn.addEventListener("click", () => {
+      // create floating div
       const newDiv = createDiv([ClassName.repeatBox]);
       newDiv.innerHTML = "<strong>Warning:This is very buggy!</strong>"
       const spanLabel = ["Repeat Event Every:", "For:"]
@@ -222,10 +234,10 @@ export class CalDay {
           const temp = createInput("text", "", [localClassName[h]], undefined, 5)
           temp.placeholder = placeholderList[i];
           newDiv.appendChild(temp);
-          // newDiv.appendChild(document.createElement("br"));
         }
       }
       newDiv.appendChild(document.createElement("br"));
+      // action buttons
       newDiv.appendChild(createButton("Cancel", () => {
         newDiv.parentNode.removeChild(newDiv);
       }, [ClassName.pasteCancel]));
@@ -235,8 +247,9 @@ export class CalDay {
       }, [ClassName.repeatAdd]));
       appendDivToParent(ElementID.repeatEvent, newDiv);
     });
-
     expandDiv.appendChild(repeatBtn);
+
+    // copy button
     const copyBtn = createInput("button", "copy", [ClassName.eventExpandChildren], false, 20, ElementID.copyEvent);
     copyBtn.addEventListener("click", () => {
       setCopyOn(true);
@@ -245,12 +258,16 @@ export class CalDay {
       this.rerenderWithoutLosingFocus()
     });
 
+    // add expand div
     expandDiv.appendChild(copyBtn);
     appendExpand(expandDiv, index);
-
-
   }
 
+  /**
+   * update expanded thing and or close
+   * @param index index of event
+   * @param remove should you remove the expansion
+   */
   public contractEvent(index: number, remove?: boolean): void {
     const expandDiv = getDivAsObject(ClassName.expandDiv);
     if (remove) {
@@ -551,7 +568,9 @@ export class CalDay {
     appendChildToElement(GUIElement.day, newDiv);
   }
 
-
+  /**
+   * create the copy or cancel box.
+   */
   private renderCopyToPaste() {
     if (copyOn) {
       const newDiv = createDiv([ClassName.event]);

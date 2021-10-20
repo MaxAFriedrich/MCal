@@ -180,10 +180,20 @@ export function scrollToFirstElementWithClassNames(
   }
 }
 
+/**
+ * finds all divs with a class and returns the first
+ * @param classToRemove ClassName of object to return
+ * @returns first eliment with class
+ */
 export function getDivAsObject(classToRemove: ClassName): Element {
   const elements = document.getElementsByClassName(classToRemove);
   return elements[0];
 }
+
+/**
+ * removes the first eliment with a class name
+ * @param classToRemove ClassName of eliment to remove
+ */
 export function getDivAndRemove(classToRemove: ClassName): void {
   const elements = document.getElementsByClassName(classToRemove);
   elements[0].parentNode.removeChild(elements[0]);
@@ -205,10 +215,22 @@ export function twirlChange(show: boolean, index: number): void {
   }
 }
 
+/**
+ * changes or adds styling to div by ClassName
+ * @param className ClassName of object to restyle
+ * @param index index of object with classname to restyle
+ * @param property property to set
+ */
 export function setStyleByClass(className: string, index: number, property: string): void {
   document.getElementsByClassName(className)[index].setAttribute("style", property)
 }
 
+/**
+ * return the values of all the inputs with a spesific ClassName and input type
+ * @param type type string
+ * @param name ClassName of inputs
+ * @returns all the eliments with the set ClassName and type
+ */
 export function scrapeByInputType(type: string, name: ClassName): string[] {
   const classtoScrape = document.getElementsByClassName(name);
   const out = [];

@@ -1,7 +1,3 @@
-now
-===
-- clean code
-
 new features and support
 ========================
 - add cloud APIs
