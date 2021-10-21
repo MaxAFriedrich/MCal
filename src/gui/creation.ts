@@ -80,6 +80,27 @@ export function createDiv(
 }
 
 /**
+ * Creates and returns HTML heading Element
+ * @param classNames list of class names that div should be given
+ * @param hNum heading number (1-6)
+ * @param innerText the text to put into the heading
+ * @returns HTMLDivElement
+ */
+export function createHeading(
+  hNum:number,
+  innerText:string,
+  onclick: () => void = null
+): HTMLHeadingElement {
+  const heading = document.createElement("h"+hNum.toString()) as HTMLHeadingElement;
+  heading.innerText=innerText;
+  if (onclick != null) {
+    heading.onclick = onclick;
+  }
+
+  return heading;
+}
+
+/**
  * Creates and returns HTML Span Element
  * @param id of the span
  * @param placeholder of the span

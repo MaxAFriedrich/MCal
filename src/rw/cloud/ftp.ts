@@ -22,10 +22,12 @@ export async function ftpSync(host: string, port: number, user: string, password
     await client.cd(remotePath);
 
     const remoteFiles = await client.list();
-    const fileNames = ["MCal.json", "MCal.html"]
+    const fileNames = ["MCal.json", "MCal.html"];
+    let remoteAvailable = false;
     for (let i = 0; i < remoteFiles.length; i++) {
       for (let j = 0; j < fileNames.length; j++) {
         if (remoteFiles[i].name == fileNames[j]) {
+          remoteAvailable=true;
           const remoteDate = new Date(remoteFiles[i].modifiedAt).valueOf();
           const localDate = new Date(fs.statSync(nodePath.join(livePath, fileNames[j])).mtimeMs).valueOf();
           if (remoteDate > localDate) {
@@ -42,6 +44,10 @@ export async function ftpSync(host: string, port: number, user: string, password
           break;
         }
       }
+    }
+    if (!remoteAvailable){
+      await client.uploadFrom(nodePath.join(livePath, fileNames[0]), fileNames[0]);
+      await client.uploadFrom(nodePath.join(livePath, fileNames[1]), fileNames[1]);
     }
     endSync(true);
   }

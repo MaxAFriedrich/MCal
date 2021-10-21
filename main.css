@@ -93,6 +93,13 @@ html {
   background-color: #00060D;
 }
 
+#filePathInp, .cloudAPIBtns, .cloudAPIInputs {
+  background-color: #00224D;
+  color:inherit;
+}
+.cloudAPIInputs::before:empty{
+  color: #B8C0CC;
+}
 #eventsMenu {
   background-color: #001833;
 }
@@ -121,6 +128,8 @@ html {
 .pasteCancel,
 .repeatAdd,
 .syncBtn,
+.themeBtnDark, 
+.themeBtnLight,
 #copyEvent {
   background-color: #ACC7E6;
 }

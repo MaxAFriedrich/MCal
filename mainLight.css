@@ -82,6 +82,13 @@ html {
 }
 
 /* settings modal */
+#filePathInp, .cloudAPIBtns, .cloudAPIInputs {
+  background-color: #7EAFEA;
+  color:inherit;
+}
+.cloudAPIInputs::before:empty{
+  color: #B8C0CC;
+}
 #modalSettings {
   /* !Fix this */
   background-color: #00306694;
@@ -120,6 +127,8 @@ html {
 .pasteCancel,
 .repeatAdd,
 .syncBtn,
+.themeBtnDark, 
+.themeBtnLight,
 #copyEvent{
   background-color: #0050B3;
 }

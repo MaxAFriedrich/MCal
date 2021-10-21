@@ -24,6 +24,11 @@ export enum ClassName {
   repeatAdd = "repeatAdd",
   repeatFor = "repeatFor",
   sync = "syncBtn",
+  themeBtnDark = "themeBtnDark",
+  themeBtnLight = "themeBtnLight",
+  cloudAPISettings = "cloudAPISettings",
+  cloudAPIBtns = "cloudAPIBtns",
+  cloudAPIInputs = "cloudAPIInputs",
 }
 
 //* Add class name

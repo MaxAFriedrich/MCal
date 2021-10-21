@@ -1,12 +1,16 @@
+import { getCloudAPIName, getFTPParams } from "../setting/setter";
 import { setStyleByClass, ClassName } from "../gui/className";
 import { ftpSync } from "./cloud/ftp";
 
 export function syncInit():void{
-    //TODO confir with settings
-    const syncAPI = "ftp";
-    if (syncAPI=="ftp"){
+    const syncAPI = getCloudAPIName();
+    if (syncAPI=="FTP"){
         setStyleByClass(ClassName.sync,0,"animation: rotation 2s infinite linear;");
-        ftpSync("192.168.1.12", 8001, "pc", "12345", false, "/device/Documents/testData/");
+        const temp = getFTPParams();
+        ftpSync(temp.host, temp.port, temp.user, temp.password, temp.secure, temp.path);
+    }
+    else{
+        endSync(false);
     }
 }
 

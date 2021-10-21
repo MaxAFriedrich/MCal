@@ -7,6 +7,7 @@ export enum ElementID {
   previewMD = "previewMD",
   settings = "settings",
   settingsContent = "settingsContent",
+  filePathInp = "filePathInp",
   search = "search",
   searchContent = "searchContent",
   searchField = "searchField",
@@ -19,6 +20,8 @@ export enum ElementID {
   colorPalet = "colorPalet",
   colorClick = "colorClick",
   sync = "syncBtn",
+  SetClose = "SetClose",
+  cloudAPISettings = "cloudAPISettings",
 }
 
 /**
@@ -204,10 +207,27 @@ export function toggleSearch(): void {
 }
 
 /**
- * appends a child object to a parent by ElementID
+ * appends a child object to a parent by ElementID of *sibling*
  * @param elmID ElementID of parent
  * @param newDiv element to append
  */
 export function appendDivToParent(elmID: ElementID, newDiv: HTMLDivElement): void {
   document.getElementById(elmID).parentNode.appendChild(newDiv);
+}
+
+/**
+ * appends a child object to a parent by ElementID
+ * @param elmID ElementID of parent
+ * @param newDiv element to append
+ */
+export function appendElmAsChild(elmID: ElementID, newDiv: HTMLElement): void {
+  document.getElementById(elmID).appendChild(newDiv);
+}
+
+/**
+ * removes the first eliment with a ElementID
+ * @param id ElementID of eliment to remove
+ */
+ export function getDivAndRemove(id: ElementID): void {
+  document.getElementById(id).remove();
 }

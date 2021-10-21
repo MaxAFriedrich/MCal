@@ -105,6 +105,12 @@ body {
   color: inherit;
   border:none;
 }
+#filePathInp{
+  color: inherit;
+  border:none;
+  width:80%;
+  padding:0.5rem;
+}
 
 /* Scroll Bar */
 
@@ -205,6 +211,23 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
+}
+
+.cloudAPIBtns {
+  padding: 0.1rem;
+  margin: 0.2rem;
+  border: none;
+  width: 8ch;
+  height: 2rem;
+  font-size: 1rem;
+}
+
+.cloudAPIInputs{
+  border: none;
+  width: 40%;
+  font-size: unset;
+  margin: 0.5rem;
+  padding: 0.1rem;
 }
 
 #settingsContent {
@@ -394,9 +417,9 @@ body {
   height: 24px;
   margin:0px;
   padding:0px;
-  overflow: hidden;
-  height: 4em;
-  width: 4em;
+  overflow: visible;
+  height: 3.8em;
+  width: 3.8em;
 }
 .pasteEvent {
   -webkit-mask-image: url("./icons/content_paste_black_24dp.svg");
@@ -434,6 +457,31 @@ body {
   height: 2em;
   width: 2em;
 }
+.themeBtnDark {
+  -webkit-mask-image: url("./icons/dark_mode_black_24dp.svg");
+  -webkit-mask-size: 100% 100%;
+  mask-image: url("./icons/dark_mode_black_24dp.svg");
+  mask-size: 100% 100%;
+  color: rgba(0, 0, 0, 0);
+  margin:0.5rem;
+  padding:0px;
+  overflow: hidden;
+  height: 2em;
+  width: 2em;
+}
+.themeBtnLight {
+  -webkit-mask-image: url("./icons/light_mode_black_24dp.svg");
+  -webkit-mask-size: 100% 100%;
+  mask-image: url("./icons/light_mode_black_24dp.svg");
+  mask-size: 100% 100%;
+  color: rgba(0, 0, 0, 0);
+  margin:0.5rem;
+  padding:0px;
+  overflow: hidden;
+  height: 2em;
+  width: 2em;
+}
+
 #SetClose, #SerClose {
   -webkit-mask-image: url("./icons/close_black_24dp.svg");
   -webkit-mask-size: 100% 100%;

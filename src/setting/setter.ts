@@ -17,11 +17,16 @@ function saveJson(): void {
  * sets the CSS theme using DOM and the name of the CSS file
  * @param themeName name of theme file
  */
-export function theme(themeName: string): void {
+export function setTheme(themeName: string): void {
   settingJson.theme = themeName;
   saveJson();
   const style = document.getElementById("mainCSS") as HTMLLinkElement;
   style.href = themeName;
+}
+
+export function innitTheme():void{
+  const style = document.getElementById("mainCSS") as HTMLLinkElement;
+  style.href = settingJson.theme;
 }
 
 /**
@@ -42,4 +47,50 @@ export function path(value: string): void {
 export function getTheme(): string {
   const x: string = settingJson.theme;
   return x;
+}
+
+export function setCloudAPIName(name: string): void {
+  settingJson.cloudAPIName = name;
+  saveJson();
+}
+
+export function getCloudAPIName(): string {
+  return settingJson.cloudAPIName;
+}
+
+
+export function getFTPParams(): {
+  host: string;
+  port: number;
+  user: string;
+  password: string;
+  secure: boolean;
+  path: string;
+} {
+  const out = {
+    "host": settingJson.ftpHost,
+    "port": settingJson.ftpPort,
+    "user": settingJson.ftpUser,
+    "password": settingJson.ftpPassword,
+    "secure": settingJson.ftpSecure,
+    "path": settingJson.ftpPath
+  };
+  return out;
+}
+
+export function setFTPParams(
+  host: string,
+  port: number,
+  user: string,
+  password: string,
+  secure: boolean,
+  path: string,
+): void {
+  settingJson.ftpHost = host;
+  settingJson.ftpPort = port;
+  settingJson.ftpUser = user;
+  settingJson.ftpPassword = password;
+  settingJson.ftpSecure = secure;
+  settingJson.ftpPath = path;
+  saveJson();
 }
