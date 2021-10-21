@@ -1,6 +1,7 @@
 new features and support
 ========================
 - add cloud APIs
+- add e2e file encryption on cloudAPIs
 - mobile app
 - add print button
 - add return to current day button
