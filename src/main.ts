@@ -7,6 +7,7 @@ import * as Input from "./input/input";
 import { addAttributeToElementWithID, ElementID, toggleSettings, toggleSearch } from "./gui/elementID";
 import * as Settings from "./setting/gui";
 import * as Search from "./search/search";
+import { syncInit } from "./rw/sync";
 
 //* main innit funct
 function init(): void {
@@ -32,6 +33,16 @@ function init(): void {
       toggleSearch,
       [Gui.Creation.ClassName.search],
       Gui.Creation.ElementID.search
+    )
+  );
+  //add sync button to menmu bar
+  Gui.appendChildToElement(
+    Gui.GUIElement.menuDay,
+    Gui.Creation.createButton(
+      "Sync",
+      syncInit,
+      [Gui.Creation.ClassName.sync],
+      Gui.Creation.ElementID.sync
     )
   );
 

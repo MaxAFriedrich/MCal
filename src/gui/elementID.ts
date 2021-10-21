@@ -18,6 +18,7 @@ export enum ElementID {
   copyEvent = "copyEvent",
   colorPalet = "colorPalet",
   colorClick = "colorClick",
+  sync = "syncBtn",
 }
 
 /**

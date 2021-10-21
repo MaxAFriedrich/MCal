@@ -385,6 +385,19 @@ body {
   height: 4em;
   width: 4em;
 }
+#syncBtn {
+  -webkit-mask-image: url("./icons/cloud_sync_black_24dp.svg");
+  -webkit-mask-size: 100% 100%;
+  mask-image: url("./icons/cloud_sync_black_24dp.svg");
+  mask-size: 100% 100%;
+  color: rgba(0, 0, 0, 0);
+  height: 24px;
+  margin:0px;
+  padding:0px;
+  overflow: hidden;
+  height: 4em;
+  width: 4em;
+}
 .pasteEvent {
   -webkit-mask-image: url("./icons/content_paste_black_24dp.svg");
   -webkit-mask-size: 100% 100%;
@@ -430,6 +443,14 @@ body {
   height: 24px;
   width: 24px;
   overflow: hidden;
+}
+@keyframes rotation {
+  from {
+    transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
 }
 @media (min-width: 1920px) {
   #date-selector-cal table,

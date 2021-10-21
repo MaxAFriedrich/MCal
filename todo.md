@@ -1,6 +1,7 @@
 new features and support
 ========================
 - add cloud APIs
+- fix settings menu gui
 - mobile app
 - add print button
 - add return to current day button

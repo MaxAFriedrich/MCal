@@ -23,6 +23,7 @@ export enum ClassName {
   repeatEvery = "repeatEvery",
   repeatAdd = "repeatAdd",
   repeatFor = "repeatFor",
+  sync = "syncBtn",
 }
 
 //* Add class name

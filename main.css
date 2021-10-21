@@ -120,6 +120,7 @@ html {
 .pasteEvent,
 .pasteCancel,
 .repeatAdd,
+.syncBtn,
 #copyEvent {
   background-color: #ACC7E6;
 }
