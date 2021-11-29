@@ -18,7 +18,8 @@ export function initGui(): void {
   settingsContentChild.appendChild(createHeading(4, "Local Data Path"));
   const pathInp = createInput("text", Path.livePath, [ClassName.none], false, 20, Elm.ElementID.filePathInp);
   pathInp.addEventListener("keyup", () => {
-    Setter.path(this.value);
+    let box  = document.getElementById(Elm.ElementID.filePathInp) as HTMLInputElement;
+    Setter.path(box.value);
   })
   settingsContentChild.appendChild(pathInp);
   settingsContentChild.appendChild(createHeading(3, "Remote Storage"));

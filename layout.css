@@ -186,6 +186,7 @@ body {
   position: absolute;
   bottom: 0;
   height: 5vh;
+  overflow: hidden;
 }
 #notesMenu {
   width: 25%;
@@ -193,6 +194,9 @@ body {
   bottom: 0;
   height: 5vh;
   right: 0;
+  overflow: hidden;
+
+
 }
 #notesMenu *,
 #eventsMenu * {
@@ -362,9 +366,9 @@ body {
 }
 #previewMD{
   margin:0px;
-  padding:0px;
-  height: 4.5em;
-  width: 4.5em;
+  padding:3px;
+  height: 4vh;
+  width: 4vh;
 }
 #previewMD[value="Preview"] {
   -webkit-mask-image: url("./icons/code_black_24dp.svg");
@@ -390,10 +394,10 @@ body {
   color: rgba(0, 0, 0, 0);
   height: 24px;
   margin:0px;
-  padding:0px;
+  padding:3px;
   overflow: hidden;
-  height: 4em;
-  width: 4em;
+  height: 4vh;
+  width: 4vh;
 }
 #search {
   -webkit-mask-image: url("./icons/search_black_24dp.svg");
@@ -401,12 +405,11 @@ body {
   mask-image: url("./icons/search_black_24dp.svg");
   mask-size: 100% 100%;
   color: rgba(0, 0, 0, 0);
-  height: 24px;
   margin:0px;
-  padding:0px;
+  padding:3px;
   overflow: hidden;
-  height: 4em;
-  width: 4em;
+  height: 4vh;
+  width: 4vh;
 }
 #syncBtn {
   -webkit-mask-image: url("./icons/cloud_sync_black_24dp.svg");
@@ -416,10 +419,10 @@ body {
   color: rgba(0, 0, 0, 0);
   height: 24px;
   margin:0px;
-  padding:0px;
+  padding:3px;
   overflow: visible;
-  height: 3.8em;
-  width: 3.8em;
+  height: 4vh;
+  width: 4vh;
 }
 .pasteEvent {
   -webkit-mask-image: url("./icons/content_paste_black_24dp.svg");

@@ -18,15 +18,21 @@ function saveJson(): void {
  * @param themeName name of theme file
  */
 export function setTheme(themeName: string): void {
-  settingJson.theme = themeName;
+  if (themeName != undefined)
+    settingJson.theme = themeName;
+  else {
+    themeName = settingJson.theme = "main.css";
+  }
   saveJson();
   const style = document.getElementById("mainCSS") as HTMLLinkElement;
   style.href = themeName;
 }
 
-export function innitTheme():void{
+export function innitTheme(): void {
   const style = document.getElementById("mainCSS") as HTMLLinkElement;
-  style.href = settingJson.theme;
+  if (settingJson.theme == undefined)
+    settingJson.theme = "main.css";
+  style.href = settingJson.theme;;
 }
 
 /**
