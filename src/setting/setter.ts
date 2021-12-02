@@ -32,7 +32,7 @@ export function innitTheme(): void {
   const style = document.getElementById("mainCSS") as HTMLLinkElement;
   if (settingJson.theme == undefined)
     settingJson.theme = "main.css";
-  style.href = settingJson.theme;;
+  style.href = settingJson.theme;
 }
 
 /**
