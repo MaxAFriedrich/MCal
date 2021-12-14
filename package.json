@@ -21,6 +21,6 @@
   },
   "dependencies": {
     "basic-ftp": "^4.6.6",
-    "neovim": "^4.10.0"
+    "neovim": "^4.10.1"
   }
 }
